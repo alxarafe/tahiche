@@ -1,0 +1,29 @@
+meta {
+  name: 01-api-resources
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}{{apiBase}}
+  body: none
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Accept: application/json
+}
+
+tests {
+  test("Status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Returns resources list", function() {
+    const data = res.getBody();
+    expect(data).to.have.property('resources');
+    expect(data.resources).to.be.an('array');
+    expect(data.resources.length).to.be.above(0);
+  });
+}

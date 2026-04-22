@@ -1,0 +1,89 @@
+networks:
+    tahiche_network:
+        name: tahiche_network
+
+services:
+    tahiche_nginx:
+        image: nginx:alpine
+        container_name: tahiche_nginx
+        restart: ${RESTART}
+        env_file: ".env"
+        ports:
+            - "${HTTP_PORT}:80"
+        networks:
+            - tahiche_network
+        volumes:
+            - ".:/var/www/html:rw"
+            - "../alxarafe:/var/www/alxarafe:ro"
+            - "./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf"
+        depends_on:
+            - tahiche_php
+            - tahiche_db
+
+    tahiche_php:
+        container_name: tahiche_php
+        restart: ${RESTART}
+        env_file: ".env"
+        build:
+            context: .
+            dockerfile: .docker/php/Dockerfile
+            args:
+                - USER_ID=${USER_ID}
+                - GROUP_ID=${GROUP_ID}
+        networks:
+            - tahiche_network
+        volumes:
+            - ".:/var/www/html:rw"
+            - "../alxarafe:/var/www/alxarafe:ro"
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+
+    tahiche_db:
+        image: mariadb:10.11
+        container_name: tahiche_db
+        restart: ${RESTART}
+        env_file: ".env"
+        ports:
+            - "${MARIADB_PORT}:3306"
+        environment:
+            - MARIADB_DATABASE=${MARIADB_DATABASE}
+            - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+        networks:
+            - tahiche_network
+        volumes:
+            - "tahiche_db_data:/var/lib/mysql"
+
+    tahiche_node:
+        image: node:20-slim
+        container_name: tahiche_node
+        restart: ${RESTART}
+        user: "${USER_ID}:${GROUP_ID}"
+        working_dir: /var/www/html
+        env_file: ".env"
+        volumes:
+            - ".:/var/www/html:rw"
+            - "../alxarafe:/var/www/alxarafe:ro"
+        # command: sh -c "npm install && npm run watch"
+        networks:
+            - tahiche_network
+        tty: true # Esto mantiene el contenedor vivo
+        command: sh -c "npm install && npm run watch || tail -f /dev/null" # Fuerza a que no se apague
+
+    tahiche_phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: tahiche_phpmyadmin
+        restart: ${RESTART}
+        env_file: ".env"
+        ports:
+            - "${PHPMYADMIN_PORT}:80"
+        environment:
+            - PMA_HOST=tahiche_db
+            - PMA_PORT=3306
+            - MYSQL_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+        networks:
+            - tahiche_network
+        depends_on:
+            - tahiche_db
+
+volumes:
+    tahiche_db_data:

@@ -1,0 +1,84 @@
+/*!
+ * This file is part of Tahiche
+ * Copyright (C) 2013-2026 Tahiche Team <tahiche@alxarafe.com>
+ */
+
+/* Premium Volcanic Dark Theme Overrides */
+:root {
+    --bs-primary: #8b0000; /* Deep red volcanic accent */
+    --bs-primary-rgb: 139, 0, 0;
+    --bs-body-bg: #121212; /* Very dark volcanic crust */
+    --bs-body-color: #e0e0e0;
+    --bs-card-bg: #1e1e1e;
+    --bs-card-border-color: #333333;
+    
+    --volcanic-dark: #1a1a1a;
+    --volcanic-accent: #ff4500; /* Glowing lava orange */
+}
+
+body {
+    background-color: var(--bs-body-bg) !important;
+    color: var(--bs-body-color) !important;
+}
+
+/* Sidebar legacy overrides */
+#sidebar, .sidebar, .bg-light {
+    background-color: var(--volcanic-dark) !important;
+    border-right: 1px solid #333 !important;
+}
+
+.nav-link {
+    color: #bbb !important;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: #fff !important;
+    background-color: rgba(255, 69, 0, 0.1) !important;
+}
+
+/* Navbar overrides */
+.navbar {
+    background-color: #000 !important;
+    border-bottom: 2px solid var(--bs-primary) !important;
+}
+
+.navbar-brand, .navbar-nav .nav-link {
+    color: #fff !important;
+}
+
+/* Table overrides */
+.table {
+    color: #ccc !important;
+    border-color: #444 !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(255, 69, 0, 0.05) !important;
+}
+
+/* Card overrides */
+.card {
+    background-color: var(--bs-card-bg) !important;
+    border-color: var(--bs-card-border-color) !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+.card-header {
+    background-color: #252525 !important;
+    border-bottom: 1px solid #333 !important;
+}
+
+/* Button overrides */
+.btn-primary {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+.btn-primary:hover {
+    background-color: #a00000 !important;
+}
+
+/* Required fields styling */
+input[required].form-control, textarea[required].form-control, select[required].form-control {
+    border-left: 3px solid var(--volcanic-accent) !important;
+}

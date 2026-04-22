@@ -1,0 +1,28 @@
+meta {
+  name: 02-get-warehouse
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}{{apiBase}}/almacenes/TST
+  body: none
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Accept: application/json
+}
+
+tests {
+  test("Status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Returns correct warehouse", function() {
+    const data = res.getBody();
+    expect(data.codalmacen).to.equal("TST");
+    expect(data.nombre).to.equal("Test Warehouse");
+  });
+}

@@ -1,0 +1,38 @@
+meta {
+  name: 01-create-currency
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}{{apiBase}}/divisas
+  body: json
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "coddivisa": "TST",
+    "descripcion": "Test Currency",
+    "codiso": "999",
+    "simbolo": "T$",
+    "tasaconv": "1.250000",
+    "tasaconvcompra": "1.200000"
+  }
+}
+
+tests {
+  test("Status 200 (created)", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Confirmation message", function() {
+    const data = res.getBody();
+    expect(data).to.have.property('ok');
+  });
+}

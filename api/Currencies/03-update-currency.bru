@@ -1,0 +1,34 @@
+meta {
+  name: 03-update-currency
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{baseUrl}}{{apiBase}}/divisas/TST
+  body: json
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "coddivisa": "TST",
+    "descripcion": "Test Currency Updated"
+  }
+}
+
+tests {
+  test("Status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Confirmation message", function() {
+    const data = res.getBody();
+    expect(data).to.have.property('ok');
+  });
+}

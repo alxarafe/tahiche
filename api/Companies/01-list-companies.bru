@@ -1,0 +1,32 @@
+meta {
+  name: 01-list-companies
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}{{apiBase}}/empresas?limit=10
+  body: none
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Accept: application/json
+}
+
+tests {
+  test("Status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Returns array", function() {
+    const data = res.getBody();
+    expect(data).to.be.an('array');
+  });
+
+  test("Has at least one company", function() {
+    const data = res.getBody();
+    expect(data.length).to.be.above(0);
+  });
+}

@@ -1,0 +1,135 @@
+# ─────────────────────────────────────────────────────────────
+# Docker Compose para Tests de Compatibilidad API
+#
+# Levanta FacturaScripts (referencia) + Tahiche (implementación)
+# contra la MISMA base de datos para comparar las APIs.
+#
+# Prerrequisito: el repo FacturaScripts debe estar clonado
+# en ../facturascripts/ (hermano de tahiche/ en el filesystem).
+#
+# Uso:
+#   ./bin/api_compare.sh up        # Levantar
+#   ./bin/api_compare.sh test      # Tests comparativos
+#   ./bin/api_compare.sh update    # git pull de FacturaScripts
+#
+# Puertos:
+#   FacturaScripts API → http://localhost:8070
+#   Tahiche API        → http://localhost:8071
+#   PhpMyAdmin         → http://localhost:9070
+#   MariaDB            → localhost:3470
+# ─────────────────────────────────────────────────────────────
+
+services:
+
+  # ── Base de Datos Compartida ──────────────────────────────
+  apitest_db:
+    image: mariadb:10.11
+    container_name: apitest_tahiche_db
+    restart: "no"
+    environment:
+      MARIADB_DATABASE: apitest_db
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_USER: apitest_user
+      MARIADB_PASSWORD: apitest_pass
+    ports:
+      - "${APITEST_DB_PORT:-3470}:3306"
+    volumes:
+      - apitest_db_data:/var/lib/mysql
+    networks:
+      - apitest_network
+
+  # ── FacturaScripts (referencia) ───────────────────────────
+  apitest_fs_php:
+    container_name: apitest_fs_php
+    restart: "no"
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+      args:
+        - PHP_VERSION=8.3
+        - USER_ID=${USER_ID:-1000}
+        - GROUP_ID=${GROUP_ID:-1000}
+    volumes:
+      - "${FACTURASCRIPTS_PATH:-../facturascripts}:/var/www/html:rw"
+    environment:
+      DB_HOST: apitest_db
+      DB_NAME: apitest_db
+      DB_USER: root
+      DB_PASSWORD: root
+    networks:
+      - apitest_network
+
+  apitest_fs_nginx:
+    image: nginx:alpine
+    container_name: apitest_fs_nginx
+    restart: "no"
+    ports:
+      - "${APITEST_FS_PORT:-8070}:80"
+    volumes:
+      - "${FACTURASCRIPTS_PATH:-../facturascripts}:/var/www/html:rw"
+      - "./.docker/nginx/facturascripts-apitest.conf:/etc/nginx/conf.d/default.conf:ro"
+    depends_on:
+      - apitest_fs_php
+    networks:
+      - apitest_network
+
+  # ── Tahiche (implementación) ──────────────────────────────
+  apitest_tahiche_php:
+    container_name: apitest_tahiche_php
+    restart: "no"
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+      args:
+        - PHP_VERSION=8.3
+        - USER_ID=${USER_ID:-1000}
+        - GROUP_ID=${GROUP_ID:-1000}
+    volumes:
+      - ".:/var/www/html:rw"
+      - "../alxarafe:/var/www/alxarafe:ro"
+    environment:
+      DB_HOST: apitest_db
+      DB_PORT: 3306
+      DB_DATABASE: apitest_db
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    networks:
+      - apitest_network
+
+  apitest_tahiche_nginx:
+    image: nginx:alpine
+    container_name: apitest_tahiche_nginx
+    restart: "no"
+    ports:
+      - "${APITEST_TAHICHE_PORT:-8071}:80"
+    volumes:
+      - ".:/var/www/html:rw"
+      - "../alxarafe:/var/www/alxarafe:ro"
+      - "./.docker/nginx/tahiche-apitest.conf:/etc/nginx/conf.d/default.conf:ro"
+    depends_on:
+      - apitest_tahiche_php
+    networks:
+      - apitest_network
+
+  # ── PhpMyAdmin (debug) ────────────────────────────────────
+  apitest_phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: apitest_tahiche_phpmyadmin
+    restart: "no"
+    ports:
+      - "${APITEST_PHPMYADMIN_PORT:-9070}:80"
+    environment:
+      PMA_HOST: apitest_db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      - apitest_db
+    networks:
+      - apitest_network
+
+volumes:
+  apitest_db_data:
+
+networks:
+  apitest_network:
+    name: apitest_tahiche_network

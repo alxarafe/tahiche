@@ -1,0 +1,28 @@
+meta {
+  name: 02-list-products
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}{{apiBase}}/productos?limit=5
+  body: none
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Accept: application/json
+}
+
+tests {
+  test("Status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Returns array", function() {
+    const data = res.getBody();
+    expect(data).to.be.an('array');
+    expect(data.length).to.be.at.most(5);
+  });
+}

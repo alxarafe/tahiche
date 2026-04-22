@@ -1,0 +1,29 @@
+meta {
+  name: 05-get-schema
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}{{apiBase}}/divisas/schema
+  body: none
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Accept: application/json
+}
+
+tests {
+  test("Status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Schema has expected fields", function() {
+    const data = res.getBody();
+    expect(data).to.have.property('coddivisa');
+    expect(data).to.have.property('descripcion');
+    expect(data.coddivisa).to.have.property('type');
+  });
+}

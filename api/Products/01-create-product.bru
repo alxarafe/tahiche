@@ -1,0 +1,40 @@
+meta {
+  name: 01-create-product
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}{{apiBase}}/productos
+  body: json
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "referencia": "APITEST001",
+    "descripcion": "API Test Product",
+    "precio": "25.50",
+    "tipo": "1",
+    "nostock": false
+  }
+}
+
+tests {
+  test("Status 200 (created)", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Confirmation", function() {
+    const data = res.getBody();
+    expect(data).to.have.property('ok');
+    if (data.data && data.data.idproducto) {
+      bru.setEnvVar("testProductId", data.data.idproducto);
+    }
+  });
+}

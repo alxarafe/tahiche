@@ -1,0 +1,39 @@
+meta {
+  name: 01-create-customer
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}{{apiBase}}/clientes
+  body: json
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "nombre": "API Test Customer",
+    "cifnif": "B12345678",
+    "razonsocial": "API Test Customer S.L.",
+    "telefono1": "555-1234"
+  }
+}
+
+tests {
+  test("Status 200 (created)", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Confirmation with data", function() {
+    const data = res.getBody();
+    expect(data).to.have.property('ok');
+    if (data.data && data.data.codcliente) {
+      bru.setEnvVar("testCustomerId", data.data.codcliente);
+    }
+  });
+}

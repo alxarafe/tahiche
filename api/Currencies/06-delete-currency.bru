@@ -1,0 +1,27 @@
+meta {
+  name: 06-delete-currency
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{baseUrl}}{{apiBase}}/divisas/TST
+  body: none
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Accept: application/json
+}
+
+tests {
+  test("Status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Delete confirmation", function() {
+    const data = res.getBody();
+    expect(data).to.have.property('ok');
+  });
+}

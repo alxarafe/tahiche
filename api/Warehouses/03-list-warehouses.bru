@@ -1,0 +1,27 @@
+meta {
+  name: 03-list-warehouses
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}{{apiBase}}/almacenes?limit=10
+  body: none
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Accept: application/json
+}
+
+tests {
+  test("Status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Returns array", function() {
+    const data = res.getBody();
+    expect(data).to.be.an('array');
+  });
+}

@@ -1,0 +1,23 @@
+{
+    "main": {
+        "path": "/var/www/html",
+        "url": "",
+        "theme": "default",
+        "language": "es_ES",
+        "timezone": "Europe/Madrid"
+    },
+    "db": {
+        "type": "mysql",
+        "host": "tahiche_db",
+        "user": "root",
+        "pass": "root",
+        "name": "tahiche_db",
+        "port": "3306",
+        "prefix": "alx_",
+        "charset": "utf8mb4",
+        "collation": "utf8mb4_unicode_520_ci"
+    },
+    "security": {
+        "debug": "0"
+    }
+}

@@ -1,0 +1,28 @@
+meta {
+  name: 02-get-currency
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}{{apiBase}}/divisas/TST
+  body: none
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Accept: application/json
+}
+
+tests {
+  test("Status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Returns correct currency", function() {
+    const data = res.getBody();
+    expect(data.coddivisa).to.equal("TST");
+    expect(data.descripcion).to.equal("Test Currency");
+  });
+}

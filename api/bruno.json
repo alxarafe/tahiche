@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Tahiche API Tests",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

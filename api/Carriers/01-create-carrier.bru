@@ -1,0 +1,37 @@
+meta {
+  name: 01-create-carrier
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}{{apiBase}}/agenciatransportes
+  body: json
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "codtrans": "TST",
+    "nombre": "Test Carrier",
+    "activo": true,
+    "telefono": "555-0099",
+    "web": "https://test-carrier.example.com"
+  }
+}
+
+tests {
+  test("Status 200 (created)", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Confirmation", function() {
+    const data = res.getBody();
+    expect(data).to.have.property('ok');
+  });
+}

@@ -1,0 +1,34 @@
+meta {
+  name: 04-list-currencies
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}{{apiBase}}/divisas?limit=10
+  body: none
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Accept: application/json
+}
+
+tests {
+  test("Status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Returns array", function() {
+    const data = res.getBody();
+    expect(data).to.be.an('array');
+  });
+
+  test("Contains test currency", function() {
+    const data = res.getBody();
+    const found = data.find(d => d.coddivisa === "TST");
+    expect(found).to.not.be.undefined;
+    expect(found.descripcion).to.equal("Test Currency Updated");
+  });
+}

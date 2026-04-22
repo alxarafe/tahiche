@@ -1,0 +1,29 @@
+meta {
+  name: 03-get-product-schema
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}{{apiBase}}/productos/schema
+  body: none
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Accept: application/json
+}
+
+tests {
+  test("Status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Schema has expected fields", function() {
+    const data = res.getBody();
+    expect(data).to.have.property('idproducto');
+    expect(data).to.have.property('referencia');
+    expect(data).to.have.property('descripcion');
+  });
+}
