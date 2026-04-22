@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\PuntoInteresCiudad;
 
 class CityPoint extends PuntoInteresCiudad
 {
-{
 }

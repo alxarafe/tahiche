@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\FormatoDocumento;
 
 class DocumentFormat extends FormatoDocumento
 {
-{
 }

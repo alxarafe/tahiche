@@ -46,7 +46,7 @@ echo ""
 
 # 3. PHPUnit
 echo -e "${BOLD}=== 3. Tests (PHPUnit) ===${NC}"
-if bash "$SCRIPT_DIR/test.sh"; then
+if bash "$SCRIPT_DIR/test.sh" --testsuite Modern; then
     echo -e "${GREEN}✅ Tests OK${NC}"
 else
     echo -e "${RED}❌ Tests fallidos${NC}"

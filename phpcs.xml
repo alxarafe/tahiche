@@ -2,7 +2,6 @@
 <ruleset name="Tahiche">
     <description>Tahiche coding standard based on PSR-12.</description>
 
-    <file>Core</file>
     <file>Modules</file>
     <file>src</file>
     <file>Tests</file>

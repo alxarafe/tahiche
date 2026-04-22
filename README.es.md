@@ -4,99 +4,84 @@
   </a>
 </p>
 
-<p align="center">
-  <strong>Software ERP y Contabilidad de Código Abierto</strong><br>
-  Arquitectura Híbrida Moderna (Legacy + Alxarafe Framework)
-</p>
-
-<p align="center">
-  <a href="https://opensource.org/licenses/LGPL"><img src="https://img.shields.io/badge/license-LGPL-green.svg?color=2670c9&style=for-the-badge&label=License&logoColor=000000&labelColor=ececec" alt="Licencia: LGPL"></a>
-  <a href="https://github.com/Alxarafe/tahiche/releases/latest"><img src="https://img.shields.io/github/v/release/Alxarafe/tahiche?style=for-the-badge&logo=github&logoColor=white" alt="Última Versión"></a>
-  <a href="https://github.com/Alxarafe/tahiche/pulls"><img alt="Se aceptan Pull Request" src="https://img.shields.io/badge/PRs_Welcome-brightgreen?style=for-the-badge"></a>
-</p>
-
-<p align="center">
-  <a href="https://tahiche.com/probar-online">🚀 Probar Demo</a> •
-  <a href="#-documentación">📚 Documentación</a> •
-  <a href="https://discord.gg/qKm7j9AaJT">💬 Discord</a> •
-  <a href="README.md">🇬🇧 English</a>
-</p>
-
 ---
 
-## 🎯 ¿Qué es Tahiche?
+> **🚀 Portfolio Showcase & Architectural Modernization**
+> Este repositorio es un proyecto de demostración técnica liderado y desarrollado por **Rafael San José**.
+> Recrea la modernización integral de un sistema PHP monolítico legado (**FacturaScripts**) hacia una plataforma híbrida desacoplada y segura.
+> **Habilidades Clave Mostradas:** Arquitectura Hexagonal, Patrón Strangler Fig, Modernización de Legado, Integración con Alxarafe Framework y DevOps con Docker.
 
-Tahiche es un **software ERP y de contabilidad de código abierto** integral diseñado para pequeñas y medianas empresas. Actualmente se encuentra en un proceso de modernización, transicionando de una arquitectura monolítica a una estructura modular moderna basada en el **Alxarafe Framework**.
+![PHP Version](https://img.shields.io/badge/PHP-8.2+-blueviolet?style=flat-square)
+![CI](https://github.com/Alxarafe/tahiche/actions/workflows/test.yml/badge.svg)
+![Static Analysis](https://img.shields.io/badge/static%20analysis-PHPStan-blue?style=flat-square)
+![License: LGPL](https://img.shields.io/badge/license-LGPL-green.svg?color=2670c9&style=flat-square)
 
-### ✨ Características Principales
+*[Read in English](README.md)*
 
-- 🧾 **Arquitectura Cloud Moderna** - Punto de entrada aislado (`/public`) para mayor seguridad.
-- 🔐 **Configuración Segura** - Gestión de credenciales mediante variables de entorno (`.env`).
-- 🚀 **Enrutamiento Híbrido** - Ejecuta plugins heredados mientras adopta vistas Blade modernas y Eloquent ORM.
-- 📦 **Inventario y CRM** - Gestión robusta de stock, clientes y proveedores.
-- 📊 **Contabilidad** - Módulo financiero completo (Soporte Legacy).
-- 🔌 **Sistema de Plugins** - Mantiene la compatibilidad con los plugins existentes de FS.
+**Tahiche** es un **ERP/CRM y software de contabilidad** de código abierto inmerso en una ambiciosa modernización arquitectónica. 
+El proyecto nace a partir de [FacturaScripts](https://facturascripts.com/), pero está siendo reestructurado progresivamente utilizando el **Alxarafe Framework** para implementar una arquitectura moderna, segura y basada en estándares actuales de desarrollo.
 
-## 🏗️ Aviso sobre la Nueva Arquitectura
+La estrategia principal de Tahiche es permitir una transición suave mediante un **enfoque híbrido**. Mantiene la compatibilidad con el ecosistema de plugins legados de FacturaScripts mientras traslada el núcleo del sistema a una estructura de directorio público (`/public`), configuración basada en entornos (`.env`) y controladores modernos desacoplados.
 
-Tahiche ha evolucionado a una estructura más segura:
-- **Directorio Público**: El servidor web **DEBE** apuntar al directorio `/public`.
-- **Variables de Entorno**: Utiliza `.env` para la base de datos y credenciales de la app.
-- **Core Moderno**: Integración con Alxarafe para Auth, Routing e interfaz moderna.
+## 🎯 Objetivos
+- **Seguridad**: Aislar el punto de entrada al directorio `/public`, evitando la exposición de archivos sensibles.
+- **Modernización**: Reemplazar progresivamente los controladores y vistas legadas por componentes de **Alxarafe Resource Controller**.
+- **Desacople**: Separar la lógica de infraestructura (Base de Datos, Mailer, Auth) mediante adaptadores específicos en `src/Infrastructure`.
+- **Compatibilidad**: Mantener el soporte para el vasto ecosistema de plugins de FacturaScripts mediante una capa de retrocompatibilidad.
+- **Calidad**: Implementar pipelines de CI locales para asegurar estándares PSR-12, análisis estático con PHPStan y tests automatizados.
 
-## 🚀 Instalación
+## 🏗️ Arquitectura Híbrida
+Tahiche utiliza el patrón **Strangler Fig** para migrar funcionalidades:
+- **Capa Moderna**: Ubicada en `src/` y `Modules/`, utiliza controladores declarativos y adaptadores de infraestructura.
+- **Capa Legacy**: Mantenida en `Core/` y `Dinamic/`, proporcionando soporte a las clases y lógica de FacturaScripts original.
+- **Adaptadores**: Puentes en `src/Infrastructure/Adapter` que conectan el motor moderno con las librerías de FacturaScripts (como `TahicheRepository` para el ORM legado).
 
-### Requisitos del Sistema
-- PHP 8.2 o superior
-- MySQL / MariaDB 10.11+
+## 🚀 Instalación y Desarrollo
+
+### Requisitos
+- PHP 8.2+
 - Composer
-- Servidor Web (Nginx o Apache) configurado para apuntar a `/public`
+- Docker y Docker Compose (recomendado)
 
-### Paso a Paso
+### Desarrollo con Docker (Recomendado)
+Tahiche incluye un entorno Docker optimizado:
 
-1. **Clonar e Instalar**
+1. **Clonar el repositorio**:
    ```bash
    git clone https://github.com/Alxarafe/tahiche.git
    cd tahiche
-   composer install
    ```
-
-2. **Configurar Entorno**
+2. **Configurar entorno**:
    ```bash
    cp .env.example .env
-   # Edita el archivo .env con tus credenciales de base de datos
    ```
-
-3. **Configuración del Servidor Web**
-   Establece la raíz de documentos (document root) en la carpeta `/public` del proyecto.
-
-   **Ejemplo para Nginx:**
-   ```nginx
-   root /var/www/tahiche/public;
-   index index.php;
-   location / {
-       try_files $uri $uri/ /index.php?$query_string;
-   }
+3. **Iniciar servicios**:
+   ```bash
+   ./bin/docker_start.sh
    ```
+4. **Instalar dependencias**:
+   ```bash
+   docker exec tahiche_php composer install
+   ```
+5. **Acceder**: El sistema estará disponible en [http://localhost:8082](http://localhost:8082).
 
-## 📚 Documentación
-
-- **Guía de Usuario**: [tahiche.com/ayuda](https://tahiche.com/ayuda)
-- **Documentación para Desarrolladores**: [tahiche.com/ayuda-dev](https://tahiche.com/ayuda-dev)
-
-## 🧪 Desarrollo
-
+### Verificación de Calidad (CI Local)
+Puedes ejecutar todo el pipeline de verificación local (Estilos, PHPStan y Tests) con un solo comando:
 ```bash
-# Iniciar el servidor de desarrollo (apuntando a public)
-php -S localhost:8000 -t public/
+./bin/ci_local.sh
 ```
 
-## 🔒 Seguridad
+## 📚 Documentación
+- **Entorno Docker**: [docs/docker.md](docs/docker.md)
+- **Guía de Migración**: [docs/migration.md](docs/migration.md)
 
-Para vulnerabilidades de seguridad o temas sensibles, por favor contacta con el **Tahiche Team** en [tahiche@alxarafe.com](mailto:tahiche@alxarafe.com).
+## 🤝 Contribuir
+¡Las contribuciones son bienvenidas! Si encuentras un error o tienes una mejora, por favor abre un issue o envía un pull request.
+
+## ⚖️ Licencia
+Tahiche se distribuye bajo la licencia **GNU Lesser General Public License (LGPL)**. Consulta el archivo [LICENSE](LICENSE) para más detalles.
 
 ---
-
 <p align="center">
-  Hecho con ❤️ por la comunidad de Tahiche
+  Modernizando el ERP de código abierto, paso a paso.
 </p>

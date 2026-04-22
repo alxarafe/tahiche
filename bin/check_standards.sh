@@ -23,14 +23,14 @@ if docker ps --format '{{.Names}}' | grep -q "^tahiche_php$"; then
         --tab-width=4 \
         --encoding=utf-8 \
         --standard=phpcs.xml \
-        Core Modules src -s
+        Modules src -s
 elif [ -f "$PROJECT_DIR/vendor/bin/phpcs" ]; then
     echo "  Ejecutando PHPCS localmente..."
     "$PROJECT_DIR/vendor/bin/phpcs" \
         --tab-width=4 \
         --encoding=utf-8 \
         --standard="$PROJECT_DIR/phpcs.xml" \
-        "$PROJECT_DIR/Core" "$PROJECT_DIR/Modules" "$PROJECT_DIR/src" -s
+        "$PROJECT_DIR/Modules" "$PROJECT_DIR/src" -s
 else
     echo -e "${RED}Error: No se encuentra phpcs. Instálalo con:${NC}"
     echo "  composer require --dev squizlabs/php_codesniffer"

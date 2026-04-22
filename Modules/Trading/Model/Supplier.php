@@ -11,5 +11,4 @@ use FacturaScripts\Core\Model\Proveedor;
  */
 class Supplier extends Proveedor
 {
-{
 }

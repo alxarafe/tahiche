@@ -12,5 +12,4 @@ use FacturaScripts\Core\Model\Almacen;
  */
 class Warehouse extends Almacen
 {
-{
 }

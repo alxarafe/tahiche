@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\Pais;
 
 class Country extends Pais
 {
-{
 }

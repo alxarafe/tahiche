@@ -12,5 +12,4 @@ use FacturaScripts\Core\Model\AgenciaTransporte;
  */
 class Carrier extends AgenciaTransporte
 {
-{
 }

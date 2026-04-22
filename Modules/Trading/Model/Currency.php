@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\Divisa;
 
 class Currency extends Divisa
 {
-{
 }

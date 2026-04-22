@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\SecuenciaDocumento;
 
 class DocumentSequence extends SecuenciaDocumento
 {
-{
 }

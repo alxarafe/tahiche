@@ -54,19 +54,43 @@ class DetailLines extends AbstractContainer
 
         // Pass everything to the base field options so it's serialized to the view if needed
         $options['columns'] = $columns;
-        
+
         // The children parameter is empty because columns define the grid schema, not direct children
         parent::__construct($field, $label, [], $options);
     }
 
-    public function getLineColumns(): array { return $this->lineColumns; }
-    public function getModelClass(): string { return $this->modelClass; }
-    public function getForeignKey(): string { return $this->foreignKey; }
-    public function isSortable(): bool { return $this->sortable; }
-    public function canAddRow(): bool { return $this->addRow; }
-    public function canRemoveRow(): bool { return $this->removeRow; }
-    public function hasAutoRecalculate(): bool { return $this->autoRecalculate; }
-    public function getFooterTotals(): array { return $this->footerTotals; }
+    public function getLineColumns(): array
+    {
+        return $this->lineColumns;
+    }
+    public function getModelClass(): string
+    {
+        return $this->modelClass;
+    }
+    public function getForeignKey(): string
+    {
+        return $this->foreignKey;
+    }
+    public function isSortable(): bool
+    {
+        return $this->sortable;
+    }
+    public function canAddRow(): bool
+    {
+        return $this->addRow;
+    }
+    public function canRemoveRow(): bool
+    {
+        return $this->removeRow;
+    }
+    public function hasAutoRecalculate(): bool
+    {
+        return $this->autoRecalculate;
+    }
+    public function getFooterTotals(): array
+    {
+        return $this->footerTotals;
+    }
 
     #[\Override]
     public function getContainerType(): string

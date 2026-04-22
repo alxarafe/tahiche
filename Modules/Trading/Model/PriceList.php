@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\Tarifa;
 
 class PriceList extends Tarifa
 {
-{
 }

@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\CodigoPostal;
 
 class PostalCode extends CodigoPostal
 {
-{
 }

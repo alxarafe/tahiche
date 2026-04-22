@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\Serie;
 
 class Series extends Serie
 {
-{
 }

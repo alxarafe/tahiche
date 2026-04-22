@@ -14,7 +14,6 @@ use FacturaScripts\Core\Model\Fabricante;
  */
 class Manufacturer extends Fabricante
 {
-{
     // Aquí podemos añadir métodos modernos que el ResourceController necesite
     // sin ensuciar el modelo Legacy.
 }

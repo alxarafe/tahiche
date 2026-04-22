@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\Atributo;
 
 class Attribute extends Atributo
 {
-{
 }

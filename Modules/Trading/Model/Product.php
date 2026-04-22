@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\Producto;
 
 class Product extends Producto
 {
-{
 }

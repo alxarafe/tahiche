@@ -53,21 +53,24 @@ class SalesInvoicesController extends ResourceController
             foreach (DB::select('SELECT codcliente, nombre FROM clientes ORDER BY nombre') as $row) {
                 $clientes[$row->codcliente] = $row->nombre;
             }
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) {
+        }
 
         $series = [];
         try {
             foreach (DB::select('SELECT codserie, descripcion FROM series ORDER BY descripcion') as $row) {
                 $series[$row->codserie] = $row->descripcion;
             }
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) {
+        }
 
         $formasPago = [];
         try {
             foreach (DB::select('SELECT codpago, descripcion FROM formaspago ORDER BY descripcion') as $row) {
                 $formasPago[$row->codpago] = $row->descripcion;
             }
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) {
+        }
 
         return [
             new Tab('general', 'general_info', 'fas fa-info-circle', [
@@ -115,7 +118,7 @@ class SalesInvoicesController extends ResourceController
             ])
         ];
     }
-    
+
     #[\Override]
     protected function getListColumns(): array
     {

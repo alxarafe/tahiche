@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\Provincia;
 
 class Province extends Provincia
 {
-{
 }

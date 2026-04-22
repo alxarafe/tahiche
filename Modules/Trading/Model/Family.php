@@ -12,5 +12,4 @@ use FacturaScripts\Core\Model\Familia as LegacyFamilia;
  */
 class Family extends LegacyFamilia
 {
-{
 }

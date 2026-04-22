@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\Ciudad;
 
 class City extends Ciudad
 {
-{
 }

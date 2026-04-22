@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\Impuesto;
 
 class Tax extends Impuesto
 {
-{
 }

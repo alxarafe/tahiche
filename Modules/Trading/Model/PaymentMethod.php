@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\FormaPago;
 
 class PaymentMethod extends FormaPago
 {
-{
 }

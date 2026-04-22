@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\Retencion;
 
 class Withholding extends Retencion
 {
-{
 }

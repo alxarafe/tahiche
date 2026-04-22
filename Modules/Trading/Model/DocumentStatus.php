@@ -8,5 +8,4 @@ use FacturaScripts\Core\Model\EstadoDocumento;
 
 class DocumentStatus extends EstadoDocumento
 {
-{
 }
