@@ -71,8 +71,8 @@ date_default_timezone_set($timeZone);
 // clean cache
 Cache::clear();
 
-// iniciamos el kernel
-Kernel::init();
-
-// deploy
-Plugins::deploy();
+// iniciamos el kernel (solo si no estamos en análisis estático)
+if (!getenv('PHPSTAN_RUNNING')) {
+    Kernel::init();
+    Plugins::deploy();
+}
