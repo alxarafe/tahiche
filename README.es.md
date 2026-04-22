@@ -12,7 +12,7 @@
 > **Habilidades Clave Mostradas:** Arquitectura Hexagonal, Patrón Strangler Fig, Modernización de Legado, Integración con Alxarafe Framework y DevOps con Docker.
 
 ![PHP Version](https://img.shields.io/badge/PHP-8.2+-blueviolet?style=flat-square)
-![CI](https://github.com/Alxarafe/tahiche/actions/workflows/test.yml/badge.svg)
+![CI](https://github.com/Alxarafe/tahiche/actions/workflows/ci.yml/badge.svg)
 ![Static Analysis](https://img.shields.io/badge/static%20analysis-PHPStan-blue?style=flat-square)
 ![License: LGPL](https://img.shields.io/badge/license-LGPL-green.svg?color=2670c9&style=flat-square)
 

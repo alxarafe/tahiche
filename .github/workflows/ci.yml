@@ -1,0 +1,87 @@
+name: Tahiche CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    name: Code Quality (PHPCS + PHPStan)
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2, phpcs, phpstan
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --optimize-autoloader
+
+      - name: Run PHP CodeSniffer
+        run: vendor/bin/phpcs
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse -c phpstan.neon --no-progress
+
+  test:
+    runs-on: ubuntu-latest
+    needs: quality
+    name: Tests (PHP ${{ matrix.php-version }})
+    strategy:
+      matrix:
+        php-version: ['8.2', '8.3', '8.4']
+      fail-fast: false
+
+    services:
+      mariadb:
+        image: mariadb:10.11
+        env:
+          MARIADB_ROOT_PASSWORD: root
+          MARIADB_DATABASE: tahiche_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: bcmath, curl, gd, iconv, mysqli, pdo_mysql, zip, fileinfo, mbstring, intl
+          tools: composer:v2
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --optimize-autoloader
+
+      - name: Create application config
+        run: |
+          cat > config.php << 'EOF'
+          <?php
+          define('FS_DB_TYPE', 'mysql');
+          define('FS_DB_HOST', '127.0.0.1');
+          define('FS_DB_PORT', 3306);
+          define('FS_DB_NAME', 'tahiche_test');
+          define('FS_DB_USER', 'root');
+          define('FS_DB_PASS', 'root');
+          define('FS_LANG', 'es_ES');
+          define('FS_DEBUG', true);
+          define('FS_FOLDER', getcwd());
+          EOF
+
+      - name: Run PHPUnit (Modern Suite)
+        run: vendor/bin/phpunit --testsuite Modern --coverage-text

@@ -18,11 +18,11 @@ echo "────────────────────────�
 
 # Intentar dentro del contenedor Docker o localmente
 if docker ps --format '{{.Names}}' | grep -q "^tahiche_php$"; then
-    echo "  Ejecutando PHPStan dentro del contenedor sobre 'src'..."
-    docker exec tahiche_php ./vendor/bin/phpstan analyse src --no-progress
+    echo "  Ejecutando PHPStan dentro del contenedor..."
+    docker exec tahiche_php ./vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=1G --no-progress
 elif [ -f "$PROJECT_DIR/vendor/bin/phpstan" ]; then
-    echo "  Ejecutando PHPStan localmente sobre 'src'..."
-    "$PROJECT_DIR/vendor/bin/phpstan" analyse "$PROJECT_DIR/src" --no-progress
+    echo "  Ejecutando PHPStan localmente..."
+    "$PROJECT_DIR/vendor/bin/phpstan" analyse -c "$PROJECT_DIR/phpstan.neon" --memory-limit=1G --no-progress
 else
     echo -e "${RED}Error: No se encuentra phpstan. Instálalo con:${NC}"
     echo "  composer require --dev phpstan/phpstan"
