@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Admin\Model;
 
-use FacturaScripts\Core\Model\Usuario;
+use FacturaScripts\Core\Model\User as LegacyUser;
 
-class User extends Usuario
+class User extends LegacyUser
 {
 }

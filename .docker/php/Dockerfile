@@ -1,5 +1,5 @@
 # We use the version defined in the .env file
-ARG PHP_VERSION=8.5
+ARG PHP_VERSION=8.2
 FROM php:${PHP_VERSION}-fpm
 
 # Define arguments for user UID/GID to match your Linux host

@@ -7,7 +7,6 @@ use Modules\Crm\Model\Agent;
 
 class AgentsController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return Agent::class;

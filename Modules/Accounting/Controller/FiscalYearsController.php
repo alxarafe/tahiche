@@ -7,7 +7,6 @@ use Modules\Accounting\Model\FiscalYear;
 
 class FiscalYearsController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return FiscalYear::class;

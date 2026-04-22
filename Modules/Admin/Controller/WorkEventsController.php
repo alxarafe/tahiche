@@ -7,7 +7,6 @@ use Modules\Admin\Model\WorkEvent;
 
 class WorkEventsController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return WorkEvent::class;

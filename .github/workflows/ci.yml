@@ -27,7 +27,7 @@ jobs:
         run: vendor/bin/phpcs
 
       - name: Run PHPStan
-        run: vendor/bin/phpstan analyse -c phpstan.neon --no-progress
+        run: php -d error_reporting="E_ALL & ~E_DEPRECATED" vendor/bin/phpstan analyse -c phpstan.neon --no-progress
         env:
           PHPSTAN_RUNNING: 1
 

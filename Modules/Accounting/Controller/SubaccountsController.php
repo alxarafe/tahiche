@@ -7,7 +7,6 @@ use Modules\Accounting\Model\Subaccount;
 
 class SubaccountsController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return Subaccount::class;

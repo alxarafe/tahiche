@@ -16,7 +16,6 @@ use Modules\Trading\Model\Withholding;
 
 class WithholdingsController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return Withholding::class;

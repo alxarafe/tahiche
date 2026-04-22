@@ -7,7 +7,6 @@ use Modules\Accounting\Model\BankAccount;
 
 class BankAccountsController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return BankAccount::class;

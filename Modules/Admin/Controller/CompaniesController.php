@@ -7,7 +7,6 @@ use Modules\Admin\Model\Company;
 
 class CompaniesController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return Company::class;

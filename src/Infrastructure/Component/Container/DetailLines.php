@@ -92,7 +92,7 @@ class DetailLines extends AbstractContainer
         return $this->footerTotals;
     }
 
-    #[\Override]
+
     public function getContainerType(): string
     {
         return 'detail_lines';

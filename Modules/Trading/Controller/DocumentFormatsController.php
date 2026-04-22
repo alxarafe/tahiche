@@ -16,7 +16,6 @@ use Modules\Trading\Model\DocumentFormat;
 
 class DocumentFormatsController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return DocumentFormat::class;

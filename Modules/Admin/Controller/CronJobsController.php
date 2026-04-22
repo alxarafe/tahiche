@@ -7,7 +7,6 @@ use Modules\Admin\Model\CronJob;
 
 class CronJobsController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return CronJob::class;

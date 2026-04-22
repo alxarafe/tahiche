@@ -16,7 +16,6 @@ use Modules\Trading\Model\DocumentStatus;
 
 class DocumentStatusController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return DocumentStatus::class;

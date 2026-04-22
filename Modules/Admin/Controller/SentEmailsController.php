@@ -7,7 +7,6 @@ use Modules\Admin\Model\SentEmail;
 
 class SentEmailsController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return SentEmail::class;

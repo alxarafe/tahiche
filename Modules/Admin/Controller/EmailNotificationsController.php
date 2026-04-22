@@ -7,7 +7,6 @@ use Modules\Admin\Model\EmailNotification;
 
 class EmailNotificationsController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return EmailNotification::class;

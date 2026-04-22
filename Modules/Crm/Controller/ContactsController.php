@@ -7,7 +7,6 @@ use Modules\Crm\Model\Contact;
 
 class ContactsController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return Contact::class;

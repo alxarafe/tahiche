@@ -7,7 +7,6 @@ use Modules\Admin\Model\ApiKey;
 
 class ApiKeysController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return ApiKey::class;

@@ -27,25 +27,24 @@ use Illuminate\Database\Capsule\Manager as DB;
 
 class SalesInvoicesController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return SalesInvoice::class;
     }
 
-    #[\Override]
+
     public static function getModuleName(): string
     {
         return 'Sales';
     }
 
-    #[\Override]
+
     public static function getControllerName(): string
     {
         return 'SalesInvoices';
     }
 
-    #[\Override]
+
     public function getEditFields(): array
     {
         $clientes = [];
@@ -119,7 +118,7 @@ class SalesInvoicesController extends ResourceController
         ];
     }
 
-    #[\Override]
+
     protected function getListColumns(): array
     {
         return [

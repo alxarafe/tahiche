@@ -8,5 +8,3 @@ parameters:
         - Tests
     bootstrapFiles:
         - Tests/bootstrap.php
-    ignoreErrors:
-        - '#Constant FS_FOLDER not found.#'

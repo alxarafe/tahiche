@@ -16,7 +16,6 @@ use Modules\Trading\Model\Tax;
 
 class TaxesController extends ResourceController
 {
-    #[\Override]
     protected function getModelClassName(): string
     {
         return Tax::class;

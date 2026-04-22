@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Admin\Model;
 
-use FacturaScripts\Core\Model\ArchivoAdjunto;
+use FacturaScripts\Core\Model\AttachedFile as LegacyAttachedFile;
 
-class AttachedFile extends ArchivoAdjunto
+class AttachedFile extends LegacyAttachedFile
 {
 }

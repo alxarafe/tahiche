@@ -78,6 +78,19 @@ abstract class ResourceController extends AbstractResourceController
         return $this->repository;
     }
 
+    public static function getModuleName(): string
+    {
+        $parts = explode('\\', static::class);
+        return $parts[1] ?? '';
+    }
+
+    public static function getControllerName(): string
+    {
+        $parts = explode('\\', static::class);
+        $className = end($parts);
+        return str_replace('Controller', '', $className);
+    }
+
     public static function url(string $action = 'index', array $params = []): string
     {
         $base = 'index.php?module=' . static::getModuleName() . '&controller=' . static::getControllerName();
