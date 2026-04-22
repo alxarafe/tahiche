@@ -1,11 +1,3 @@
-<p align="center">
-  <a href="https://tahiche.com">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Logo-Tahiche.png" width="300" title="Tahiche Logo" alt="Tahiche Logo">
-  </a>
-</p>
-
----
-
 > **🚀 Portfolio Showcase & Architectural Modernization**
 > This repository is a technical demonstration project led and developed by **Rafael San José**.
 > It recreates the comprehensive modernization of a legacy PHP monolithic system (**FacturaScripts**) into a decoupled and secure hybrid platform.

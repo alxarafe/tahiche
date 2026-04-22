@@ -36,9 +36,6 @@ $configJson = FS_FOLDER . '/config/config.json';
 if (file_exists($configPhp)) {
     echo 'Using legacy config.php' . "\n";
     require_once $configPhp;
-} elseif (file_exists($configJson)) {
-    echo 'Using config/config.json via ConfigBridge' . "\n";
-    \Tahiche\Core\ConfigBridge::load(FS_FOLDER);
 } else {
     // Entorno CI: definir constantes mínimas desde variables de entorno
     echo 'No config found — using environment variables' . "\n";

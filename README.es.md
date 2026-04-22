@@ -1,11 +1,3 @@
-<p align="center">
-  <a href="https://tahiche.com">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Logo-Tahiche.png" width="300" title="Logo de Tahiche" alt="Logo de Tahiche">
-  </a>
-</p>
-
----
-
 > **🚀 Portfolio Showcase & Architectural Modernization**
 > Este repositorio es un proyecto de demostración técnica liderado y desarrollado por **Rafael San José**.
 > Recrea la modernización integral de un sistema PHP monolítico legado (**FacturaScripts**) hacia una plataforma híbrida desacoplada y segura.
