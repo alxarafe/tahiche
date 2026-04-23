@@ -25,7 +25,7 @@ class CountriesController extends ResourceController
 
     public function index(): void
     {
-        $this->privateCore();
+        parent::index();
     }
 
     protected function getListColumns(): array
