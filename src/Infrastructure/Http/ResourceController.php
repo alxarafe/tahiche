@@ -87,7 +87,14 @@ abstract class ResourceController extends AbstractResourceController
         // This ensures the translateStructure recursive function works correctly.
         $descriptor = json_decode(json_encode($descriptor), true);
 
+        // Apply modifiers to the whole descriptor
+        $descriptor = \Tahiche\Infrastructure\Base\Registry::apply('descriptor_' . static::class, $descriptor);
+
         $descriptor['struct'] = $descriptor['config'] ?? $this->structConfig;
+        
+        // Apply modifiers to the structure (fields, columns, tabs) specifically
+        $descriptor['struct'] = \Tahiche\Infrastructure\Base\Registry::apply('struct_' . static::class, $descriptor['struct']);
+
         $descriptor['activeTab'] = $this->getActiveTab();
         $descriptor['primaryColumn'] = $this->getModelClassName()::primaryColumn();
 
@@ -160,78 +167,49 @@ abstract class ResourceController extends AbstractResourceController
                     
                     $htmlTemplate = file_get_contents($file->getPathname());
                     
-                    // Customization: Clone Legacy ERP Layout
+                    // Customization: Use our external, extensible template
                     if ($key === 'layout_edit') {
                         $icon = $pageData['icon'] ?? 'fas fa-edit';
                         $title = $descriptor['title'];
                         
-                        $htmlTemplate = '
-                        <div class="alxarafe-resource-edit animate__animated animate__fadeIn">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div>
-                                    <div class="btn-group shadow-sm">
-                                        <button class="btn btn-sm btn-outline-secondary" onclick="history.back()">
-                                            <i class="fas fa-list me-1"></i> Todos
-                                        </button>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
-                                                <i class="fas fa-cog me-1"></i> Opciones
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item text-danger" href="#" id="btn-delete-link"><i class="fas fa-trash me-2"></i> Eliminar</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-sm btn-success ms-2 shadow-sm"><i class="fas fa-plus"></i> Nuevo</button>
-                                </div>
-                                <div class="text-end">
-                                    <h3 class="h4 mb-0 fw-bold text-dark">
-                                        <span id="alxarafe-title-text">' . $title . '</span>
-                                        <i class="' . $icon . ' text-primary ms-2" style="font-size: 1.5rem;"></i>
-                                    </h3>
-                                    <small class="text-primary fw-bold" id="alxarafe-subtitle-text"></small>
-                                </div>
-                            </div>
-
-                            <div class="card shadow-sm border-0 mb-4">
-                                <div class="card-body p-4">
-                                    <div id="edit-form-container">
-                                        <div class="text-center p-5">
-                                            <div class="spinner-border text-primary" role="status"></div>
-                                            <p class="mt-2 text-muted">[trans:loading_data]</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-footer bg-white p-3 border-top-0 d-flex justify-content-between align-items-center">
-                                    <button class="btn btn-outline-danger shadow-sm" id="btn-delete">
-                                        <i class="fas fa-trash me-1"></i> [trans:delete]
-                                    </button>
-                                    <div>
-                                        <button class="btn btn-secondary me-2 shadow-sm" onclick="location.reload()">
-                                            <i class="fas fa-undo me-1"></i> Deshacer
-                                        </button>
-                                        <button class="btn btn-primary px-4 shadow-sm" id="btn-save">
-                                            <i class="fas fa-save me-1"></i> [trans:save]
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <script>
-                            (function() {
-                                const observer = new MutationObserver((mutations) => {
-                                    const input = document.querySelector(\'input[name="descripcion"], input[name="nombre"]\');
-                                    if (input && input.value) {
-                                        const titleEl = document.getElementById(\'alxarafe-subtitle-text\');
-                                        if (titleEl && !titleEl.innerText) {
-                                            titleEl.innerText = input.value;
-                                            observer.disconnect();
-                                        }
-                                    }
-                                });
-                                observer.observe(document.body, { childList: true, subtree: true });
-                            })();
-                        </script>';
+                        // Load external template
+                        $overridePath = (defined('FS_FOLDER') ? FS_FOLDER : getcwd()) 
+                                       . '/src/Infrastructure/View/layout/edit.html';
+                        if (is_file($overridePath)) {
+                            $htmlTemplate = file_get_contents($overridePath);
+                        }
+                        
+                        // Replace page-level placeholders
+                        $htmlTemplate = str_replace('[page:title]', htmlspecialchars($title), $htmlTemplate);
+                        $htmlTemplate = str_replace('[page:icon]', htmlspecialchars($icon), $htmlTemplate);
+                        
+                        // Generate dynamic buttons HTML from head_buttons
+                        $extraButtonsHtml = '';
+                        $headButtons = $descriptor['config']['edit']['head_buttons'] ?? [];
+                        foreach ($headButtons as $btn) {
+                            // Skip standard buttons (save, delete, etc.)
+                            $btnName = $btn['name'] ?? '';
+                            if (in_array($btnName, ['save', 'delete', 'back', ''])) {
+                                continue;
+                            }
+                            $btnLabel = $btn['label'] ?? $btnName;
+                            $btnIcon = $btn['icon'] ?? '';
+                            $btnType = $btn['type'] ?? 'secondary';
+                            $btnAction = $btn['action'] ?? '';
+                            
+                            $iconHtml = $btnIcon ? '<i class="' . htmlspecialchars($btnIcon) . ' me-1"></i> ' : '';
+                            $extraButtonsHtml .= '<button type="button" class="btn btn-sm btn-' 
+                                . htmlspecialchars($btnType) . ' ms-2 shadow-sm" data-action="' 
+                                . htmlspecialchars($btnAction) . '">' 
+                                . $iconHtml . htmlspecialchars($btnLabel) . '</button>';
+                        }
+                        
+                        // Inject buttons into the template slots
+                        $htmlTemplate = str_replace(
+                            '<span id="alxarafe-extra-buttons"></span>',
+                            '<span id="alxarafe-extra-buttons">' . $extraButtonsHtml . '</span>',
+                            $htmlTemplate
+                        );
                     }
 
                     // Pre-translate tags [trans:key]

@@ -73,6 +73,13 @@ class Kernel
             Plugins::init();
         }
 
+        // Dispatcher Estrangulador: Si hay parámetro 'module', delegamos en la nueva arquitectura
+        // Esto permite probar los controladores nuevos sin tocar el menú original
+        if (isset($_GET['module'])) {
+            $this->dispatchModule($_GET['module'], $_GET['controller'] ?? '');
+            return;
+        }
+
         // Reconstrucción de la ruta legacy para FSKernel
         $legacyRoute = str_replace('/index.php', '', $url);
         if (empty($legacyRoute) || $legacyRoute === '/') {
