@@ -9,6 +9,17 @@
 #}
 {% extends "Master/MenuTemplate.html.twig" %}
 
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('alxarafe/assets/css/alxarafe.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('alxarafe/assets/css/alxarafe-content.css') }}"/>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('alxarafe/js/resource.bundle.js') }}"></script>
+{% endblock %}
+
 {% block body %}
     {{ resourceContent | raw }}
 {% endblock %}

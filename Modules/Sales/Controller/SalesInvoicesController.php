@@ -23,7 +23,7 @@ use Modules\Sales\Model\SalesInvoice;
 use Modules\Sales\Model\SalesInvoiceLine;
 use Tahiche\Infrastructure\Component\Container\DetailLines;
 use Alxarafe\ResourceController\Component\Fields\Select2;
-use Illuminate\Database\Capsule\Manager as DB;
+use FacturaScripts\Core\Base\DataBase;
 
 class SalesInvoicesController extends ResourceController
 {
@@ -47,26 +47,27 @@ class SalesInvoicesController extends ResourceController
 
     public function getEditFields(): array
     {
+        $db = new DataBase();
         $clientes = [];
         try {
-            foreach (DB::select('SELECT codcliente, nombre FROM clientes ORDER BY nombre') as $row) {
-                $clientes[$row->codcliente] = $row->nombre;
+            foreach ($db->select('SELECT codcliente, nombre FROM clientes ORDER BY nombre') as $row) {
+                $clientes[$row['codcliente']] = $row['nombre'];
             }
         } catch (\Throwable $e) {
         }
 
         $series = [];
         try {
-            foreach (DB::select('SELECT codserie, descripcion FROM series ORDER BY descripcion') as $row) {
-                $series[$row->codserie] = $row->descripcion;
+            foreach ($db->select('SELECT codserie, descripcion FROM series ORDER BY descripcion') as $row) {
+                $series[$row['codserie']] = $row['descripcion'];
             }
         } catch (\Throwable $e) {
         }
 
         $formasPago = [];
         try {
-            foreach (DB::select('SELECT codpago, descripcion FROM formaspago ORDER BY descripcion') as $row) {
-                $formasPago[$row->codpago] = $row->descripcion;
+            foreach ($db->select('SELECT codpago, descripcion FROM formaspago ORDER BY descripcion') as $row) {
+                $formasPago[$row['codpago']] = $row['descripcion'];
             }
         } catch (\Throwable $e) {
         }

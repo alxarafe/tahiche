@@ -2,12 +2,14 @@
   "name": "alxarafe/tahiche",
   "type": "project",
   "description": "Open source ERP software. Built on modern PHP and bootstrap 5. Easy and powerful.",
-  "homepage": "https://facturascripts.com",
+  "homepage": "https://github.com/Alxarafe/tahiche",
   "license": "LGPL-3.0-or-later",
   "authors": [
     {
-      "name": "Tahiche Team",
-      "email": "tahiche@alxarafe.com"
+      "name": "Rafael San José",
+      "email": "rsanjose@alxarafe.com",
+      "homepage": "https://alxarafe.es",
+      "role": "Developer"
     }
   ],
   "config": {
@@ -37,8 +39,8 @@
     "globalcitizen/php-iban": "4.*",
     "pragmarx/google2fa": "^8.0",
     "chillerlan/php-qrcode": "^4.0",
-    "alxarafe/resource-controller": "dev-main",
-    "alxarafe/resource-pdo": "dev-main"
+    "alxarafe/resource-controller": "0.2.1",
+    "alxarafe/resource-pdo": "0.1.1"
   },
   "require-dev": {
     "phpunit/phpunit": "9.*",
@@ -67,17 +69,8 @@
     "accounting"
   ],
   "support": {
-    "issues": "https://facturascripts.com/crear-issue",
-    "source": "https://github.com/Alxarafe/facturascripts",
-    "docs": "https://facturascripts.com/ayuda",
-    "chat": "https://discord.gg/qKm7j9AaJT"
+    "source": "https://github.com/Alxarafe/tahiche"
   },
-  "funding": [
-    {
-      "type": "other",
-      "url": "https://facturascripts.com/patrocinar"
-    }
-  ],
   "scripts": {
     "test": "vendor/bin/phpunit",
     "test:coverage": "vendor/bin/phpunit --coverage-html coverage",

@@ -129,10 +129,7 @@ class PdoEngine extends DataBaseEngine
         $tables = [];
         $results = $this->connection->query('SHOW TABLES;');
         foreach ($results as $row) {
-            $key = 'Tables_in_' . FS_DB_NAME;
-            if (isset($row[$key])) {
-                $tables[] = $row[$key];
-            }
+            $tables[] = reset($row);
         }
         return $tables;
     }

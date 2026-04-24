@@ -66,7 +66,10 @@ class MysqlPdoConnection implements DatabaseConnectionInterface
         $this->lastError = '';
         try {
             $stmt = $this->getPdo()->query($sql);
-            return $stmt !== false ? $stmt->fetchAll() : [];
+            if ($stmt === false) {
+                return [];
+            }
+            return $stmt->fetchAll();
         } catch (PDOException $e) {
             $this->lastError = $e->getMessage();
             return [];
@@ -77,7 +80,44 @@ class MysqlPdoConnection implements DatabaseConnectionInterface
     {
         $this->lastError = '';
         try {
-            $this->getPdo()->exec($sql);
+            $pdo = $this->getPdo();
+            $statements = [];
+            $currentStmt = '';
+            $inSingleQuote = false;
+            $inDoubleQuote = false;
+
+            $len = strlen($sql);
+            for ($i = 0; $i < $len; $i++) {
+                $char = $sql[$i];
+                if ($char === "'" && !$inDoubleQuote) {
+                    // Check for escaped quote \'
+                    if ($i === 0 || $sql[$i - 1] !== '\\') {
+                        $inSingleQuote = !$inSingleQuote;
+                    }
+                } elseif ($char === '"' && !$inSingleQuote) {
+                    if ($i === 0 || $sql[$i - 1] !== '\\') {
+                        $inDoubleQuote = !$inDoubleQuote;
+                    }
+                }
+
+                if ($char === ';' && !$inSingleQuote && !$inDoubleQuote) {
+                    $stmt = trim($currentStmt);
+                    if ($stmt !== '') {
+                        $statements[] = $stmt;
+                    }
+                    $currentStmt = '';
+                } else {
+                    $currentStmt .= $char;
+                }
+            }
+            $stmt = trim($currentStmt);
+            if ($stmt !== '') {
+                $statements[] = $stmt;
+            }
+
+            foreach ($statements as $s) {
+                $pdo->exec($s);
+            }
             return true;
         } catch (PDOException $e) {
             $this->lastError = $e->getMessage();
@@ -108,6 +148,11 @@ class MysqlPdoConnection implements DatabaseConnectionInterface
     public function beginTransaction(): bool
     {
         try {
+            // In MySQL/MariaDB, DDL statements cause an implicit COMMIT.
+            // If there's already an active transaction, don't try to open another.
+            if ($this->getPdo()->inTransaction()) {
+                return true;
+            }
             return $this->getPdo()->beginTransaction();
         } catch (PDOException $e) {
             $this->lastError = $e->getMessage();
@@ -118,6 +163,12 @@ class MysqlPdoConnection implements DatabaseConnectionInterface
     public function commit(): bool
     {
         try {
+            // In MySQL/MariaDB, DDL statements (CREATE TABLE, ALTER TABLE, etc.)
+            // cause an implicit COMMIT which closes the active transaction.
+            // After that, calling commit() again would throw an exception.
+            if (!$this->getPdo()->inTransaction()) {
+                return true;
+            }
             return $this->getPdo()->commit();
         } catch (PDOException $e) {
             $this->lastError = $e->getMessage();
@@ -128,6 +179,10 @@ class MysqlPdoConnection implements DatabaseConnectionInterface
     public function rollback(): bool
     {
         try {
+            // Same DDL implicit commit protection as commit().
+            if (!$this->getPdo()->inTransaction()) {
+                return true;
+            }
             return $this->getPdo()->rollBack();
         } catch (PDOException $e) {
             $this->lastError = $e->getMessage();

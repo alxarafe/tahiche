@@ -172,17 +172,14 @@ final class DataBase
      */
     public function connect(): bool
     {
-        if ($this->connected()) {
-            return true;
-        }
-
         $error = '';
         self::$link = self::$engine->connect($error);
         if ($error !== '') {
             self::$miniLog->critical($error);
+            return false;
         }
 
-        return $this->connected();
+        return true;
     }
 
     /**
@@ -192,7 +189,11 @@ final class DataBase
      */
     public function connected(): bool
     {
-        return (bool)self::$link;
+        if (self::$link) {
+            return true;
+        }
+
+        return $this->connect();
     }
 
     /**

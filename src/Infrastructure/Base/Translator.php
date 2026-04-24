@@ -14,6 +14,6 @@ class Translator
 {
     public static function trans(string $key, array $params = []): string
     {
-        return Tools::trans($key, $params);
+        return \FacturaScripts\Core\Tools::trans($key, $params);
     }
 }

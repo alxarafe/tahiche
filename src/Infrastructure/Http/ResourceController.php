@@ -67,7 +67,7 @@ abstract class ResourceController extends AbstractResourceController
 
             // 2. Package path (defaults shipped with resource-controller)
             $packagePath = dirname(
-                (new \ReflectionClass(DefaultRenderer::class))->getFileName(), 2
+                (new \ReflectionClass(DefaultRenderer::class))->getFileName(), 3
             ) . '/templates';
 
             $this->renderer = new DefaultRenderer([$projectPath, $packagePath]);
@@ -82,7 +82,12 @@ abstract class ResourceController extends AbstractResourceController
     protected function render(): void
     {
         $descriptor = $this->getViewDescriptor();
-        $descriptor['struct'] = $this->structConfig;
+        
+        // Force conversion to array to resolve all Field objects into plain arrays
+        // This ensures the translateStructure recursive function works correctly.
+        $descriptor = json_decode(json_encode($descriptor), true);
+
+        $descriptor['struct'] = $descriptor['config'] ?? $this->structConfig;
         $descriptor['activeTab'] = $this->getActiveTab();
         $descriptor['primaryColumn'] = $this->getModelClassName()::primaryColumn();
 
@@ -103,12 +108,196 @@ abstract class ResourceController extends AbstractResourceController
         // CSRF token (if available from the legacy system)
         $descriptor['csrfToken'] = $_COOKIE['multireqtoken'] ?? '';
 
-        // Select template based on mode
-        $template = ($this->mode === 'list') ? 'Resource/list' : 'Resource/edit';
+        $pageData = $this->getPageData();
+        $descriptor['pageData'] = $pageData;
+        $descriptor['title'] = $translator->translate($pageData['title'] ?? 'edit_record');
 
+        // Gather all translations needed by the JS engine
+        $descriptor['translations'] = [
+            'edit_record' => $descriptor['title'],
+            'save' => $translator->translate('save'),
+            'back' => $translator->translate('back'),
+            'loading_data' => $translator->translate('loading_data'),
+            'actions' => $translator->translate('actions'),
+            'no_records_found' => $translator->translate('no_records_found'),
+            'confirm_delete' => $translator->translate('confirm_delete'),
+            'delete' => $translator->translate('delete'),
+            'reload' => $translator->translate('reload'),
+        ];
+
+        // Recursively translate all labels and titles in the structure
+        // This is necessary because the pre-compiled JS engine uses labels directly
+        $this->translateStructure($descriptor['struct'], $translator);
+
+        // Adjust descriptor mapping for JavaScript Engine which expects 'config' instead of 'struct'
+        $descriptor['config'] = $descriptor['struct'];
+        unset($descriptor['struct']);
+        
+        // Select template based on mode
+        $template = ($this->mode === 'list') ? 'layout/list' : 'layout/edit';
+        
+        // Load all HTML templates into the descriptor so the JS engine can render declaratively
+        $descriptor['templates'] = [];
+        $packagePath = dirname((new \ReflectionClass(DefaultRenderer::class))->getFileName(), 3) . '/templates';
+        if (is_dir($packagePath)) {
+            $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($packagePath));
+            foreach ($iterator as $file) {
+                if ($file->isFile() && $file->getExtension() === 'html') {
+                    // Build the correct template key expected by the JS engine
+                    $relativePath = str_replace($packagePath . DIRECTORY_SEPARATOR, '', $file->getPathname());
+                    $relativePath = str_replace('\\', '/', $relativePath);
+                    
+                    if (str_starts_with($relativePath, 'component/form/fields/')) {
+                        // e.g. "component/form/fields/edit/text.html" -> "text_edit"
+                        $parts = explode('/', substr($relativePath, 0, -5));
+                        $mode = $parts[count($parts) - 2];
+                        $type = end($parts);
+                        $key = $type . '_' . $mode;
+                    } else {
+                        // e.g. "layout/list.html" -> "layout_list"
+                        $key = str_replace('/', '_', substr($relativePath, 0, -5));
+                    }
+                    
+                    $htmlTemplate = file_get_contents($file->getPathname());
+                    
+                    // Customization: Clone Legacy ERP Layout
+                    if ($key === 'layout_edit') {
+                        $icon = $pageData['icon'] ?? 'fas fa-edit';
+                        $title = $descriptor['title'];
+                        
+                        $htmlTemplate = '
+                        <div class="alxarafe-resource-edit animate__animated animate__fadeIn">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <div class="btn-group shadow-sm">
+                                        <button class="btn btn-sm btn-outline-secondary" onclick="history.back()">
+                                            <i class="fas fa-list me-1"></i> Todos
+                                        </button>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                                <i class="fas fa-cog me-1"></i> Opciones
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item text-danger" href="#" id="btn-delete-link"><i class="fas fa-trash me-2"></i> Eliminar</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-sm btn-success ms-2 shadow-sm"><i class="fas fa-plus"></i> Nuevo</button>
+                                </div>
+                                <div class="text-end">
+                                    <h3 class="h4 mb-0 fw-bold text-dark">
+                                        <span id="alxarafe-title-text">' . $title . '</span>
+                                        <i class="' . $icon . ' text-primary ms-2" style="font-size: 1.5rem;"></i>
+                                    </h3>
+                                    <small class="text-primary fw-bold" id="alxarafe-subtitle-text"></small>
+                                </div>
+                            </div>
+
+                            <div class="card shadow-sm border-0 mb-4">
+                                <div class="card-body p-4">
+                                    <div id="edit-form-container">
+                                        <div class="text-center p-5">
+                                            <div class="spinner-border text-primary" role="status"></div>
+                                            <p class="mt-2 text-muted">[trans:loading_data]</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-white p-3 border-top-0 d-flex justify-content-between align-items-center">
+                                    <button class="btn btn-outline-danger shadow-sm" id="btn-delete">
+                                        <i class="fas fa-trash me-1"></i> [trans:delete]
+                                    </button>
+                                    <div>
+                                        <button class="btn btn-secondary me-2 shadow-sm" onclick="location.reload()">
+                                            <i class="fas fa-undo me-1"></i> Deshacer
+                                        </button>
+                                        <button class="btn btn-primary px-4 shadow-sm" id="btn-save">
+                                            <i class="fas fa-save me-1"></i> [trans:save]
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            (function() {
+                                const observer = new MutationObserver((mutations) => {
+                                    const input = document.querySelector(\'input[name="descripcion"], input[name="nombre"]\');
+                                    if (input && input.value) {
+                                        const titleEl = document.getElementById(\'alxarafe-subtitle-text\');
+                                        if (titleEl && !titleEl.innerText) {
+                                            titleEl.innerText = input.value;
+                                            observer.disconnect();
+                                        }
+                                    }
+                                });
+                                observer.observe(document.body, { childList: true, subtree: true });
+                            })();
+                        </script>';
+                    }
+
+                    // Pre-translate tags [trans:key]
+                    $htmlTemplate = preg_replace_callback('/\[trans:([^\]]+)\]/', function($matches) use ($translator) {
+                        return $translator->translate($matches[1]);
+                    }, $htmlTemplate);
+                    
+                    $descriptor['templates'][$key] = $htmlTemplate;
+                }
+            }
+        }
+        
         // Render inner content only — the Kernel wraps it with the legacy layout
         $renderer = $this->getRenderer();
-        echo $renderer->render($template, $descriptor);
+        $innerHtml = $renderer->render($template, $descriptor);
+        
+        $uniqueId = 'alxarafe-resource-' . uniqid();
+        $html = "<div id='{$uniqueId}'>\n{$innerHtml}\n</div>";
+        
+        // Inject the configuration and initialization script for the frontend engine
+        $jsonConfig = json_encode($descriptor, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
+        $script = "
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var container = document.getElementById('{$uniqueId}').querySelector('.alxarafe-resource-list, .alxarafe-resource-edit');
+                if (!container) {
+                    console.error('[AlxarafeResource] Container not found for {$uniqueId}.');
+                    return;
+                }
+                
+                var ResourceClass = null;
+                if (typeof window.AlxarafeResource === 'function') {
+                    ResourceClass = window.AlxarafeResource; // default export or no wrapper
+                } else if (window.AlxarafeResource && typeof window.AlxarafeResource.AlxarafeResource === 'function') {
+                    ResourceClass = window.AlxarafeResource.AlxarafeResource; // named export in UMD
+                } else if (typeof AlxarafeResource === 'function') {
+                    ResourceClass = AlxarafeResource;
+                }
+                
+                if (ResourceClass) {
+                    new ResourceClass(container, {$jsonConfig});
+                } else {
+                    console.error('[AlxarafeResource] JS Engine class not found in window.');
+                }
+            });
+        </script>";
+        
+        echo $html . $script;
+    }
+
+    /**
+     * Override processResults to inject an 'id' field to satisfy the pre-compiled JS frontend engine
+     * which looks for 'id' or 'code' rather than dynamic primary columns.
+     */
+    protected function processResults(array $items, array $columns): array
+    {
+        $results = parent::processResults($items, $columns);
+        $primaryKey = $this->getModelClassName()::primaryColumn();
+        
+        foreach ($results as &$row) {
+            if (!isset($row['id']) && isset($row[$primaryKey])) {
+                $row['id'] = $row[$primaryKey];
+            }
+        }
+        
+        return $results;
     }
 
     /**
@@ -132,7 +321,6 @@ abstract class ResourceController extends AbstractResourceController
         $descriptor['primaryColumn'] = $this->getModelClassName()::primaryColumn();
         $descriptor['listData'] = $this->fetchListData($tabId);
         $descriptor['messages'] = [];
-        
         // Disable main buttons and headers for fragments
         $descriptor['struct']['list']['head_buttons'] = [];
         $descriptor['isFragment'] = true;
@@ -143,7 +331,7 @@ abstract class ResourceController extends AbstractResourceController
         };
         $descriptor['csrfToken'] = $_COOKIE['multireqtoken'] ?? '';
 
-        return $this->getRenderer()->render('Resource/list', $descriptor);
+        return $this->getRenderer()->render('layout/list', $descriptor);
     }
 
     /**
@@ -208,5 +396,20 @@ abstract class ResourceController extends AbstractResourceController
         }
 
         return $base;
+    }
+
+    private function translateStructure(array &$struct, $translator): void
+    {
+        foreach ($struct as $key => &$value) {
+            if (is_array($value)) {
+                if (isset($value['label']) && is_string($value['label'])) {
+                    $value['label'] = $translator->translate($value['label']);
+                }
+                if (isset($value['title']) && is_string($value['title'])) {
+                    $value['title'] = $translator->translate($value['title']);
+                }
+                $this->translateStructure($value, $translator);
+            }
+        }
     }
 }

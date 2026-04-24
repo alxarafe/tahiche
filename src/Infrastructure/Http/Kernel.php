@@ -38,6 +38,11 @@ class Kernel
 
     private function setup(): void
     {
+        // Ensure the working directory is the application root
+        if (defined('APP_PATH')) {
+            chdir(APP_PATH);
+        }
+
         // 1. Configuración del entorno de ejecución
         @set_time_limit(0);
         ignore_user_abort(true);
@@ -57,13 +62,9 @@ class Kernel
 
     /**
      * Map of legacy controllers to modern module controllers
+     * (Currently disabled to restore legacy behavior)
      */
-    private const LEGACY_ROUTE_MAP = [
-        '/ListPais'       => ['module' => 'Trading', 'controller' => 'Countries'],
-        '/ListFabricante' => ['module' => 'Trading', 'controller' => 'Manufacturers'],
-        '/ListAlmacen'    => ['module' => 'Trading', 'controller' => 'Warehouses'],
-        '/ListImpuesto'   => ['module' => 'Trading', 'controller' => 'Taxes'],
-    ];
+    private const LEGACY_ROUTE_MAP = [];
 
     private function run(string $url): void
     {
@@ -72,26 +73,10 @@ class Kernel
             Plugins::init();
         }
 
-        // Dispatcher Estrangulador: Si hay parámetro 'module', delegamos en la nueva arquitectura
-        if (isset($_GET['module'])) {
-            $this->dispatchModule($_GET['module'], $_GET['controller'] ?? '');
-            return;
-        }
-
         // Reconstrucción de la ruta legacy para FSKernel
         $legacyRoute = str_replace('/index.php', '', $url);
         if (empty($legacyRoute) || $legacyRoute === '/') {
             $legacyRoute = isset($_GET['controller']) ? '/' . $_GET['controller'] : '/';
-        }
-
-        // Intercept legacy routes and redirect to new architecture
-        if (isset(self::LEGACY_ROUTE_MAP[$legacyRoute])) {
-            $mapped = self::LEGACY_ROUTE_MAP[$legacyRoute];
-            // Fake the GET parameters so controllers that rely on them work
-            $_GET['module'] = $mapped['module'];
-            $_GET['controller'] = $mapped['controller'];
-            $this->dispatchModule($mapped['module'], $mapped['controller']);
-            return;
         }
 
         FSKernel::run($legacyRoute);

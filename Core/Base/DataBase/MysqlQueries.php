@@ -277,7 +277,9 @@ class MysqlQueries implements DataBaseQueries
         $sql = '';
         foreach ($xmlCons as $res) {
             $value = strtolower($res['constraint']);
-            if (false !== strpos($value, 'primary key') || FS_DB_FOREIGN_KEYS) {
+            if (str_starts_with($value, 'primary key')) {
+                $sql .= ', PRIMARY KEY ' . substr($res['constraint'], 11);
+            } elseif (defined('FS_DB_FOREIGN_KEYS') && FS_DB_FOREIGN_KEYS) {
                 $sql .= ', CONSTRAINT ' . $res['name'] . ' ' . $res['constraint'];
             }
         }
@@ -304,8 +306,8 @@ class MysqlQueries implements DataBaseQueries
      */
     private function fixPostgresql(string $sql): string
     {
-        $search = ['::character varying', 'without time zone', 'now()', 'CURRENT_TIMESTAMP', 'CURRENT_DATE'];
-        $replace = ['', '', "'00:00'", "'" . date('Y-m-d') . " 00:00:00'", date("'Y-m-d'")];
+        $search = ['::character varying', 'character varying', 'double precision', 'without time zone', 'now()', 'CURRENT_TIMESTAMP', 'CURRENT_DATE'];
+        $replace = ['', 'VARCHAR', 'DOUBLE', '', "'00:00'", "'" . date('Y-m-d') . " 00:00:00'", date("'Y-m-d'")];
         return str_replace($search, $replace, $sql);
     }
 
