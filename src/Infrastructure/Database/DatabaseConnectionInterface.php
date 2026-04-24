@@ -47,10 +47,10 @@ interface DatabaseConnectionInterface
     /**
      * Escapes a string for use in a query.
      *
-     * @param string $value
+     * @param mixed $value
      * @return string
      */
-    public function escape(string $value): string;
+    public function escape(mixed $value): string;
 
     /**
      * Escapes a column identifier.

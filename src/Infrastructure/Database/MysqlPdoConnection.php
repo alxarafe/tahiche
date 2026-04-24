@@ -37,7 +37,7 @@ class MysqlPdoConnection implements DatabaseConnectionInterface
             ];
 
             $this->pdo = new PDO($this->dsn, $this->username, $this->password, $options);
-            
+
             // Disable foreign key checks if defined in FacturaScripts
             if (defined('FS_DB_FOREIGN_KEYS') && false === FS_DB_FOREIGN_KEYS) {
                 $this->pdo->exec('SET foreign_key_checks = 0;');
@@ -85,13 +85,13 @@ class MysqlPdoConnection implements DatabaseConnectionInterface
         }
     }
 
-    public function escape(string $value): string
+    public function escape(mixed $value): string
     {
-        $quoted = $this->getPdo()->quote($value);
+        $quoted = $this->getPdo()->quote((string) $value);
         if ($quoted === false) {
-            return $value;
+            return (string) $value;
         }
-        
+
         // Remove the outer quotes added by PDO::quote(), since FacturaScripts already wraps variables in single quotes
         return substr($quoted, 1, -1);
     }

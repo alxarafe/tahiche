@@ -23,9 +23,17 @@ class ManufacturersController extends ResourceController
         return Manufacturer::class;
     }
 
-    public function index(): void
+    public function getPageData(): array
     {
-        parent::index();
+        return [
+            'name'       => 'ListFabricante',
+            'title'      => 'manufacturers',
+            'icon'       => 'fa-solid fa-industry',
+            'menu'       => 'warehouse',
+            'submenu'    => null,
+            'showonmenu' => true,
+            'ordernum'   => 100,
+        ];
     }
 
     protected function getListColumns(): array

@@ -23,9 +23,17 @@ class CountriesController extends ResourceController
         return Country::class;
     }
 
-    public function index(): void
+    public function getPageData(): array
     {
-        parent::index();
+        return [
+            'name'       => 'ListPais',
+            'title'      => 'countries',
+            'icon'       => 'fa-solid fa-globe-americas',
+            'menu'       => 'admin',
+            'submenu'    => null,
+            'showonmenu' => true,
+            'ordernum'   => 100,
+        ];
     }
 
     protected function getListColumns(): array
@@ -44,5 +52,18 @@ class CountriesController extends ResourceController
             new Fields\Text('nombre', 'name', ['required' => true]),
             new Fields\Text('codiso', 'iso_code'),
         ];
+    }
+
+    protected function buildConfiguration(): void
+    {
+        parent::buildConfiguration();
+
+        if ($this->mode === 'edit' && $this->recordId && $this->recordId !== 'new') {
+            $provincesController = new ProvincesController();
+            $provincesHtml = $provincesController->renderListFragment(['codpais' => $this->recordId]);
+
+            $this->addEditSection('provinces', 'provinces');
+            $this->addEditField('provinces', new Fields\StaticText('', ['content' => $provincesHtml, 'col' => 'col-12']));
+        }
     }
 }

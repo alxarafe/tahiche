@@ -1,0 +1,14 @@
+{#
+/**
+ * ResourceBridge.html.twig — Plantilla puente para controladores modernos.
+ *
+ * Extiende el layout legacy (MenuTemplate) para mantener la barra de
+ * navegación, CSS/JS y la coherencia visual con el resto del ERP.
+ * El contenido del ResourceController se inyecta en el bloque body.
+ */
+#}
+{% extends "Master/MenuTemplate.html.twig" %}
+
+{% block body %}
+    {{ resourceContent | raw }}
+{% endblock %}

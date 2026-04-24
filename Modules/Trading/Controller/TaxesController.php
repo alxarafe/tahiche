@@ -20,4 +20,17 @@ class TaxesController extends ResourceController
     {
         return Tax::class;
     }
+
+    public function getPageData(): array
+    {
+        return [
+            'name'       => 'ListImpuesto',
+            'title'      => 'taxes',
+            'icon'       => 'fa-solid fa-percent',
+            'menu'       => 'accounting',
+            'submenu'    => null,
+            'showonmenu' => true,
+            'ordernum'   => 100,
+        ];
+    }
 }

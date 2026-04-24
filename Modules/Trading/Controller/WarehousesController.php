@@ -23,9 +23,17 @@ class WarehousesController extends ResourceController
         return Warehouse::class;
     }
 
-    public function index(): void
+    public function getPageData(): array
     {
-        parent::index();
+        return [
+            'name'       => 'ListAlmacen',
+            'title'      => 'warehouses',
+            'icon'       => 'fa-solid fa-warehouse',
+            'menu'       => 'warehouse',
+            'submenu'    => null,
+            'showonmenu' => true,
+            'ordernum'   => 100,
+        ];
     }
 
     protected function getListColumns(): array
