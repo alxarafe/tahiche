@@ -1,0 +1,44 @@
+:root {
+    --bs-primary: #1A5276;
+    --bs-secondary: #D4A017;
+    --bs-success: #27AE60;
+    --bs-danger: #C0392B;
+    --bs-body-font-family: 'Inter', sans-serif;
+}
+
+/* Tahiche Modern Adjustments */
+body {
+    background-color: #FAFAFA;
+    color: #2C3E50;
+    font-family: 'Inter', sans-serif;
+}
+
+.bg-primary {
+    background-color: var(--bs-primary) !important;
+}
+
+.text-primary {
+    color: var(--bs-primary) !important;
+}
+
+.btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+.btn-primary:hover {
+    background-color: #154360;
+    border-color: #154360;
+}
+
+.navbar.bg-primary {
+    background: linear-gradient(90deg, #1A5276 0%, #2980B9 100%) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Make card headers slightly modern */
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    font-weight: 600;
+}

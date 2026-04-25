@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+    <defs>
+        <linearGradient id="oceanGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="100%" stop-color="#d4ebf2"/>
+        </linearGradient>
+    </defs>
+    <!-- Abstract Volcano/Wave Symbol -->
+    <path d="M 15 45 L 30 15 L 45 45 Z" fill="none" stroke="#D4A017" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M 30 45 L 45 25 L 60 45 Z" fill="none" stroke="#2E86C1" stroke-width="4" stroke-linejoin="round"/>
+    
+    <!-- Text -->
+    <text x="75" y="42" font-family="'Inter', sans-serif" font-weight="bold" font-size="32" fill="url(#oceanGradient)">Tahiche</text>
+</svg>

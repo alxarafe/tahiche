@@ -138,9 +138,9 @@ class ProductsController extends ResourceController
         }
 
         $badges = [
-            'variantes' => fn() => (new \FacturaScripts\Dinamic\Model\Variante())->count([\FacturaScripts\Core\Where::eq('idproducto', $id)]),
-            'stock' => fn() => (new \FacturaScripts\Dinamic\Model\Stock())->count([\FacturaScripts\Core\Where::eq('idproducto', $id)]),
-            'proveedores' => fn() => (new \FacturaScripts\Dinamic\Model\ProductoProveedor())->count([\FacturaScripts\Core\Where::eq('idproducto', $id)]),
+            'variantes' => fn() => (new \FacturaScripts\Core\Model\Variante())->count([\FacturaScripts\Core\Where::eq('idproducto', $id)]),
+            'stock' => fn() => (new \FacturaScripts\Core\Model\Stock())->count([\FacturaScripts\Core\Where::eq('idproducto', $id)]),
+            'proveedores' => fn() => (new \FacturaScripts\Core\Model\ProductoProveedor())->count([\FacturaScripts\Core\Where::eq('idproducto', $id)]),
         ];
 
         // Añadimos badges dinámicos para las pestañas de los plugins legacy

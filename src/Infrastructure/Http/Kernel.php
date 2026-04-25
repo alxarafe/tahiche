@@ -16,7 +16,7 @@ use FacturaScripts\Core\Lib\MenuManager;
 use FacturaScripts\Core\DataSrc\Empresas;
 use FacturaScripts\Core\Session;
 use FacturaScripts\Core\Model\User;
-use FacturaScripts\Dinamic\Model\User as DinUser;
+use FacturaScripts\Core\Model\User as DinUser;
 
 /**
  * Kernel de la Arquitectura Hexagonal (Strangler Fig Router).
@@ -200,7 +200,7 @@ class Kernel
                 $this->user = $user;
                 $this->empresa = Empresas::default();
                 $this->title = (new \FacturaScripts\Core\Translator())->trans($pageData['title'] ?? '');
-                $this->multiRequestProtection = new \FacturaScripts\Dinamic\Lib\MultiRequestProtection();
+                $this->multiRequestProtection = new \FacturaScripts\Core\Lib\MultiRequestProtection();
             }
 
             public function url(): string
