@@ -97,6 +97,13 @@ class ProductsController extends ResourceController
                 'badge' => $this->getBadgeCount('proveedores', $badges),
                 'fields' => $this->buildRelatedTable('\\FacturaScripts\\Dinamic\\Model\\ProductoProveedor', 'idproducto', $id),
             ];
+
+            $tabs['barcodes'] = [
+                'label' => Tools::trans('barcode'),
+                'icon' => 'fas fa-barcode',
+                'badge' => $this->getBadgeCount('barcodes', $badges),
+                'fields' => $this->buildRelatedTable(\Modules\Barcodes\Model\ProductBarcode::class, 'idproducto', $id),
+            ];
         }
 
         // --- Pestañas inyectadas por plugins legacy ---
@@ -143,6 +150,7 @@ class ProductsController extends ResourceController
             'variantes' => fn() => (new \FacturaScripts\Core\Model\Variante())->count([\FacturaScripts\Core\Where::eq('idproducto', $id)]),
             'stock' => fn() => (new \FacturaScripts\Core\Model\Stock())->count([\FacturaScripts\Core\Where::eq('idproducto', $id)]),
             'proveedores' => fn() => (new \FacturaScripts\Core\Model\ProductoProveedor())->count([\FacturaScripts\Core\Where::eq('idproducto', $id)]),
+            'barcodes' => fn() => (new \Modules\Barcodes\Model\ProductBarcode())->count([\FacturaScripts\Core\Where::eq('idproducto', $id)]),
         ];
 
         // Añadimos badges dinámicos para las pestañas de los plugins legacy
