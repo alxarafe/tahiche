@@ -323,24 +323,6 @@ class Producto extends ModelClass
         return 'productos';
     }
 
-    public function loadFromCode($code, array $where = [], array $order = []): bool
-    {
-        $loaded = parent::loadFromCode($code, $where, $order);
-        if ($loaded) {
-            return true;
-        }
-
-        if (empty($where) && class_exists('\\Modules\\Barcodes\\Model\\ProductBarcode')) {
-            $result = \Modules\Barcodes\Model\ProductBarcode::findByBarcode((string)$code);
-            if ($result) {
-                $this->loadFromData($result['producto']->toArray());
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public function test(): bool
     {
         $this->descripcion = Tools::noHtml($this->descripcion);
