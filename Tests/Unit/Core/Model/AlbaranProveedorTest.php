@@ -21,10 +21,10 @@ namespace Tahiche\Test\Core\Model;
 
 use Tahiche\Core\DataSrc\Impuestos;
 use Tahiche\Core\Lib\Calculator;
-use Tahiche\Core\Model\AlbaranProveedor;
-use Tahiche\Core\Model\Almacen;
-use Tahiche\Core\Model\Empresa;
-use Tahiche\Core\Model\Stock;
+use FacturaScripts\Dinamic\Model\AlbaranProveedor;
+use FacturaScripts\Dinamic\Model\Almacen;
+use FacturaScripts\Dinamic\Model\Empresa;
+use FacturaScripts\Dinamic\Model\Stock;
 use Tahiche\Core\Tools;
 use Tahiche\Core\Where;
 use Tahiche\Test\Traits\DefaultSettingsTrait;

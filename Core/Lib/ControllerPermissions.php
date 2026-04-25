@@ -20,8 +20,8 @@
 namespace FacturaScripts\Core\Lib;
 
 use FacturaScripts\Core\Cache;
-use FacturaScripts\Core\Model\RoleAccess;
-use FacturaScripts\Core\Model\User;
+use FacturaScripts\Dinamic\Model\RoleAccess;
+use FacturaScripts\Dinamic\Model\User;
 
 /**
  * Manages user permissions for controller access and operations.

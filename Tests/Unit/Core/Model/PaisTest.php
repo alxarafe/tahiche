@@ -19,7 +19,7 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\Pais;
+use FacturaScripts\Dinamic\Model\Pais;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use PHPUnit\Framework\TestCase;
 

@@ -20,8 +20,8 @@
 namespace Tahiche\Test\Core\Model;
 
 use Tahiche\Core\DataSrc\Ejercicios;
-use Tahiche\Core\Model\Ejercicio;
-use Tahiche\Core\Model\RegularizacionImpuesto;
+use FacturaScripts\Dinamic\Model\Ejercicio;
+use FacturaScripts\Dinamic\Model\RegularizacionImpuesto;
 use Tahiche\Test\Traits\DefaultSettingsTrait;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use Tahiche\Test\Traits\RandomDataTrait;

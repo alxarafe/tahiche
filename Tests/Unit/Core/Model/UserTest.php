@@ -19,10 +19,10 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\Page;
-use Tahiche\Core\Model\Role;
-use Tahiche\Core\Model\RoleAccess;
-use Tahiche\Core\Model\User;
+use FacturaScripts\Dinamic\Model\Page;
+use FacturaScripts\Dinamic\Model\Role;
+use FacturaScripts\Dinamic\Model\RoleAccess;
+use FacturaScripts\Dinamic\Model\User;
 use Tahiche\Core\Tools;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use PHPUnit\Framework\TestCase;

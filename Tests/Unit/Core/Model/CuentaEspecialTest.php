@@ -19,7 +19,7 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\CuentaEspecial;
+use FacturaScripts\Dinamic\Model\CuentaEspecial;
 use Tahiche\Core\Tools;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use PHPUnit\Framework\TestCase;

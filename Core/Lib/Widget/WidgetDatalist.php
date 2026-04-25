@@ -20,7 +20,7 @@
 namespace FacturaScripts\Core\Lib\Widget;
 
 use FacturaScripts\Core\Lib\AssetManager;
-use FacturaScripts\Core\Model\CodeModel;
+use FacturaScripts\Dinamic\Model\CodeModel;
 use FacturaScripts\Core\Tools;
 
 /**

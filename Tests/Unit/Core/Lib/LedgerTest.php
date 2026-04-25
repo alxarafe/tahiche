@@ -20,8 +20,8 @@
 namespace Tahiche\Test\Core\Lib;
 
 use Tahiche\Core\Lib\Accounting\Ledger;
-use Tahiche\Core\Model\Asiento;
-use Tahiche\Core\Model\Ejercicio;
+use FacturaScripts\Dinamic\Model\Asiento;
+use FacturaScripts\Dinamic\Model\Ejercicio;
 use Tahiche\Core\Where;
 use Tahiche\Dinamic\Model\Subcuenta;
 use Tahiche\Test\Traits\DefaultSettingsTrait;

@@ -28,7 +28,7 @@ use Tahiche\Core\Lib\InvoiceOperation;
 use Tahiche\Core\Lib\ProductType;
 use Tahiche\Core\Lib\RegimenIVA;
 use Tahiche\Core\Lib\Vies;
-use Tahiche\Core\Model\FacturaProveedor;
+use FacturaScripts\Dinamic\Model\FacturaProveedor;
 use Tahiche\Core\Tools;
 use Tahiche\Test\Traits\DefaultSettingsTrait;
 use Tahiche\Test\Traits\LogErrorsTrait;

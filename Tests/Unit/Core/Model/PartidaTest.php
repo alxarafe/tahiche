@@ -19,9 +19,9 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\Asiento;
-use Tahiche\Core\Model\Ejercicio;
-use Tahiche\Core\Model\Partida;
+use FacturaScripts\Dinamic\Model\Asiento;
+use FacturaScripts\Dinamic\Model\Ejercicio;
+use FacturaScripts\Dinamic\Model\Partida;
 use Tahiche\Core\Where;
 use Tahiche\Dinamic\Model\Subcuenta;
 use Tahiche\Test\Traits\DefaultSettingsTrait;

@@ -1,0 +1,21 @@
+meta {
+  name: 04-delete-supplier
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}{{apiBase}}/proveedores/{{testSupplierId}}
+  body: none
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+}
+
+tests {
+  test("Status 200 (deleted)", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

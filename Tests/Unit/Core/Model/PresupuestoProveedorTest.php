@@ -21,9 +21,9 @@ namespace Tahiche\Test\Core\Model;
 
 use Tahiche\Core\DataSrc\Impuestos;
 use Tahiche\Core\Lib\Calculator;
-use Tahiche\Core\Model\Almacen;
-use Tahiche\Core\Model\Empresa;
-use Tahiche\Core\Model\PresupuestoProveedor;
+use FacturaScripts\Dinamic\Model\Almacen;
+use FacturaScripts\Dinamic\Model\Empresa;
+use FacturaScripts\Dinamic\Model\PresupuestoProveedor;
 use Tahiche\Core\Tools;
 use Tahiche\Test\Traits\DefaultSettingsTrait;
 use Tahiche\Test\Traits\LogErrorsTrait;

@@ -19,8 +19,8 @@
 
 namespace Tahiche\Test\Core\Model\Join;
 
-use Tahiche\Core\Model\Join\VarianteProducto;
-use Tahiche\Core\Model\Producto;
+use FacturaScripts\Dinamic\Model\Join\VarianteProducto;
+use FacturaScripts\Dinamic\Model\Producto;
 use Tahiche\Core\Where;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use PHPUnit\Framework\TestCase;

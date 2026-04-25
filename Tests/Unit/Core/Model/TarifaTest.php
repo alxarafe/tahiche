@@ -19,9 +19,9 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\GrupoClientes;
-use Tahiche\Core\Model\PresupuestoCliente;
-use Tahiche\Core\Model\Tarifa;
+use FacturaScripts\Dinamic\Model\GrupoClientes;
+use FacturaScripts\Dinamic\Model\PresupuestoCliente;
+use FacturaScripts\Dinamic\Model\Tarifa;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use Tahiche\Test\Traits\RandomDataTrait;
 use PHPUnit\Framework\TestCase;

@@ -21,7 +21,7 @@ namespace FacturaScripts\Core;
 
 use FacturaScripts\Core\Base\MiniLog;
 use FacturaScripts\Core\DataSrc\Divisas;
-use FacturaScripts\Core\Model\Settings;
+use FacturaScripts\Dinamic\Model\Settings;
 
 /**
  * Una clase con funciones útiles para el desarrollo de FacturaScripts.

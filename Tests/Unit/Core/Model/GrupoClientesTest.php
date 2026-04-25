@@ -19,7 +19,7 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\GrupoClientes;
+use FacturaScripts\Dinamic\Model\GrupoClientes;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use PHPUnit\Framework\TestCase;
 

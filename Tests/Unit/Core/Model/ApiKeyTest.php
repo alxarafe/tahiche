@@ -19,8 +19,8 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\ApiAccess;
-use Tahiche\Core\Model\ApiKey;
+use FacturaScripts\Dinamic\Model\ApiAccess;
+use FacturaScripts\Dinamic\Model\ApiKey;
 use Tahiche\Core\Tools;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use PHPUnit\Framework\TestCase;

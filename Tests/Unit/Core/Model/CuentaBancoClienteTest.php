@@ -19,7 +19,7 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\CuentaBancoCliente;
+use FacturaScripts\Dinamic\Model\CuentaBancoCliente;
 use Tahiche\Core\Tools;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use Tahiche\Test\Traits\RandomDataTrait;

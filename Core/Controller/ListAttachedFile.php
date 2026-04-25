@@ -20,7 +20,7 @@
 namespace FacturaScripts\Core\Controller;
 
 use FacturaScripts\Core\Lib\ExtendedController\ListController;
-use FacturaScripts\Core\Model\AttachedFile;
+use FacturaScripts\Dinamic\Model\AttachedFile;
 use FacturaScripts\Core\Tools;
 use ZipArchive;
 

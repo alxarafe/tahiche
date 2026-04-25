@@ -19,7 +19,7 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\Ejercicio;
+use FacturaScripts\Dinamic\Model\Ejercicio;
 use Tahiche\Test\Traits\DefaultSettingsTrait;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use Tahiche\Test\Traits\RandomDataTrait;

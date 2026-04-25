@@ -21,9 +21,9 @@ namespace Tahiche\Test\Core\Model;
 
 use Tahiche\Core\DataSrc\Impuestos;
 use Tahiche\Core\Lib\ProductType;
-use Tahiche\Core\Model\Atributo;
-use Tahiche\Core\Model\Producto;
-use Tahiche\Core\Model\Variante;
+use FacturaScripts\Dinamic\Model\Atributo;
+use FacturaScripts\Dinamic\Model\Producto;
+use FacturaScripts\Dinamic\Model\Variante;
 use Tahiche\Core\Tools;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use PHPUnit\Framework\TestCase;

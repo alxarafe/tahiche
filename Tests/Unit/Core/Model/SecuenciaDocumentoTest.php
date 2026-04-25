@@ -21,10 +21,10 @@ namespace Tahiche\Test\Core\Model;
 
 use Tahiche\Core\Base\DataBase\DataBaseWhere;
 use Tahiche\Core\DataSrc\Ejercicios;
-use Tahiche\Core\Model\Cliente;
-use Tahiche\Core\Model\Ejercicio;
-use Tahiche\Core\Model\PresupuestoCliente;
-use Tahiche\Core\Model\SecuenciaDocumento;
+use FacturaScripts\Dinamic\Model\Cliente;
+use FacturaScripts\Dinamic\Model\Ejercicio;
+use FacturaScripts\Dinamic\Model\PresupuestoCliente;
+use FacturaScripts\Dinamic\Model\SecuenciaDocumento;
 use Tahiche\Core\Tools;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use Tahiche\Test\Traits\RandomDataTrait;

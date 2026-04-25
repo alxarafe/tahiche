@@ -21,7 +21,7 @@ namespace FacturaScripts\Core\Lib\Email;
 
 use FacturaScripts\Core\DataSrc\Empresas;
 use FacturaScripts\Core\Html;
-use FacturaScripts\Core\Model\User;
+use FacturaScripts\Dinamic\Model\User;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\Validator;
 use FacturaScripts\Dinamic\Model\AttachedFile;

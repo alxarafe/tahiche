@@ -20,7 +20,7 @@
 namespace Tahiche\Test\Core\Model;
 
 use Tahiche\Core\Lib\Vies;
-use Tahiche\Core\Model\Cliente;
+use FacturaScripts\Dinamic\Model\Cliente;
 use Tahiche\Core\Tools;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use PHPUnit\Framework\TestCase;

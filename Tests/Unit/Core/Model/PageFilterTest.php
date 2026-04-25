@@ -19,7 +19,7 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\PageFilter;
+use FacturaScripts\Dinamic\Model\PageFilter;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use Tahiche\Test\Traits\RandomDataTrait;
 use PHPUnit\Framework\TestCase;

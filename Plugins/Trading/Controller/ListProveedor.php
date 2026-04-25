@@ -1,0 +1,111 @@
+<?php
+/**
+ * This file is part of FacturaScripts
+ * Copyright (C) 2017-2023 Carlos Garcia Gomez <carlos@facturascripts.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+namespace FacturaScripts\Plugins\Trading\Controller;
+
+use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
+use FacturaScripts\Core\DataSrc\FormasPago;
+use FacturaScripts\Core\DataSrc\Paises;
+use FacturaScripts\Core\DataSrc\Retenciones;
+use FacturaScripts\Core\DataSrc\Series;
+use FacturaScripts\Core\Lib\ExtendedController\ListController;
+use FacturaScripts\Core\Tools;
+use FacturaScripts\Core\Where;
+use FacturaScripts\Dinamic\Lib\InvoiceOperation;
+use FacturaScripts\Dinamic\Lib\TaxExceptions;
+
+/**
+ * Controller to list the items in the Proveedor model
+ *
+ * @author Carlos García Gómez          <carlos@facturascripts.com>
+ * @author Cristo M. Estévez Hernández  <cristom.estevez@gmail.com>
+ */
+class ListProveedor extends ListController
+{
+    public function getPageData(): array
+    {
+        $data = parent::getPageData();
+        $data['menu'] = 'purchases';
+        $data['title'] = 'suppliers';
+        $data['icon'] = 'fa-solid fa-users';
+        return $data;
+    }
+
+    /**
+     * Load views
+     */
+    protected function createViews()
+    {
+        $this->createViewSuppliers();
+    }
+
+
+    protected function createViewSuppliers(string $viewName = 'ListProveedor'): void
+    {
+        $this->addView($viewName, 'Proveedor', 'suppliers', 'fa-solid fa-users')
+            ->addOrderBy(['codproveedor'], 'code')
+            ->addOrderBy(['cifnif'], 'fiscal-number')
+            ->addOrderBy(['LOWER(nombre)'], 'name', 1)
+            ->addOrderBy(['fechaalta'], 'creation-date')
+            ->addSearchFields([
+                'cifnif', 'codproveedor', 'codsubcuenta', 'email', 'nombre', 'observaciones', 'razonsocial',
+                'telefono1', 'telefono2'
+            ]);
+
+        // filtros
+        $this->addFilterSelectWhere($viewName, 'status', [
+            ['label' => Tools::trans('only-active'), 'where' => [new DataBaseWhere('debaja', false)]],
+            ['label' => Tools::trans('only-suspended'), 'where' => [new DataBaseWhere('debaja', true)]],
+            ['label' => Tools::trans('all'), 'where' => []]
+        ]);
+        $this->addFilterSelectWhere($viewName, 'type', [
+            ['label' => Tools::trans('all'), 'where' => []],
+            ['label' => Tools::trans('is-creditor'), 'where' => [new DataBaseWhere('acreedor', true)]],
+            ['label' => Tools::trans('supplier'), 'where' => [new DataBaseWhere('acreedor', false)]],
+        ]);
+
+        $fiscalIds = $this->codeModel->all('proveedores', 'tipoidfiscal', 'tipoidfiscal');
+        $this->addFilterSelect($viewName, 'tipoidfiscal', 'fiscal-id', 'tipoidfiscal', $fiscalIds);
+
+        $this->addFilterSelect($viewName, 'codserie', 'series', 'codserie', Series::codeModel());
+        $this->addFilterSelect($viewName, 'codretencion', 'retentions', 'codretencion', Retenciones::codeModel());
+        $this->addFilterSelect($viewName, 'codpago', 'payment-methods', 'codpago', FormasPago::codeModel());
+
+        $vatRegimes = $this->codeModel->all('proveedores', 'regimeniva', 'regimeniva', true, [Where::isNotNull('regimeniva')]);
+        $this->addFilterSelect($viewName, 'regimeniva', 'vat-regime', 'regimeniva', $vatRegimes);
+
+        $operations = $this->codeModel->all('proveedores', 'operacion', 'operacion', true, [Where::isNotNull('operacion')]);
+        foreach ($operations as &$item) {
+            $operationKey = InvoiceOperation::get($item->code);
+            if (null !== $operationKey) {
+                $item->description = Tools::trans($operationKey);
+            }
+        }
+        $this->addFilterSelect($viewName, 'operation', 'operation', 'operacion', $operations);
+
+        $vatExceptions = $this->codeModel->all('proveedores', 'excepcioniva', 'excepcioniva', true, [Where::isNotNull('excepcioniva')]);
+        foreach ($vatExceptions as &$item) {
+            $operationKey = InvoiceOperation::get($item->code);
+            if (null !== $operationKey) {
+                $item->description = Tools::trans($operationKey);
+            }
+        }
+        $this->addFilterSelect($viewName, 'vat-exception', 'vat-exception', 'excepcioniva', $vatExceptions);
+    }
+}

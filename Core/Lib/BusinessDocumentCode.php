@@ -19,8 +19,8 @@
 
 namespace FacturaScripts\Core\Lib;
 
-use FacturaScripts\Core\Model\Base\BusinessDocument;
-use FacturaScripts\Core\Model\SecuenciaDocumento;
+use FacturaScripts\Dinamic\Model\Base\BusinessDocument;
+use FacturaScripts\Dinamic\Model\SecuenciaDocumento;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\Where;
 use FacturaScripts\Dinamic\Model\SecuenciaDocumento as DinSecuenciaDocumento;

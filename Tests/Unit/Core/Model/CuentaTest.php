@@ -20,8 +20,8 @@
 namespace Tahiche\Test\Core\Model;
 
 use Tahiche\Core\Base\DataBase\DataBaseWhere;
-use Tahiche\Core\Model\Cuenta;
-use Tahiche\Core\Model\Ejercicio;
+use FacturaScripts\Dinamic\Model\Cuenta;
+use FacturaScripts\Dinamic\Model\Ejercicio;
 use Tahiche\Test\Traits\RandomDataTrait;
 use PHPUnit\Framework\TestCase;
 

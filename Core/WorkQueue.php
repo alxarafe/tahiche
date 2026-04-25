@@ -21,7 +21,7 @@ namespace FacturaScripts\Core;
 
 use Exception;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\Model\WorkEvent;
+use FacturaScripts\Dinamic\Model\WorkEvent;
 use Throwable;
 
 /**

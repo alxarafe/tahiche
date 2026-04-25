@@ -21,7 +21,7 @@ namespace FacturaScripts\Core\Lib\ExtendedController;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Lib\ListFilter\BaseFilter;
-use FacturaScripts\Core\Model\User;
+use FacturaScripts\Dinamic\Model\User;
 use FacturaScripts\Core\Request;
 use FacturaScripts\Dinamic\Lib\ListFilter\AutocompleteFilter;
 use FacturaScripts\Dinamic\Lib\ListFilter\CheckboxFilter;

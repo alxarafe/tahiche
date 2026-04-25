@@ -3,8 +3,8 @@
 namespace FacturaScripts\Plugins\Admin\Model;
 
 /**
- * @deprecated Use FacturaScripts\Core\Model\RoleAccess instead. Kept for backward compatibility.
+ * @deprecated Use FacturaScripts\Dinamic\Model\RoleAccess instead. Kept for backward compatibility.
  */
-class RoleAccess extends \FacturaScripts\Core\Model\RoleAccess
+class RoleAccess extends \FacturaScripts\Dinamic\Model\RoleAccess
 {
 }

@@ -19,9 +19,9 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\Asiento;
-use Tahiche\Core\Model\Ejercicio;
-use Tahiche\Core\Model\RegularizacionImpuesto;
+use FacturaScripts\Dinamic\Model\Asiento;
+use FacturaScripts\Dinamic\Model\Ejercicio;
+use FacturaScripts\Dinamic\Model\RegularizacionImpuesto;
 use Tahiche\Core\Tools;
 use Tahiche\Core\Where;
 use Tahiche\Dinamic\Model\Subcuenta;

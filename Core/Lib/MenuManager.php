@@ -20,7 +20,7 @@
 namespace FacturaScripts\Core\Lib;
 
 use FacturaScripts\Core\Cache;
-use FacturaScripts\Core\Model\User;
+use FacturaScripts\Dinamic\Model\User;
 use FacturaScripts\Core\Session;
 use FacturaScripts\Core\Translator;
 use FacturaScripts\Core\Where;

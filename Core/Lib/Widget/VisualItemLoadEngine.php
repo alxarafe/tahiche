@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Lib\Widget;
 
-use FacturaScripts\Core\Model\PageOption;
+use FacturaScripts\Dinamic\Model\PageOption;
 use FacturaScripts\Core\Tools;
 use SimpleXMLElement;
 

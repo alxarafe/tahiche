@@ -20,8 +20,8 @@
 namespace Tahiche\Test\Core\Model;
 
 use Tahiche\Core\Base\DataBase\DataBaseWhere;
-use Tahiche\Core\Model\Almacen;
-use Tahiche\Core\Model\Empresa;
+use FacturaScripts\Dinamic\Model\Almacen;
+use FacturaScripts\Dinamic\Model\Empresa;
 use Tahiche\Core\Tools;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use PHPUnit\Framework\TestCase;

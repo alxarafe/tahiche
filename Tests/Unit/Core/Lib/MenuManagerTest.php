@@ -21,7 +21,7 @@ namespace Tahiche\Test\Core\Lib;
 
 use Tahiche\Core\Cache;
 use Tahiche\Core\Lib\MenuManager;
-use Tahiche\Core\Model\User;
+use FacturaScripts\Dinamic\Model\User;
 use Tahiche\Core\Session;
 use Tahiche\Dinamic\Model\Page;
 use PHPUnit\Framework\TestCase;

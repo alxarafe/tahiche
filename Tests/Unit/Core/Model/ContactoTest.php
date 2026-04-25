@@ -22,7 +22,7 @@ namespace Tahiche\Test\Core\Model;
 use Tahiche\Core\Base\DataBase;
 use Tahiche\Core\Base\DataBase\DataBaseWhere;
 use Tahiche\Core\Lib\Vies;
-use Tahiche\Core\Model\Contacto;
+use FacturaScripts\Dinamic\Model\Contacto;
 use Tahiche\Core\Tools;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use Tahiche\Test\Traits\RandomDataTrait;

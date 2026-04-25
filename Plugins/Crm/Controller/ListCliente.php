@@ -7,76 +7,27 @@
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 namespace FacturaScripts\Plugins\Crm\Controller;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\DataSrc\FormasPago;
 use FacturaScripts\Core\DataSrc\Paises;
-use FacturaScripts\Core\DataSrc\Retenciones;
-use FacturaScripts\Core\DataSrc\Series;
-use FacturaScripts\Core\Lib\ExtendedController\ListController;
 use FacturaScripts\Core\Tools;
-use FacturaScripts\Core\Where;
-use FacturaScripts\Dinamic\Lib\InvoiceOperation;
-use FacturaScripts\Dinamic\Lib\TaxExceptions;
 use FacturaScripts\Dinamic\Model\CodeModel;
+use FacturaScripts\Plugins\Trading\Controller\ListCliente as TradingListCliente;
 
 /**
- * Controller to list the items in the Cliente model
- *
- * @author Carlos García Gómez           <carlos@facturascripts.com>
- * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
- * @author Cristo M. Estévez Hernández   <cristom.estevez@gmail.com>
+ * Controller extension to add CRM contacts view to ListCliente
  */
-class ListCliente extends ListController
+class ListCliente extends TradingListCliente
 {
-    public function getPageData(): array
-    {
-        $data = parent::getPageData();
-        $data['menu'] = 'sales';
-        $data['title'] = 'customers';
-        $data['icon'] = 'fa-solid fa-users';
-        return $data;
-    }
-
-    /**
-     * Load views
-     */
     protected function createViews()
     {
-        $this->createViewCustomers();
+        parent::createViews();
         if ($this->permissions->onlyOwnerData === false) {
             $this->createViewContacts();
-            $this->createViewBankAccounts();
-            $this->createViewGroups();
         }
-    }
-
-    protected function createViewBankAccounts(string $viewName = 'ListCuentaBancoCliente'): void
-    {
-        $this->addView($viewName, 'CuentaBancoCliente', 'bank-accounts', 'fa-solid fa-piggy-bank')
-            ->addSearchFields(['codcuenta', 'descripcion', 'iban', 'mandato', 'swift'])
-            ->addOrderBy(['codcuenta'], 'code')
-            ->addOrderBy(['descripcion'], 'description')
-            ->addOrderBy(['iban'], 'iban')
-            ->addOrderBy(['mandato'], 'bank-mandate')
-            ->addOrderBy(['fmandato', 'codcuenta'], 'bank-mandate-date', 2);
-
-        // desactivamos botones
-        $this->tab($viewName)
-            ->setSettings('btnDelete', false)
-            ->setSettings('btnNew', false)
-            ->setSettings('checkBoxes', false);
     }
 
     protected function createViewContacts(string $viewName = 'ListContacto'): void
@@ -123,72 +74,5 @@ class ListCliente extends ListController
         $this->addFilterAutocomplete($viewName, 'codpostal', 'zip-code', 'codpostal', 'contactos', 'codpostal');
 
         $this->addFilterCheckbox($viewName, 'verificado', 'verified', 'verificado');
-    }
-
-    protected function createViewCustomers(string $viewName = 'ListCliente'): void
-    {
-        $this->addView($viewName, 'Cliente', 'customers', 'fa-solid fa-users')
-            ->addOrderBy(['codcliente'], 'code')
-            ->addOrderBy(['LOWER(nombre)'], 'name', 1)
-            ->addOrderBy(['cifnif'], 'fiscal-number')
-            ->addOrderBy(['fechaalta', 'codcliente'], 'creation-date')
-            ->addOrderBy(['riesgoalcanzado'], 'current-risk')
-            ->addSearchFields([
-                'cifnif', 'codcliente', 'codsubcuenta', 'email', 'nombre', 'observaciones', 'razonsocial',
-                'telefono1', 'telefono2'
-            ]);
-
-        // filtros
-        $this->addFilterSelectWhere($viewName, 'status', [
-            ['label' => Tools::trans('only-active'), 'where' => [new DataBaseWhere('debaja', false)]],
-            ['label' => Tools::trans('only-suspended'), 'where' => [new DataBaseWhere('debaja', true)]],
-            ['label' => Tools::trans('all'), 'where' => []]
-        ]);
-        $this->addFilterSelectWhere($viewName, 'type', [
-            ['label' => Tools::trans('all'), 'where' => []],
-            ['label' => Tools::trans('is-person'), 'where' => [new DataBaseWhere('personafisica', true)]],
-            ['label' => Tools::trans('company'), 'where' => [new DataBaseWhere('personafisica', false)]]
-        ]);
-
-        $fiscalIds = $this->codeModel->all('clientes', 'tipoidfiscal', 'tipoidfiscal');
-        $this->addFilterSelect($viewName, 'tipoidfiscal', 'fiscal-id', 'tipoidfiscal', $fiscalIds);
-
-        $groupValues = $this->codeModel->all('gruposclientes', 'codgrupo', 'nombre');
-        $this->addFilterSelect($viewName, 'codgrupo', 'group', 'codgrupo', $groupValues);
-
-        $this->addFilterSelect($viewName, 'codserie', 'series', 'codserie', Series::codeModel());
-        $this->addFilterSelect($viewName, 'codretencion', 'retentions', 'codretencion', Retenciones::codeModel());
-        $this->addFilterSelect($viewName, 'codpago', 'payment-methods', 'codpago', FormasPago::codeModel());
-
-        $vatRegimes = $this->codeModel->all('clientes', 'regimeniva', 'regimeniva', true, [Where::isNotNull('regimeniva')]);
-        $this->addFilterSelect($viewName, 'regimeniva', 'vat-regime', 'regimeniva', $vatRegimes);
-
-        $operations = $this->codeModel->all('clientes', 'operacion', 'operacion', true, [Where::isNotNull('operacion')]);
-        foreach ($operations as &$item) {
-            $operationKey = InvoiceOperation::get($item->code);
-            if (null !== $operationKey) {
-                $item->description = Tools::trans($operationKey);
-            }
-        }
-        $this->addFilterSelect($viewName, 'operation', 'operation', 'operacion', $operations);
-
-        $vatExceptions = $this->codeModel->all('clientes', 'excepcioniva', 'excepcioniva', true, [Where::isNotNull('excepcioniva')]);
-        foreach ($vatExceptions as &$item) {
-            $operationKey = InvoiceOperation::get($item->code);
-            if (null !== $operationKey) {
-                $item->description = Tools::trans($operationKey);
-            }
-        }
-        $this->addFilterSelect($viewName, 'vat-exception', 'vat-exception', 'excepcioniva', $vatExceptions);
-
-        $this->addFilterNumber($viewName, 'riesgoalcanzado', 'current-risk', 'riesgoalcanzado');
-    }
-
-    protected function createViewGroups(string $viewName = 'ListGrupoClientes'): void
-    {
-        $this->addView($viewName, 'GrupoClientes', 'groups', 'fa-solid fa-users-cog')
-            ->addSearchFields(['nombre', 'codgrupo'])
-            ->addOrderBy(['codgrupo'], 'code')
-            ->addOrderBy(['nombre'], 'name', 1);
     }
 }

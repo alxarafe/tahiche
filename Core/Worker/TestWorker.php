@@ -20,7 +20,7 @@
 namespace FacturaScripts\Core\Worker;
 
 use FacturaScripts\Core\Cache;
-use FacturaScripts\Core\Model\WorkEvent;
+use FacturaScripts\Dinamic\Model\WorkEvent;
 use FacturaScripts\Core\Template\WorkerClass;
 
 class TestWorker extends WorkerClass

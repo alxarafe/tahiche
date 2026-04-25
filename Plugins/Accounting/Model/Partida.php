@@ -20,7 +20,7 @@
 namespace FacturaScripts\Plugins\Accounting\Model;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\Model\Base\AccEntryRelationTrait;
+use FacturaScripts\Dinamic\Model\Base\AccEntryRelationTrait;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;

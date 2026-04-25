@@ -21,7 +21,7 @@ namespace Tahiche\Test\Core\Lib;
 
 use Tahiche\Core\Lib\FiscalNumberValidator;
 use Tahiche\Core\Lib\ValidadorEcuador;
-use Tahiche\Core\Model\IdentificadorFiscal;
+use FacturaScripts\Dinamic\Model\IdentificadorFiscal;
 use PHPUnit\Framework\TestCase;
 
 class FiscalNumberValidatorTest extends TestCase

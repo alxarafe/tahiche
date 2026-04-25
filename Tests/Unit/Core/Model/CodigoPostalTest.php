@@ -19,10 +19,10 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\Ciudad;
-use Tahiche\Core\Model\CodigoPostal;
-use Tahiche\Core\Model\Pais;
-use Tahiche\Core\Model\Provincia;
+use FacturaScripts\Dinamic\Model\Ciudad;
+use FacturaScripts\Dinamic\Model\CodigoPostal;
+use FacturaScripts\Dinamic\Model\Pais;
+use FacturaScripts\Dinamic\Model\Provincia;
 use Tahiche\Core\Tools;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use PHPUnit\Framework\TestCase;

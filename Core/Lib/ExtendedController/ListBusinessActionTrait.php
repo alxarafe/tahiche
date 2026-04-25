@@ -21,8 +21,8 @@ namespace FacturaScripts\Core\Lib\ExtendedController;
 
 use FacturaScripts\Core\Base\DataBase;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\Model\Base\Receipt;
-use FacturaScripts\Core\Model\Base\TransformerDocument;
+use FacturaScripts\Dinamic\Model\Base\Receipt;
+use FacturaScripts\Dinamic\Model\Base\TransformerDocument;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Lib\Accounting\InvoiceToAccounting;
 

@@ -21,8 +21,8 @@ namespace Tahiche\Test\Core;
 
 use Tahiche\Core\Base\DataBase\DataBaseWhere;
 use Tahiche\Core\Cache;
-use Tahiche\Core\Model\Producto;
-use Tahiche\Core\Model\WorkEvent;
+use FacturaScripts\Dinamic\Model\Producto;
+use FacturaScripts\Dinamic\Model\WorkEvent;
 use Tahiche\Core\WorkQueue;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use PHPUnit\Framework\TestCase;

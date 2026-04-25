@@ -20,9 +20,9 @@
 namespace FacturaScripts\Core\Lib;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\Model\Base\BusinessDocument;
-use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
-use FacturaScripts\Core\Model\Base\TransformerDocument;
+use FacturaScripts\Dinamic\Model\Base\BusinessDocument;
+use FacturaScripts\Dinamic\Model\Base\BusinessDocumentLine;
+use FacturaScripts\Dinamic\Model\Base\TransformerDocument;
 use FacturaScripts\Core\Session;
 use FacturaScripts\Core\Template\ExtensionsTrait;
 use FacturaScripts\Dinamic\Model\AttachedFileRelation;

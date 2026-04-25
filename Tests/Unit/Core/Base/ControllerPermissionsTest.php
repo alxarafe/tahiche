@@ -20,7 +20,7 @@
 namespace Tahiche\Test\Core\Base;
 
 use Tahiche\Core\Base\ControllerPermissions;
-use Tahiche\Core\Model\User;
+use FacturaScripts\Dinamic\Model\User;
 use PHPUnit\Framework\TestCase;
 
 final class ControllerPermissionsTest extends TestCase

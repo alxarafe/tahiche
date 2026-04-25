@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Contract;
 
-use FacturaScripts\Core\Model\Base\PurchaseDocument;
+use FacturaScripts\Dinamic\Model\Base\PurchaseDocument;
 
 interface PurchasesModInterface
 {

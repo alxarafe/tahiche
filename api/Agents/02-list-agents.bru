@@ -1,0 +1,26 @@
+meta {
+  name: 02-list-agents
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}{{apiBase}}/agentes
+  body: none
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+}
+
+tests {
+  test("Status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Returns array", function() {
+    const data = res.getBody();
+    expect(data).to.be.an('array');
+  });
+}

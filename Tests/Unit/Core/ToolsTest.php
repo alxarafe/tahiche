@@ -19,7 +19,7 @@
 
 namespace Tahiche\Test\Core;
 
-use Tahiche\Core\Model\Settings;
+use FacturaScripts\Dinamic\Model\Settings;
 use Tahiche\Core\Tools;
 use Tahiche\Dinamic\Model\Divisa;
 use PHPUnit\Framework\TestCase;

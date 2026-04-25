@@ -19,7 +19,7 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\CodeModel;
+use FacturaScripts\Dinamic\Model\CodeModel;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use Tahiche\Test\Traits\RandomDataTrait;
 use PHPUnit\Framework\TestCase;

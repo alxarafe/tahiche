@@ -231,7 +231,7 @@ do_test() {
     local tahiche_result=0
 
     # Suites de test a ejecutar
-    local SUITES=("Status" "Currencies" "Warehouses" "Families" "Carriers" "Companies" "Customers" "Products")
+    local SUITES=("Status" "Currencies" "Warehouses" "Families" "Carriers" "Companies" "Customers" "Products" "Suppliers" "Agents")
 
     # ── FacturaScripts ───────────────────────────────────
     echo "━━━ FacturaScripts (referencia) ━━━━━━━━━━━━━━━━━━━━━━"
@@ -343,6 +343,8 @@ DELETE FROM familias WHERE codfamilia = 'TST';
 DELETE FROM almacenes WHERE codalmacen = 'TST';
 DELETE FROM agenciastrans WHERE codtrans = 'TST';
 DELETE FROM clientes WHERE cifnif = 'B12345678';
+DELETE FROM proveedores WHERE cifnif = 'B87654321';
+DELETE FROM agentes WHERE dnicif = '12345678Z';
 DELETE FROM productos WHERE referencia = 'APITEST001';
 DELETE FROM variantes WHERE referencia = 'APITEST001';
 SQL

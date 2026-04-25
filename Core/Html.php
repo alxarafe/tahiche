@@ -24,7 +24,7 @@ use FacturaScripts\Core\DataSrc\Divisas;
 use FacturaScripts\Core\Lib\AssetManager;
 use FacturaScripts\Core\Lib\MultiRequestProtection;
 use FacturaScripts\Core\Lib\MyFilesToken;
-use FacturaScripts\Core\Model\AttachedFile;
+use FacturaScripts\Dinamic\Model\AttachedFile;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Twig\Environment;

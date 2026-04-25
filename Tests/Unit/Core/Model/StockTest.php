@@ -19,8 +19,8 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\Stock;
-use Tahiche\Core\Model\Variante;
+use FacturaScripts\Dinamic\Model\Stock;
+use FacturaScripts\Dinamic\Model\Variante;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use Tahiche\Test\Traits\RandomDataTrait;
 use PHPUnit\Framework\TestCase;

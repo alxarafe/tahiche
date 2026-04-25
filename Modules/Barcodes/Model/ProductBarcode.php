@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Barcodes\Model;
 
-use FacturaScripts\Core\Model\Base\ModelClass;
-use FacturaScripts\Core\Model\Base\ModelTrait;
+use FacturaScripts\Core\Template\ModelClass;
+use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;
 
 class ProductBarcode extends ModelClass
@@ -20,7 +20,7 @@ class ProductBarcode extends ModelClass
     public ?string $descripcion = null;
     public ?string $fechaalta = null;
 
-    public function clear()
+    public function clear(): void
     {
         parent::clear();
         $this->fechaalta = date('Y-m-d H:i:s');
@@ -40,7 +40,7 @@ class ProductBarcode extends ModelClass
     {
         $barcode = new self();
         if ($barcode->loadFromCode('', [new \FacturaScripts\Core\Base\DataBase\DataBaseWhere('codbarras', $code)])) {
-            $product = new \FacturaScripts\Core\Model\Producto();
+            $product = new \FacturaScripts\Plugins\Trading\Model\Producto();
             if ($product->loadFromCode('', [new \FacturaScripts\Core\Base\DataBase\DataBaseWhere('idproducto', $barcode->idproducto)])) {
                 return [
                     'producto' => $product,

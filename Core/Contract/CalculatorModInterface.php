@@ -19,8 +19,8 @@
 
 namespace FacturaScripts\Core\Contract;
 
-use FacturaScripts\Core\Model\Base\BusinessDocument;
-use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
+use FacturaScripts\Dinamic\Model\Base\BusinessDocument;
+use FacturaScripts\Dinamic\Model\Base\BusinessDocumentLine;
 
 /**
  * @deprecated use CalculatorModClass instead

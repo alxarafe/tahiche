@@ -20,7 +20,7 @@
 namespace Tahiche\Test\Core\Model;
 
 use Tahiche\Core\Base\DataBase\DataBaseWhere;
-use Tahiche\Core\Model\EstadoDocumento;
+use FacturaScripts\Dinamic\Model\EstadoDocumento;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use PHPUnit\Framework\TestCase;
 

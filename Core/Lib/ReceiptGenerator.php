@@ -20,8 +20,8 @@
 namespace FacturaScripts\Core\Lib;
 
 use FacturaScripts\Core\Base\DataBase;
-use FacturaScripts\Core\Model\FacturaCliente;
-use FacturaScripts\Core\Model\FacturaProveedor;
+use FacturaScripts\Dinamic\Model\FacturaCliente;
+use FacturaScripts\Dinamic\Model\FacturaProveedor;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\WorkQueue;
 use FacturaScripts\Dinamic\Model\ReciboCliente;

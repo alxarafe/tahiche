@@ -19,8 +19,8 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\Atributo;
-use Tahiche\Core\Model\AtributoValor;
+use FacturaScripts\Dinamic\Model\Atributo;
+use FacturaScripts\Dinamic\Model\AtributoValor;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use PHPUnit\Framework\TestCase;
 

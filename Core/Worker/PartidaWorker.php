@@ -20,7 +20,7 @@
 namespace FacturaScripts\Core\Worker;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\Model\WorkEvent;
+use FacturaScripts\Dinamic\Model\WorkEvent;
 use FacturaScripts\Core\Template\WorkerClass;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Join\PartidaAsiento;

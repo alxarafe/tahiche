@@ -21,7 +21,7 @@ namespace Tahiche\Test\Core\Lib\Email;
 
 use Tahiche\Core\Base\DataBase;
 use Tahiche\Core\Lib\Email\MailNotifier;
-use Tahiche\Core\Model\EmailNotification;
+use FacturaScripts\Dinamic\Model\EmailNotification;
 use Tahiche\Core\Tools;
 use PHPUnit\Framework\TestCase;
 

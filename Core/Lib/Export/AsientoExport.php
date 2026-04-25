@@ -20,9 +20,9 @@
 namespace FacturaScripts\Core\Lib\Export;
 
 use FacturaScripts\Core\Lib\Widget\VisualItemLoadEngine;
-use FacturaScripts\Core\Model\Asiento;
-use FacturaScripts\Core\Model\PageOption;
-use FacturaScripts\Core\Model\Partida;
+use FacturaScripts\Dinamic\Model\Asiento;
+use FacturaScripts\Dinamic\Model\PageOption;
+use FacturaScripts\Dinamic\Model\Partida;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Lib\ExportManager;
 

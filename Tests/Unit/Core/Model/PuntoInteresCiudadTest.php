@@ -19,10 +19,10 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\Ciudad;
-use Tahiche\Core\Model\Pais;
-use Tahiche\Core\Model\Provincia;
-use Tahiche\Core\Model\PuntoInteresCiudad;
+use FacturaScripts\Dinamic\Model\Ciudad;
+use FacturaScripts\Dinamic\Model\Pais;
+use FacturaScripts\Dinamic\Model\Provincia;
+use FacturaScripts\Dinamic\Model\PuntoInteresCiudad;
 use Tahiche\Core\Tools;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use Tahiche\Test\Traits\RandomDataTrait;

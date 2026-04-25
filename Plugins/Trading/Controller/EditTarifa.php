@@ -23,8 +23,6 @@ use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Lib\ExtendedController\BaseView;
 use FacturaScripts\Core\Lib\ExtendedController\EditController;
 use FacturaScripts\Core\Tools;
-use FacturaScripts\Dinamic\Model\Cliente;
-use FacturaScripts\Dinamic\Model\GrupoClientes;
 
 /**
  * Controller to edit a single item from the Tarifa model
@@ -49,62 +47,6 @@ class EditTarifa extends EditController
         return $data;
     }
 
-    /**
-     *
-     * @param string $viewName
-     */
-    protected function createCustomerGroupView(string $viewName = 'ListGrupoClientes'): void
-    {
-        $this->addListView($viewName, 'GrupoClientes', 'customer-group', 'fa-solid fa-users-cog')
-            ->addSearchFields(['nombre', 'codgrupo'])
-            ->addOrderBy(['codgrupo'], 'code')
-            ->addOrderBy(['nombre'], 'name', 1)
-            ->disableColumn('rate')
-            ->setSettings('btnDelete', false)
-            ->setSettings('btnNew', false);
-
-        // add custom buttons
-        $this->addButton($viewName, [
-            'action' => 'setgrouprate',
-            'color' => 'success',
-            'icon' => 'fa-solid fa-folder-plus',
-            'label' => 'add',
-            'type' => 'modal'
-        ]);
-        $this->addButton($viewName, [
-            'action' => 'unsetgrouprate',
-            'color' => 'danger',
-            'confirm' => true,
-            'icon' => 'fa-solid fa-folder-minus',
-            'label' => 'remove-from-list'
-        ]);
-    }
-
-    protected function createCustomerView(string $viewName = 'ListCliente'): void
-    {
-        $this->addListView($viewName, 'Cliente', 'customers', 'fa-solid fa-users')
-            ->addSearchFields(['cifnif', 'codcliente', 'email', 'nombre', 'observaciones', 'razonsocial', 'telefono1', 'telefono2'])
-            ->addOrderBy(['codcliente'], 'code')
-            ->addOrderBy(['nombre'], 'name', 1)
-            ->addOrderBy(['fechaalta', 'codcliente'], 'date')
-            ->setSettings('btnDelete', false)
-            ->setSettings('btnNew', false);
-
-        $this->addButton($viewName, [
-            'action' => 'setcustomerrate',
-            'color' => 'success',
-            'icon' => 'fa-solid fa-folder-plus',
-            'label' => 'add',
-            'type' => 'modal'
-        ]);
-        $this->addButton($viewName, [
-            'action' => 'unsetcustomerrate',
-            'color' => 'danger',
-            'confirm' => true,
-            'icon' => 'fa-solid fa-folder-minus',
-            'label' => 'remove-from-list'
-        ]);
-    }
 
     protected function createProductView(string $viewName = 'ListTarifaProducto'): void
     {
@@ -129,8 +71,6 @@ class EditTarifa extends EditController
         $this->setTabsPosition('bottom');
 
         $this->createProductView();
-        $this->createCustomerGroupView();
-        $this->createCustomerView();
     }
 
     /**
@@ -140,8 +80,7 @@ class EditTarifa extends EditController
     protected function loadData($viewName, $view)
     {
         switch ($viewName) {
-            case 'ListCliente':
-            case 'ListGrupoClientes':
+
             case 'ListTarifaProducto':
                 $codtarifa = $this->getViewModelValue($this->getMainViewName(), 'codtarifa');
                 $where = [new DataBaseWhere('codtarifa', $codtarifa)];
@@ -154,105 +93,4 @@ class EditTarifa extends EditController
         }
     }
 
-    /**
-     * @param string $action
-     *
-     * @return bool
-     */
-    protected function execPreviousAction($action)
-    {
-        switch ($action) {
-            case 'unsetcustomerrate':
-                $this->unsetCustomerRate();
-                break;
-
-            case 'unsetgrouprate':
-                $this->unsetGroupRate();
-                break;
-
-            case 'setcustomerrate':
-                $this->setCustomerRate();
-                break;
-
-            case 'setgrouprate':
-                $this->setGroupRate();
-                break;
-        }
-
-        return parent::execPreviousAction($action);
-    }
-
-    protected function unsetCustomerRate(): void
-    {
-        $codes = $this->request->request->getArray('codes');
-        if (empty($codes) || false === is_array($codes)) {
-            Tools::log()->warning('no-selected-item');
-            return;
-        }
-
-        $customer = new Cliente();
-        foreach ($codes as $cod) {
-            if ($customer->load($cod)) {
-                $customer->codtarifa = null;
-                $customer->save();
-            }
-        }
-
-        Tools::log()->notice('record-updated-correctly');
-    }
-
-    protected function unsetGroupRate(): void
-    {
-        $codes = $this->request->request->getArray('codes');
-        if (empty($codes) || false === is_array($codes)) {
-            Tools::log()->warning('no-selected-item');
-            return;
-        }
-
-        $group = new GrupoClientes();
-        foreach ($codes as $cod) {
-            if ($group->load($cod)) {
-                $group->codtarifa = null;
-                $group->save();
-            }
-        }
-
-        Tools::log()->notice('record-updated-correctly');
-    }
-
-    protected function setCustomerRate(): void
-    {
-        $customer = new Cliente();
-        $code = $this->request->input('setcustomerrate');
-        if (empty($code) || false === $customer->load($code)) {
-            Tools::log()->warning('customer-not-found');
-            return;
-        }
-
-        $customer->codtarifa = $this->request->queryOrInput('code');
-        if ($customer->save()) {
-            Tools::log()->notice('record-updated-correctly');
-            return;
-        }
-
-        Tools::log()->warning('record-save-error');
-    }
-
-    protected function setGroupRate(): void
-    {
-        $group = new GrupoClientes();
-        $code = $this->request->input('setgrouprate');
-        if (empty($code) || false === $group->load($code)) {
-            Tools::log()->warning('group-not-found');
-            return;
-        }
-
-        $group->codtarifa = $this->request->queryOrInput('code');
-        if ($group->save()) {
-            Tools::log()->notice('record-updated-correctly');
-            return;
-        }
-
-        Tools::log()->warning('record-save-error');
-    }
 }

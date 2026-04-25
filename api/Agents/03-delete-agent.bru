@@ -1,0 +1,21 @@
+meta {
+  name: 03-delete-agent
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{baseUrl}}{{apiBase}}/agentes/{{testAgentId}}
+  body: none
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+}
+
+tests {
+  test("Status 200 (deleted)", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

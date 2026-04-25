@@ -1,0 +1,39 @@
+meta {
+  name: 01-create-supplier
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}{{apiBase}}/proveedores
+  body: json
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "nombre": "API Test Supplier",
+    "cifnif": "B87654321",
+    "razonsocial": "API Test Supplier S.L.",
+    "telefono1": "555-9876"
+  }
+}
+
+tests {
+  test("Status 200 (created)", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Confirmation with data", function() {
+    const data = res.getBody();
+    expect(data).to.have.property('ok');
+    if (data.data && data.data.codproveedor) {
+      bru.setEnvVar("testSupplierId", data.data.codproveedor);
+    }
+  });
+}

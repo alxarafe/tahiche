@@ -20,7 +20,7 @@
 namespace Tahiche\Test\Core\Model;
 
 use Tahiche\Core\Base\DataBase\DataBaseWhere;
-use Tahiche\Core\Model\IdentificadorFiscal;
+use FacturaScripts\Dinamic\Model\IdentificadorFiscal;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use Tahiche\Test\Traits\RandomDataTrait;
 use PHPUnit\Framework\TestCase;

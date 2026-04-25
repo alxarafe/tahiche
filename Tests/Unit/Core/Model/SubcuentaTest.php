@@ -19,8 +19,8 @@
 
 namespace Tahiche\Test\Core\Model;
 
-use Tahiche\Core\Model\Ejercicio;
-use Tahiche\Core\Model\Subcuenta;
+use FacturaScripts\Dinamic\Model\Ejercicio;
+use FacturaScripts\Dinamic\Model\Subcuenta;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use Tahiche\Test\Traits\RandomDataTrait;
 use PHPUnit\Framework\TestCase;

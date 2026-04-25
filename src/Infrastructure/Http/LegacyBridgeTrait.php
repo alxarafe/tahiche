@@ -17,7 +17,7 @@ trait LegacyBridgeTrait
     protected array $loadedLegacyExtensions = [];
 
     // Propiedad esperada por los plugins legacy para comprobaciones de permisos
-    public ?\FacturaScripts\Core\Model\User $user = null;
+    public ?\FacturaScripts\Plugins\Admin\Model\User $user = null;
 
     /**
      * Busca y ejecuta las extensiones de plugins para un controlador legacy específico.
@@ -58,11 +58,11 @@ trait LegacyBridgeTrait
     /**
      * Carga el usuario real de la sesión legacy usando las cookies de FacturaScripts.
      */
-    private function loadCurrentUser(): \FacturaScripts\Core\Model\User
+    private function loadCurrentUser(): \FacturaScripts\Plugins\Admin\Model\User
     {
         $cookieNick = $_COOKIE['fsNick'] ?? '';
         if (!empty($cookieNick)) {
-            $dinUserClass = '\\FacturaScripts\\Dinamic\\Model\\User';
+            $dinUserClass = '\\FacturaScripts\\Plugins\\Admin\\Model\\User';
             if (class_exists($dinUserClass)) {
                 $user = new $dinUserClass();
                 if ($user->load($cookieNick)) {
@@ -72,7 +72,7 @@ trait LegacyBridgeTrait
         }
 
         // Fallback: usuario vacío con permisos básicos
-        $user = new \FacturaScripts\Core\Model\User();
+        $user = new \FacturaScripts\Plugins\Admin\Model\User();
         $user->admin = true;
         return $user;
     }

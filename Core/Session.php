@@ -20,7 +20,7 @@
 namespace FacturaScripts\Core;
 
 use FacturaScripts\Core\Base\ControllerPermissions;
-use FacturaScripts\Core\Model\User;
+use FacturaScripts\Dinamic\Model\User;
 use FacturaScripts\Dinamic\Model\User as DinUser;
 
 /**

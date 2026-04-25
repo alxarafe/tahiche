@@ -1,0 +1,26 @@
+meta {
+  name: 03-get-supplier-schema
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}{{apiBase}}/proveedores/schema
+  body: none
+  auth: none
+}
+
+headers {
+  Token: {{apiKey}}
+}
+
+tests {
+  test("Status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Schema has required fields", function() {
+    const data = res.getBody();
+    expect(data).to.have.property('columns');
+  });
+}

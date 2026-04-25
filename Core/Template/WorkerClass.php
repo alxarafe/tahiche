@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Template;
 
-use FacturaScripts\Core\Model\WorkEvent;
+use FacturaScripts\Dinamic\Model\WorkEvent;
 use FacturaScripts\Core\WorkQueue;
 
 abstract class WorkerClass

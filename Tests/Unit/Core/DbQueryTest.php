@@ -21,8 +21,8 @@ namespace Tahiche\Test\Core;
 
 use Tahiche\Core\Base\DataBase;
 use Tahiche\Core\DbQuery;
-use Tahiche\Core\Model\LogMessage;
-use Tahiche\Core\Model\Pais;
+use FacturaScripts\Dinamic\Model\LogMessage;
+use FacturaScripts\Dinamic\Model\Pais;
 use Tahiche\Core\Where;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use PHPUnit\Framework\TestCase;

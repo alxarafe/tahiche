@@ -20,7 +20,7 @@
 namespace Tahiche\Test\Core\Lib;
 
 use Tahiche\Core\Lib\MyFilesToken;
-use Tahiche\Core\Model\AttachedFile;
+use FacturaScripts\Dinamic\Model\AttachedFile;
 use PHPUnit\Framework\TestCase;
 
 final class MyFilesTokenTest extends TestCase

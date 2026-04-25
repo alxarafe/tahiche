@@ -19,11 +19,11 @@
 
 namespace FacturaScripts\Core\Lib\Accounting;
 
-use FacturaScripts\Core\Model\Asiento;
-use FacturaScripts\Core\Model\PagoCliente;
-use FacturaScripts\Core\Model\PagoProveedor;
-use FacturaScripts\Core\Model\ReciboCliente;
-use FacturaScripts\Core\Model\ReciboProveedor;
+use FacturaScripts\Dinamic\Model\Asiento;
+use FacturaScripts\Dinamic\Model\PagoCliente;
+use FacturaScripts\Dinamic\Model\PagoProveedor;
+use FacturaScripts\Dinamic\Model\ReciboCliente;
+use FacturaScripts\Dinamic\Model\ReciboProveedor;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Asiento as DinAsiento;
 use FacturaScripts\Dinamic\Model\Ejercicio;

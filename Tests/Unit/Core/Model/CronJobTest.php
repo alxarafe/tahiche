@@ -21,7 +21,7 @@ namespace Tahiche\Test\Core\Model;
 
 use Exception;
 use Tahiche\Core\Base\MiniLog;
-use Tahiche\Core\Model\CronJob;
+use FacturaScripts\Dinamic\Model\CronJob;
 use Tahiche\Core\Tools;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use PHPUnit\Framework\TestCase;

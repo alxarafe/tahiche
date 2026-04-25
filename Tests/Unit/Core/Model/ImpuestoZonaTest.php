@@ -20,8 +20,8 @@
 namespace Tahiche\Test\Core\Model;
 
 use Tahiche\Core\Lib\Calculator;
-use Tahiche\Core\Model\ImpuestoZona;
-use Tahiche\Core\Model\PresupuestoCliente;
+use FacturaScripts\Dinamic\Model\ImpuestoZona;
+use FacturaScripts\Dinamic\Model\PresupuestoCliente;
 use Tahiche\Test\Traits\DefaultSettingsTrait;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use Tahiche\Test\Traits\RandomDataTrait;

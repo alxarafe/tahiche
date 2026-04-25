@@ -21,10 +21,10 @@ namespace Tahiche\Test\Core\Model;
 
 use Tahiche\Core\Lib\Calculator;
 use Tahiche\Core\Lib\ReceiptGenerator;
-use Tahiche\Core\Model\Base\ModelCore;
-use Tahiche\Core\Model\FacturaProveedor;
-use Tahiche\Core\Model\FormaPago;
-use Tahiche\Core\Model\ReciboProveedor;
+use FacturaScripts\Dinamic\Model\Base\ModelCore;
+use FacturaScripts\Dinamic\Model\FacturaProveedor;
+use FacturaScripts\Dinamic\Model\FormaPago;
+use FacturaScripts\Dinamic\Model\ReciboProveedor;
 use Tahiche\Test\Traits\DefaultSettingsTrait;
 use Tahiche\Test\Traits\LogErrorsTrait;
 use Tahiche\Test\Traits\RandomDataTrait;

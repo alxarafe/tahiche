@@ -20,8 +20,8 @@
 namespace Tahiche\Test\Core\Lib;
 
 use Tahiche\Core\Lib\CodePatterns;
-use Tahiche\Core\Model\PedidoCliente;
-use Tahiche\Core\Model\Producto;
+use FacturaScripts\Dinamic\Model\PedidoCliente;
+use FacturaScripts\Dinamic\Model\Producto;
 use Tahiche\Core\Tools;
 use PHPUnit\Framework\TestCase;
 
