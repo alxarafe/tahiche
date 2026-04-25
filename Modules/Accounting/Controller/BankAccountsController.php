@@ -102,9 +102,9 @@ class BankAccountsController extends ResourceController
         }
 
         echo "<div class='container-fluid mt-4'>";
-        echo "<h3 class='h5 mb-3 text-primary'><i class='fa-solid fa-book me-2'></i>" . i18n()->trans('subaccounts') . "</h3>";
+        echo "<h3 class='h5 mb-3 text-primary'><i class='fa-solid fa-book me-2'></i>" . \FacturaScripts\Core\Tools::lang()->trans('subaccounts') . "</h3>";
         echo "<div class='card shadow-sm'><div class='table-responsive'><table class='table table-hover mb-0'>";
-        echo "<thead class='bg-light'><tr><th>" . i18n()->trans('code') . "</th><th>" . i18n()->trans('description') . "</th><th class='text-end'>" . i18n()->trans('actions') . "</th></tr></thead><tbody>";
+        echo "<thead class='bg-light'><tr><th>" . \FacturaScripts\Core\Tools::lang()->trans('code') . "</th><th>" . \FacturaScripts\Core\Tools::lang()->trans('description') . "</th><th class='text-end'>" . \FacturaScripts\Core\Tools::lang()->trans('actions') . "</th></tr></thead><tbody>";
 
         foreach ($subaccounts as $sub) {
             $editUrl = "index.php?module=Accounting&controller=Subaccounts&id=" . ($sub['codsubcuenta'] ?? '');

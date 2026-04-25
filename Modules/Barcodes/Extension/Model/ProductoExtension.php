@@ -18,6 +18,7 @@ class ProductoExtension
             if (empty($where)) {
                 $result = ProductBarcode::findByBarcode((string)$code);
                 if ($result) {
+                    /** @phpstan-ignore-next-line */
                     $this->loadFromData($result['producto']->toArray());
                     return true; // We found the product, return true to short-circuit
                 }
