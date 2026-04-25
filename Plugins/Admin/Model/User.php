@@ -28,6 +28,7 @@ use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Agente as DinAgente;
+use FacturaScripts\Dinamic\Model\Almacen as DinAlmacen;
 use FacturaScripts\Dinamic\Model\Empresa as DinEmpresa;
 use FacturaScripts\Dinamic\Model\Page as DinPage;
 use FacturaScripts\Dinamic\Model\Role as DinRole;
@@ -478,7 +479,7 @@ class User extends ModelClass
             return true;
         }
 
-        $warehouse = new Almacen();
+        $warehouse = new DinAlmacen();
         if (false === $warehouse->load($this->codalmacen) || $warehouse->idempresa != $this->idempresa) {
             $this->codalmacen = Tools::settings('default', 'codalmacen');
             $this->idempresa = Tools::settings('default', 'idempresa');
