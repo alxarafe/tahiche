@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Barcodes;
 
-use FacturaScripts\Plugins\Trading\Model\Producto;
+use Tahiche\Infrastructure\Bridge\TradingBridge;
 use Modules\Barcodes\Extension\Model\ProductExtension;
 
 class Init
@@ -12,6 +12,6 @@ class Init
     public static function run(): void
     {
         // Register barcode extensions
-        Producto::addExtension(new ProductExtension());
+        TradingBridge::addProductoExtension(new ProductExtension());
     }
 }

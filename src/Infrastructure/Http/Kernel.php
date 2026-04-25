@@ -74,48 +74,54 @@ class Kernel
 
                 if ($isDinamic || $isFacturaScripts || $isInfrastructure || $isApplication) {
                     $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10);
+                    $callerFile = '';
                     foreach ($trace as $t) {
                         $file = str_replace('\\', '/', $t['file'] ?? '');
+                        if (empty($file) || str_contains($file, 'spl_autoload') || str_contains($file, 'vendor/autoload.php')) {
+                            continue;
+                        }
+                        if (str_contains($file, 'src/Infrastructure/Http/Kernel.php') || str_contains($file, 'index.php')) {
+                            continue;
+                        }
+                        $callerFile = $file;
+                        break;
+                    }
+
+                    if ($callerFile) {
                         // Comprobaciones solo aplicables al código nuevo (src y Modules)
                         // EXCEPTO el Bridge y Adapter, que son las zonas autorizadas de contacto legacy
                         if (
-                            (str_contains($file, '/src/') || str_contains($file, '/Modules/'))
-                            && !str_contains($file, '/Bridge/')
-                            && !str_contains($file, '/Adapter/')
+                            (str_contains($callerFile, '/src/') || str_contains($callerFile, '/Modules/'))
+                            && !str_contains($callerFile, '/Bridge/')
+                            && !str_contains($callerFile, '/Adapter/')
                         ) {
                             // 1. Veto total a Dinamic y FacturaScripts en la nueva arquitectura
                             if ($isDinamic || $isFacturaScripts) {
                                 $fw = $isDinamic ? 'Dinamic' : 'FacturaScripts';
                                 $isLogging = true;
-                                \FacturaScripts\Core\Tools::log()->warning(
-                                    "Uso prohibido de {$fw} detectado en arquitectura hexagonal",
-                                    ['%class%' => $class, '%file%' => basename($file)]
-                                );
+                                $msg = "Uso prohibido de {$fw} detectado en arquitectura hexagonal. File: " . $callerFile . " Class: {$class}";
+                                error_log($msg . "\n", 3, '/tmp/arch_violations.log');
+                                \FacturaScripts\Core\Tools::log()->warning($msg);
                                 $isLogging = false;
-                                break;
                             }
 
                             // 2. El Dominio no puede acceder a Aplicación ni a Infraestructura
-                            if (str_contains($file, '/Domain/') && ($isApplication || $isInfrastructure)) {
+                            elseif (str_contains($callerFile, '/Domain/') && ($isApplication || $isInfrastructure)) {
                                 $capa = $isApplication ? 'Aplicación' : 'Infraestructura';
                                 $isLogging = true;
-                                \FacturaScripts\Core\Tools::log()->warning(
-                                    "Violación Hexagonal: El Dominio no debe depender de {$capa}",
-                                    ['%class%' => $class, '%file%' => basename($file)]
-                                );
+                                $msg = "Violación Hexagonal: El Dominio no debe depender de {$capa}. File: " . basename($callerFile) . " Class: {$class}";
+                                error_log($msg . "\n", 3, '/tmp/arch_violations.log');
+                                \FacturaScripts\Core\Tools::log()->warning($msg);
                                 $isLogging = false;
-                                break;
                             }
 
                             // 3. La Aplicación no puede acceder a Infraestructura
-                            if (str_contains($file, '/Application/') && $isInfrastructure) {
+                            elseif (str_contains($callerFile, '/Application/') && $isInfrastructure) {
                                 $isLogging = true;
-                                \FacturaScripts\Core\Tools::log()->warning(
-                                    'Violación Hexagonal: La capa de Aplicación no debe depender de Infraestructura',
-                                    ['%class%' => $class, '%file%' => basename($file)]
-                                );
+                                $msg = "Violación Hexagonal: La capa de Aplicación no debe depender de Infraestructura. File: " . basename($callerFile) . " Class: {$class}";
+                                error_log($msg . "\n", 3, '/tmp/arch_violations.log');
+                                \FacturaScripts\Core\Tools::log()->warning($msg);
                                 $isLogging = false;
-                                break;
                             }
                         }
                     }
