@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Barcodes;
 
-use FacturaScripts\Core\Model\Producto;
+use FacturaScripts\Plugins\Trading\Model\Producto;
 use Modules\Barcodes\Extension\Model\ProductoExtension;
 
 class Init
