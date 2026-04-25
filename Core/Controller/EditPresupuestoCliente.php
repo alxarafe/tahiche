@@ -1,31 +1,10 @@
 <?php
-/**
- * Copyright (C) 2021-2026 Carlos Garcia Gomez <carlos@facturascripts.com>
- */
 
 namespace FacturaScripts\Core\Controller;
 
-use FacturaScripts\Dinamic\Lib\AjaxForms\SalesController;
-
 /**
- * Description of EditPresupuestoCliente
- *
- * @author Carlos Garcia Gomez <carlos@facturascripts.com>
+ * @deprecated Moved to Plugins\Sales\Controller
  */
-class EditPresupuestoCliente extends SalesController
+class EditPresupuestoCliente extends \FacturaScripts\Plugins\Sales\Controller\EditPresupuestoCliente
 {
-    public function getModelClassName(): string
-    {
-        return 'PresupuestoCliente';
-    }
-
-    public function getPageData(): array
-    {
-        $data = parent::getPageData();
-        $data['menu'] = 'sales';
-        $data['title'] = 'estimation';
-        $data['icon'] = 'fa-regular fa-file-powerpoint';
-        $data['showonmenu'] = false;
-        return $data;
-    }
 }
