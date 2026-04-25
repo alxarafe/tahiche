@@ -63,7 +63,9 @@ class Kernel
         if (defined('FS_DEBUG') && FS_DEBUG) {
             spl_autoload_register(function ($class) {
                 static $isLogging = false;
-                if ($isLogging) return;
+                if ($isLogging) {
+                    return;
+                }
 
                 $isDinamic = str_starts_with($class, 'FacturaScripts\\Dinamic\\');
                 $isFacturaScripts = str_starts_with($class, 'FacturaScripts\\') && !$isDinamic;
@@ -75,7 +77,12 @@ class Kernel
                     foreach ($trace as $t) {
                         $file = str_replace('\\', '/', $t['file'] ?? '');
                         // Comprobaciones solo aplicables al código nuevo (src y Modules)
-                        if (str_contains($file, '/src/') || str_contains($file, '/Modules/')) {
+                        // EXCEPTO el Bridge y Adapter, que son las zonas autorizadas de contacto legacy
+                        if (
+                            (str_contains($file, '/src/') || str_contains($file, '/Modules/'))
+                            && !str_contains($file, '/Bridge/')
+                            && !str_contains($file, '/Adapter/')
+                        ) {
                             // 1. Veto total a Dinamic y FacturaScripts en la nueva arquitectura
                             if ($isDinamic || $isFacturaScripts) {
                                 $fw = $isDinamic ? 'Dinamic' : 'FacturaScripts';

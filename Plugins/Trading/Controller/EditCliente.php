@@ -134,6 +134,8 @@ class EditCliente extends ComercialContactController
     /**
      * Crea todas las vista de EditCliente y sus paneles
      */
+    protected function createViews(): void
+    {
         parent::createViews();
 
         $this->addEditListView('EditCuentaBancoCliente', 'CuentaBancoCliente', 'customer-banking-accounts', 'fa-solid fa-piggy-bank');
