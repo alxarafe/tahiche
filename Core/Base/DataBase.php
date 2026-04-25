@@ -20,9 +20,7 @@
 namespace FacturaScripts\Core\Base;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseEngine;
-use FacturaScripts\Core\Base\DataBase\MysqlEngine;
 use FacturaScripts\Core\Base\DataBase\PdoEngine;
-use FacturaScripts\Core\Base\DataBase\PostgresqlEngine;
 use FacturaScripts\Core\KernelException;
 use FacturaScripts\Core\Tools;
 
@@ -80,20 +78,7 @@ final class DataBase
             self::$miniLog = new MiniLog(self::CHANNEL);
 
             self::$type = strtolower(Tools::config('db_type'));
-            switch (self::$type) {
-                case 'postgresql':
-                    self::$engine = new PostgresqlEngine();
-                    break;
-                    
-                case 'pdo-mysql':
-                case 'pdo':
-                    self::$engine = new PdoEngine();
-                    break;
-
-                default:
-                    self::$engine = new MysqlEngine();
-                    break;
-            }
+            self::$engine = new PdoEngine();
         }
     }
 

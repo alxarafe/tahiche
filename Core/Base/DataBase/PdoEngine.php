@@ -10,7 +10,7 @@ use Tahiche\Infrastructure\Database\MysqlPdoConnection;
 use Tahiche\Infrastructure\Database\DatabaseConnectionInterface;
 
 /**
- * Adapter class to integrate the clean architecture PdoConnection 
+ * Adapter class to integrate the clean architecture PdoConnection
  * with the legacy FacturaScripts DataBaseEngine via the Strangler Fig Pattern.
  */
 class PdoEngine extends DataBaseEngine
@@ -21,7 +21,11 @@ class PdoEngine extends DataBaseEngine
     public function __construct()
     {
         parent::__construct();
-        $this->utilsSQL = new MysqlQueries(); // Reusing MySQL queries syntax for this example
+        if (defined('FS_DB_TYPE') && strtolower(FS_DB_TYPE) === 'postgresql') {
+            $this->utilsSQL = new PostgresqlQueries();
+        } else {
+            $this->utilsSQL = new MysqlQueries();
+        }
     }
 
     public function beginTransaction($link): bool
@@ -31,6 +35,9 @@ class PdoEngine extends DataBaseEngine
 
     public function castInteger($link, $column): string
     {
+        if (defined('FS_DB_TYPE') && strtolower(FS_DB_TYPE) === 'postgresql') {
+            return 'CAST(' . $this->escapeColumn($link, $column) . ' AS integer)';
+        }
         return 'CAST(' . $this->escapeColumn($link, $column) . ' AS unsigned)';
     }
 
@@ -42,7 +49,10 @@ class PdoEngine extends DataBaseEngine
 
     public function random(): string
     {
-        return 'RAND()'; // Assuming MySQL
+        if (defined('FS_DB_TYPE') && strtolower(FS_DB_TYPE) === 'postgresql') {
+            return 'RANDOM()';
+        }
+        return 'RAND()';
     }
 
     public function columnFromData($colData): array
@@ -67,19 +77,29 @@ class PdoEngine extends DataBaseEngine
     public function connect(&$error)
     {
         try {
-            $dsn = sprintf(
-                'mysql:host=%s;port=%d;dbname=%s;charset=%s',
-                FS_DB_HOST,
-                (int)FS_DB_PORT,
-                FS_DB_NAME,
-                defined('FS_MYSQL_CHARSET') ? FS_MYSQL_CHARSET : 'utf8mb4'
-            );
+            if (defined('FS_DB_TYPE') && strtolower(FS_DB_TYPE) === 'postgresql') {
+                $dsn = sprintf(
+                    'pgsql:host=%s;port=%d;dbname=%s',
+                    FS_DB_HOST,
+                    (int)FS_DB_PORT,
+                    FS_DB_NAME
+                );
+                $this->connection = new \Tahiche\Infrastructure\Database\PostgresqlPdoConnection($dsn, FS_DB_USER, FS_DB_PASS);
+            } else {
+                $dsn = sprintf(
+                    'mysql:host=%s;port=%d;dbname=%s;charset=%s',
+                    FS_DB_HOST,
+                    (int)FS_DB_PORT,
+                    FS_DB_NAME,
+                    defined('FS_MYSQL_CHARSET') ? FS_MYSQL_CHARSET : 'utf8mb4'
+                );
+                $this->connection = new MysqlPdoConnection($dsn, FS_DB_USER, FS_DB_PASS);
+            }
 
-            $this->connection = new MysqlPdoConnection($dsn, FS_DB_USER, FS_DB_PASS);
             $this->connection->connect();
-            
+
             // The $link returned here is just a reference we pass around, usually the PDO object itself,
-            // or the connection object. Let's return the connection adapter so we can use it, 
+            // or the connection object. Let's return the connection adapter so we can use it,
             // though the methods in this class use $this->connection directly.
             return $this->connection;
         } catch (RuntimeException $e) {
@@ -127,7 +147,12 @@ class PdoEngine extends DataBaseEngine
     public function listTables($link): array
     {
         $tables = [];
-        $results = $this->connection->query('SHOW TABLES;');
+        if (defined('FS_DB_TYPE') && strtolower(FS_DB_TYPE) === 'postgresql') {
+            $results = $this->connection->query("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema';");
+        } else {
+            $results = $this->connection->query('SHOW TABLES;');
+        }
+
         foreach ($results as $row) {
             $tables[] = reset($row);
         }
