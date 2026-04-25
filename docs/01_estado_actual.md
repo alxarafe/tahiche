@@ -90,17 +90,19 @@ $kernel->handle($url);
 
 | Motor | Archivo | Driver nativo | Estado |
 |-------|---------|--------------|--------|
-| MySQL | `MysqlEngine.php` | `mysqli` | ⚠️ Legacy, candidato a eliminación |
-| PostgreSQL | `PostgresqlEngine.php` | `pg_*` | ⚠️ Legacy, candidato a eliminación |
-| PDO MySQL | `PdoEngine.php` | PDO via `MysqlPdoConnection` | ✅ Moderno, en uso |
+| MySQL | `MysqlEngine.php` | `mysqli` | ❌ Eliminado |
+| PostgreSQL | `PostgresqlEngine.php` | `pg_*` | ❌ Eliminado |
+| PDO | `PdoEngine.php` | PDO (`FS_DB_TYPE`) | ✅ Único motor en uso |
 
 ### Selección de motor (`Core/Base/DataBase.php`)
 ```php
 switch (self::$type) {
-    case 'postgresql':     → PostgresqlEngine  // Legacy
+    case 'postgresql':
     case 'pdo-mysql':
-    case 'pdo':            → PdoEngine         // Moderno
-    default:               → MysqlEngine       // Legacy
+    case 'pdo':
+    default:
+        $this->engine = new PdoEngine(); // Motor unificado
+        break;
 }
 ```
 
@@ -208,12 +210,17 @@ class ProductsController extends ResourceController
 | Node | `node:20-slim` | — (webpack watch) |
 | phpMyAdmin | `phpmyadmin` | 9086 → 80 |
 
-## Resumen de riesgos y deuda técnica
+## Resumen de riesgos y deuda técnica resuelta
 
-| Riesgo | Severidad | Descripción |
+| Riesgo | Estado | Descripción |
 |--------|-----------|-------------|
-| Dinamic masivo | 🔴 Alta | 1129 archivos generados, hard-coded en muchos `use` statements |
-| Drivers DB duplicados | 🟡 Media | 3 motores, solo se usa PDO activamente |
-| Core acoplado | 🟡 Media | 111 controladores de negocio mezclados con infraestructura |
-| Config en root | 🟡 Media | `config.php` con credenciales fuera de `public/` pero accesible si mal configurado |
-| Imagen FS | 🟢 Baja | Logos y colores aún de FacturaScripts |
+| Dinamic masivo | 🟡 En proceso | 1129 archivos generados. Desacoplándose paulatinamente mediante Modules y pipes nativos. |
+| Drivers DB duplicados | ✅ Resuelto | Se eliminaron `MysqlEngine` y `PostgresqlEngine`. Solo se usa PDO activamente mediante `PdoEngine`. |
+| Core acoplado | 🟡 En proceso | Controladores de negocio migrándose a la arquitectura hexagonal (Modules/). |
+| Imagen FS | ✅ Resuelto | Implementada la identidad visual Tahiche ERP. |
+
+## Progreso de Sprints (Completados)
+- **Sprint 1**: Hardening e Identidad Visual (Logos, CSS Tahiche).
+- **Sprint 2**: Unificación de la capa de DB a PDO (Eliminación de engines legacy, soporte unificado MySQL/PostgreSQL).
+- **Sprint 3**: Nuevos Componentes UI en ResourceController (`Autocomplete`, `Number`, `Money`, `Percentage`, `Barcode`).
+- **Sprint 4**: Módulo Barcodes completamente integrado en la arquitectura, con inyección nativa al Core mediante el nuevo hook `loadFromCodeBefore` implementado en `ModelClass`.
