@@ -26,7 +26,7 @@ class Registry
     public static function addModifier(string $hook, callable $callback, int $priority = 10): void
     {
         self::$modifiers[$hook][$priority][] = $callback;
-        
+
         // Mantener ordenado por prioridad ascendente
         ksort(self::$modifiers[$hook]);
     }
@@ -53,7 +53,7 @@ class Registry
 
         return $payload;
     }
-    
+
     /**
      * Limpia el registro (útil para tests).
      */

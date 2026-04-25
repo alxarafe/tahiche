@@ -15,7 +15,7 @@ trait LegacyBridgeTrait
     protected array $legacyTabs = [];
     protected array $legacyButtons = [];
     protected array $loadedLegacyExtensions = [];
-    
+
     // Propiedad esperada por los plugins legacy para comprobaciones de permisos
     public ?\FacturaScripts\Core\Model\User $user = null;
 
@@ -26,22 +26,22 @@ trait LegacyBridgeTrait
     {
         // Obtener el usuario real de la sesión legacy
         $this->user = $this->loadCurrentUser();
-        
+
         $plugins = Plugins::enabled();
-        
+
         foreach ($plugins as $plugin) {
             $className = "\\FacturaScripts\\Plugins\\{$plugin}\\Extension\\Controller\\{$legacyControllerName}";
-            
+
             if (class_exists($className)) {
                 $extension = new $className();
                 $this->loadedLegacyExtensions[] = $extension;
-                
+
                 // El estándar de FS es que las extensiones sobreescriban createViews()
                 if (method_exists($extension, 'createViews')) {
                     // Usamos Reflection porque a menudo estos métodos son protected en los plugins
                     $reflection = new \ReflectionMethod($extension, 'createViews');
                     $reflection->setAccessible(true);
-                    
+
                     $closure = $reflection->invoke($extension);
                     if ($closure instanceof \Closure) {
                         // Vinculamos el closure a ESTE controlador para atrapar las llamadas a $this
@@ -88,17 +88,17 @@ trait LegacyBridgeTrait
                 $reflection = new \ReflectionMethod($extension, $name);
                 $reflection->setAccessible(true);
                 $result = $reflection->invokeArgs($extension, $arguments);
-                
+
                 // Si la extensión devuelve un Closure (típico en FS), lo vinculamos a nuestro controlador
                 if ($result instanceof \Closure) {
                     $boundClosure = $result->bindTo($this, static::class);
                     return $boundClosure ? $boundClosure() : null;
                 }
-                
+
                 return $result;
             }
         }
-        
+
         throw new \Error("Call to undefined method " . static::class . "::" . $name . "()");
     }
 
@@ -108,8 +108,14 @@ trait LegacyBridgeTrait
     {
         // Devolvemos un objeto anónimo para absorber llamadas encadenadas sin fallar
         return new class {
-            public function disableColumn() { return $this; }
-            public function enableColumn() { return $this; }
+            public function disableColumn()
+            {
+                return $this;
+            }
+            public function enableColumn()
+            {
+                return $this;
+            }
         };
     }
 
@@ -125,13 +131,34 @@ trait LegacyBridgeTrait
 
         // Objeto absorbente para los métodos de filtrado y ordenación
         return new class {
-            public function addOrderBy() { return $this; }
-            public function addSearchFields() { return $this; }
-            public function disableColumn() { return $this; }
-            public function setSettings() { return $this; }
-            public function addFilterPeriod() { return $this; }
-            public function addFilterNumber() { return $this; }
-            public function addFilterSelect() { return $this; }
+            public function addOrderBy()
+            {
+                return $this;
+            }
+            public function addSearchFields()
+            {
+                return $this;
+            }
+            public function disableColumn()
+            {
+                return $this;
+            }
+            public function setSettings()
+            {
+                return $this;
+            }
+            public function addFilterPeriod()
+            {
+                return $this;
+            }
+            public function addFilterNumber()
+            {
+                return $this;
+            }
+            public function addFilterSelect()
+            {
+                return $this;
+            }
         };
     }
 
@@ -141,7 +168,7 @@ trait LegacyBridgeTrait
         $this->legacyButtons[] = $options;
         return $this;
     }
-    
+
     public function listView(string $viewName)
     {
         // En FS, listView() recupera una vista existente para añadirle cosas.

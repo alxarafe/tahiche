@@ -102,8 +102,10 @@ class ProductsController extends ResourceController
         // --- Pestañas inyectadas por plugins legacy ---
 
         foreach ($this->legacyTabs as $tab) {
-            if (empty($tab['label'])) continue;
-            
+            if (empty($tab['label'])) {
+                continue;
+            }
+
             $tabs[$tab['id']] = [
                 'label' => Tools::trans($tab['label']),
                 'icon' => $tab['icon'],
@@ -145,7 +147,9 @@ class ProductsController extends ResourceController
 
         // Añadimos badges dinámicos para las pestañas de los plugins legacy
         foreach ($this->legacyTabs as $tab) {
-            if (empty($tab['label'])) continue;
+            if (empty($tab['label'])) {
+                continue;
+            }
             $modelClass = "\\FacturaScripts\\Dinamic\\Model\\" . $tab['label'];
             if (class_exists($modelClass)) {
                 $badges[$tab['id']] = fn() => (new $modelClass())->count([\FacturaScripts\Core\Where::eq('idproducto', $id)]);
@@ -177,7 +181,9 @@ class ProductsController extends ResourceController
     private function getSelectOptions(string $modelClass, string $valueField, string $labelField): array
     {
         $options = ['' => '------'];
-        if (!class_exists($modelClass)) return $options;
+        if (!class_exists($modelClass)) {
+            return $options;
+        }
 
         foreach ((new $modelClass())->all([], [$labelField => 'ASC'], 0, 0) as $item) {
             $options[$item->{$valueField}] = $item->{$labelField};
@@ -193,7 +199,7 @@ class ProductsController extends ResourceController
     {
         // Envolvemos en un contenedor con márgenes (mt-3 mb-4) y padding (p-3)
         $html = '<div class="card shadow-sm border-0 mt-3 mb-4"><div class="card-body p-0">';
-        
+
         if (!class_exists($modelClass) || empty($foreignValue)) {
             $html .= '<div class="alert alert-info m-3 mb-3">' . Tools::trans('no-data') . '</div></div></div>';
             return [new StaticText($html)];

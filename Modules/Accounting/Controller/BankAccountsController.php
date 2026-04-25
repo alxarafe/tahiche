@@ -49,19 +49,19 @@ class BankAccountsController extends ResourceController
         return [
             new Fields\Integer('codcuenta', 'code', ['readonly' => true, 'col' => 2]),
             new Fields\Text('descripcion', 'description', ['required' => true, 'maxlength' => 100, 'col' => 10]),
-            
+
             new Fields\Text('swift', 'swift', ['col' => 6, 'maxlength' => 11]),
             new Fields\Text('iban', 'iban', ['col' => 6, 'maxlength' => 34]),
 
             new Fields\Select('idempresa', 'company', $empresas, ['required' => true, 'col' => 6]),
             new Fields\Text('sufijosepa', 'sepa-suffix', ['col' => 6, 'maxlength' => 3]),
-            
+
             // Simulating the legacy subaccount lookup with an action/icon (even if JS needs update)
             (new Fields\Text('codsubcuenta', 'subaccount', ['col' => 6]))
                 ->addAction('fas fa-search', 'window.openSubaccountSearch()'),
             (new Fields\Text('codsubcuentagasto', 'expense-subaccount', ['col' => 6]))
                 ->addAction('fas fa-search', 'window.openSubaccountSearch()'),
-            
+
             new Fields\Boolean('activa', 'active', ['col' => 12])
         ];
     }

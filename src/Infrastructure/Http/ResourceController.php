@@ -82,7 +82,7 @@ abstract class ResourceController extends AbstractResourceController
     protected function render(): void
     {
         $descriptor = $this->getViewDescriptor();
-        
+
         // Force conversion to array to resolve all Field objects into plain arrays
         // This ensures the translateStructure recursive function works correctly.
         $descriptor = json_decode(json_encode($descriptor), true);
@@ -91,7 +91,7 @@ abstract class ResourceController extends AbstractResourceController
         $descriptor = \Tahiche\Infrastructure\Base\Registry::apply('descriptor_' . static::class, $descriptor);
 
         $descriptor['struct'] = $descriptor['config'] ?? $this->structConfig;
-        
+
         // Apply modifiers to the structure (fields, columns, tabs) specifically
         $descriptor['struct'] = \Tahiche\Infrastructure\Base\Registry::apply('struct_' . static::class, $descriptor['struct']);
 
@@ -139,10 +139,10 @@ abstract class ResourceController extends AbstractResourceController
         // Adjust descriptor mapping for JavaScript Engine which expects 'config' instead of 'struct'
         $descriptor['config'] = $descriptor['struct'];
         unset($descriptor['struct']);
-        
+
         // Select template based on mode
         $template = ($this->mode === 'list') ? 'layout/list' : 'layout/edit';
-        
+
         // Load all HTML templates into the descriptor so the JS engine can render declaratively
         $descriptor['templates'] = [];
         $packagePath = dirname((new \ReflectionClass(DefaultRenderer::class))->getFileName(), 3) . '/templates';
@@ -153,7 +153,7 @@ abstract class ResourceController extends AbstractResourceController
                     // Build the correct template key expected by the JS engine
                     $relativePath = str_replace($packagePath . DIRECTORY_SEPARATOR, '', $file->getPathname());
                     $relativePath = str_replace('\\', '/', $relativePath);
-                    
+
                     if (str_starts_with($relativePath, 'component/form/fields/')) {
                         // e.g. "component/form/fields/edit/text.html" -> "text_edit"
                         $parts = explode('/', substr($relativePath, 0, -5));
@@ -164,25 +164,25 @@ abstract class ResourceController extends AbstractResourceController
                         // e.g. "layout/list.html" -> "layout_list"
                         $key = str_replace('/', '_', substr($relativePath, 0, -5));
                     }
-                    
+
                     $htmlTemplate = file_get_contents($file->getPathname());
-                    
+
                     // Customization: Use our external, extensible template
                     if ($key === 'layout_edit') {
                         $icon = $pageData['icon'] ?? 'fas fa-edit';
                         $title = $descriptor['title'];
-                        
+
                         // Load external template
-                        $overridePath = (defined('FS_FOLDER') ? FS_FOLDER : getcwd()) 
+                        $overridePath = (defined('FS_FOLDER') ? FS_FOLDER : getcwd())
                                        . '/src/Infrastructure/View/layout/edit.html';
                         if (is_file($overridePath)) {
                             $htmlTemplate = file_get_contents($overridePath);
                         }
-                        
+
                         // Replace page-level placeholders
                         $htmlTemplate = str_replace('[page:title]', htmlspecialchars($title), $htmlTemplate);
                         $htmlTemplate = str_replace('[page:icon]', htmlspecialchars($icon), $htmlTemplate);
-                        
+
                         // Generate dynamic buttons HTML from head_buttons
                         $extraButtonsHtml = '';
                         $headButtons = $descriptor['config']['edit']['head_buttons'] ?? [];
@@ -196,14 +196,14 @@ abstract class ResourceController extends AbstractResourceController
                             $btnIcon = $btn['icon'] ?? '';
                             $btnType = $btn['type'] ?? 'secondary';
                             $btnAction = $btn['action'] ?? '';
-                            
+
                             $iconHtml = $btnIcon ? '<i class="' . htmlspecialchars($btnIcon) . ' me-1"></i> ' : '';
-                            $extraButtonsHtml .= '<button type="button" class="btn btn-sm btn-' 
-                                . htmlspecialchars($btnType) . ' ms-2 shadow-sm" data-action="' 
-                                . htmlspecialchars($btnAction) . '">' 
+                            $extraButtonsHtml .= '<button type="button" class="btn btn-sm btn-'
+                                . htmlspecialchars($btnType) . ' ms-2 shadow-sm" data-action="'
+                                . htmlspecialchars($btnAction) . '">'
                                 . $iconHtml . htmlspecialchars($btnLabel) . '</button>';
                         }
-                        
+
                         // Inject buttons into the template slots
                         $htmlTemplate = str_replace(
                             '<span id="alxarafe-extra-buttons"></span>',
@@ -213,22 +213,22 @@ abstract class ResourceController extends AbstractResourceController
                     }
 
                     // Pre-translate tags [trans:key]
-                    $htmlTemplate = preg_replace_callback('/\[trans:([^\]]+)\]/', function($matches) use ($translator) {
+                    $htmlTemplate = preg_replace_callback('/\[trans:([^\]]+)\]/', function ($matches) use ($translator) {
                         return $translator->translate($matches[1]);
                     }, $htmlTemplate);
-                    
+
                     $descriptor['templates'][$key] = $htmlTemplate;
                 }
             }
         }
-        
+
         // Render inner content only — the Kernel wraps it with the legacy layout
         $renderer = $this->getRenderer();
         $innerHtml = $renderer->render($template, $descriptor);
-        
+
         $uniqueId = 'alxarafe-resource-' . uniqid();
         $html = "<div id='{$uniqueId}'>\n{$innerHtml}\n</div>";
-        
+
         // Inject the configuration and initialization script for the frontend engine
         $jsonConfig = json_encode($descriptor, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
         $script = "
@@ -256,7 +256,7 @@ abstract class ResourceController extends AbstractResourceController
                 }
             });
         </script>";
-        
+
         echo $html . $script;
     }
 
@@ -268,13 +268,13 @@ abstract class ResourceController extends AbstractResourceController
     {
         $results = parent::processResults($items, $columns);
         $primaryKey = $this->getModelClassName()::primaryColumn();
-        
+
         foreach ($results as &$row) {
             if (!isset($row['id']) && isset($row[$primaryKey])) {
                 $row['id'] = $row[$primaryKey];
             }
         }
-        
+
         return $results;
     }
 
