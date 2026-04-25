@@ -7,7 +7,7 @@ namespace Modules\Barcodes\Extension\Model;
 use Closure;
 use Modules\Barcodes\Model\ProductBarcode;
 
-class ProductoExtension
+class ProductExtension
 {
     /**
      * Intercepts loadFromCode when standard search fails.
