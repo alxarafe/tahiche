@@ -103,20 +103,16 @@ class Kernel
                                 error_log($msg . "\n", 3, '/tmp/arch_violations.log');
                                 \FacturaScripts\Core\Tools::log()->warning($msg);
                                 $isLogging = false;
-                            }
-
-                            // 2. El Dominio no puede acceder a Aplicación ni a Infraestructura
-                            elseif (str_contains($callerFile, '/Domain/') && ($isApplication || $isInfrastructure)) {
+                            } elseif (str_contains($callerFile, '/Domain/') && ($isApplication || $isInfrastructure)) {
+                                // 2. El Dominio no puede acceder a Aplicación ni a Infraestructura
                                 $capa = $isApplication ? 'Aplicación' : 'Infraestructura';
                                 $isLogging = true;
                                 $msg = "Violación Hexagonal: El Dominio no debe depender de {$capa}. File: " . basename($callerFile) . " Class: {$class}";
                                 error_log($msg . "\n", 3, '/tmp/arch_violations.log');
                                 \FacturaScripts\Core\Tools::log()->warning($msg);
                                 $isLogging = false;
-                            }
-
-                            // 3. La Aplicación no puede acceder a Infraestructura
-                            elseif (str_contains($callerFile, '/Application/') && $isInfrastructure) {
+                            } elseif (str_contains($callerFile, '/Application/') && $isInfrastructure) {
+                                // 3. La Aplicación no puede acceder a Infraestructura
                                 $isLogging = true;
                                 $msg = "Violación Hexagonal: La capa de Aplicación no debe depender de Infraestructura. File: " . basename($callerFile) . " Class: {$class}";
                                 error_log($msg . "\n", 3, '/tmp/arch_violations.log');

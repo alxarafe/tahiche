@@ -41,6 +41,8 @@ use FacturaScripts\Dinamic\Model\User as DinUser;
  */
 class Controller implements ControllerInterface
 {
+    use \FacturaScripts\Core\Template\ExtensionsTrait;
+
     /**
      * Name of the class of the controller (although its in inheritance from this class,
      * the name of the final class we will have here)
@@ -147,13 +149,7 @@ class Controller implements ControllerInterface
         $this->checkPhpVersion(8.1);
     }
 
-    /**
-     * @param mixed $extension
-     */
-    public static function addExtension($extension)
-    {
-        Tools::log()->error('no-extension-support', ['%className%' => static::class]);
-    }
+
 
     /**
      * Return the basic data for this page.
@@ -185,29 +181,7 @@ class Controller implements ControllerInterface
 
 
 
-    /**
-     * @param string $name
-     * @param array $arguments
-     *
-     * @return mixed
-     */
-    public function pipe($name, ...$arguments)
-    {
-        Tools::log()->error('no-extension-support', ['%className%' => static::class]);
-        return null;
-    }
 
-    /**
-     * @param string $name
-     * @param array $arguments
-     *
-     * @return bool
-     */
-    public function pipeFalse($name, ...$arguments): bool
-    {
-        Tools::log()->error('no-extension-support', ['%className%' => static::class]);
-        return true;
-    }
 
     /**
      * Runs the controller's private logic.

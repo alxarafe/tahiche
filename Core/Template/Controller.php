@@ -36,6 +36,8 @@ use FacturaScripts\Dinamic\Model\User;
 
 abstract class Controller implements ControllerInterface
 {
+    use \FacturaScripts\Core\Template\ExtensionsTrait;
+
     /** @var string */
     private $className;
 
@@ -78,10 +80,7 @@ abstract class Controller implements ControllerInterface
         $this->title = empty($pageData) ? $className : Tools::trans($pageData['title']);
     }
 
-    public static function addExtension($extension, int $priority = 100): void
-    {
-        Tools::log()->error('no-extension-support', ['%className%' => static::class]);
-    }
+
 
     public function getClassName(): string
     {
@@ -103,19 +102,7 @@ abstract class Controller implements ControllerInterface
 
 
 
-    public function pipe(string $name, ...$arguments)
-    {
-        Tools::log()->error('no-extension-support', ['%className%' => static::class]);
 
-        return null;
-    }
-
-    public function pipeFalse(string $name, ...$arguments): bool
-    {
-        Tools::log()->error('no-extension-support', ['%className%' => static::class]);
-
-        return true;
-    }
 
     public function request(): Request
     {
