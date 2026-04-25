@@ -13,10 +13,10 @@ class ProductBarcode extends ModelClass
     use ModelTrait;
 
     public ?int $id = null;
-    public int $idproducto = 0;
-    public string $codbarras = '';
-    public string $tipo = 'EAN-13';
-    public float $cantidad = 1;
+    public ?int $idproducto = null;
+    public ?string $codbarras = null;
+    public ?string $tipo = 'EAN-13';
+    public ?float $cantidad = 1;
     public ?string $descripcion = null;
     public ?string $fechaalta = null;
 
