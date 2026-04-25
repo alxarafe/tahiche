@@ -101,6 +101,8 @@ abstract class Controller implements ControllerInterface
         ];
     }
 
+
+
     public function pipe(string $name, ...$arguments)
     {
         Tools::log()->error('no-extension-support', ['%className%' => static::class]);

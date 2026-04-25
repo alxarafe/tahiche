@@ -1,11 +1,11 @@
 /cache/
 /Cache/
 /var/
+/tmp/
 /Dinamic/
 /doc/
 /MyFiles/
 /node_modules/
-/Plugins/
 /vendor/
 .DS_Store
 .htaccess

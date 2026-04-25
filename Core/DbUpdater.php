@@ -127,10 +127,34 @@ final class DbUpdater
 
     public static function getTableXmlLocation(string $table_name): string
     {
+        // primero buscamos en Dinamic/Table (plugins activos desplegados)
         $dinFile = Tools::folder('Dinamic', 'Table', $table_name . '.xml');
-        $coreFile = Tools::folder('Core', 'Table', $table_name . '.xml');
+        if (file_exists($dinFile)) {
+            return $dinFile;
+        }
 
-        return file_exists($dinFile) ? $dinFile : $coreFile;
+        // luego en Core/Table (modelos fundacionales)
+        $coreFile = Tools::folder('Core', 'Table', $table_name . '.xml');
+        if (file_exists($coreFile)) {
+            return $coreFile;
+        }
+
+        // finalmente buscamos en las carpetas de plugins (pueden estar desactivados pero el XML sigue en disco)
+        $pluginsDir = Tools::folder('Plugins');
+        if (is_dir($pluginsDir)) {
+            foreach (scandir($pluginsDir) as $plugin) {
+                if ($plugin === '.' || $plugin === '..') {
+                    continue;
+                }
+                $pluginFile = $pluginsDir . DIRECTORY_SEPARATOR . $plugin . DIRECTORY_SEPARATOR . 'Table' . DIRECTORY_SEPARATOR . $table_name . '.xml';
+                if (file_exists($pluginFile)) {
+                    return $pluginFile;
+                }
+            }
+        }
+
+        // no encontrado, devolvemos la ruta Core como fallback (generará el error)
+        return $coreFile;
     }
 
     public static function isTableChecked(string $table_name): bool

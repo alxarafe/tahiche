@@ -51,6 +51,10 @@ class EditSettings extends PanelController
 
     protected function checkPaymentMethod(): bool
     {
+        if (false === $this->dataBase->tableExists('formaspago')) {
+            return false;
+        }
+
         $idempresa = Tools::settings('default', 'idempresa');
         $where = [new DataBaseWhere('idempresa', $idempresa)];
         $values = $this->codeModel->all('formaspago', 'codpago', 'descripcion', false, $where);
@@ -76,6 +80,10 @@ class EditSettings extends PanelController
 
     protected function checkWarehouse(): bool
     {
+        if (false === $this->dataBase->tableExists('almacenes')) {
+            return false;
+        }
+
         $idempresa = Tools::settings('default', 'idempresa');
         $where = [new DataBaseWhere('idempresa', $idempresa)];
         $values = $this->codeModel->all('almacenes', 'codalmacen', 'nombre', false, $where);
@@ -101,6 +109,10 @@ class EditSettings extends PanelController
 
     protected function checkTax(): bool
     {
+        if (false === $this->dataBase->tableExists('impuestos')) {
+            return false;
+        }
+
         // find current default tax
         $taxModel = new Impuesto();
         $codimpuesto = Tools::settings('default', 'codimpuesto');
@@ -150,10 +162,23 @@ class EditSettings extends PanelController
 
         // Añadimos el resto de pestañas
         $this->createViewsApiKeys();
-        $this->createViewsIdFiscal();
-        $this->createViewSequences();
-        $this->createViewStates();
-        $this->createViewFormats();
+
+        // FIXME: Estas pestañas deberían ser registradas por cada plugin vía extensiones
+        //  en su Init.php, no hardcodeadas en el Core. La comprobación file_exists es un
+        //  parche temporal. Ver también: loadSerie, loadPaymentMethodValues, checkTax, etc.
+        //  que acceden a tablas de plugins directamente.
+        if (file_exists(FS_FOLDER . '/Dinamic/XMLView/EditIdentificadorFiscal.xml')) {
+            $this->createViewsIdFiscal();
+        }
+        if (file_exists(FS_FOLDER . '/Dinamic/XMLView/ListSecuenciaDocumento.xml')) {
+            $this->createViewSequences();
+        }
+        if (file_exists(FS_FOLDER . '/Dinamic/XMLView/ListEstadoDocumento.xml')) {
+            $this->createViewStates();
+        }
+        if (file_exists(FS_FOLDER . '/Dinamic/XMLView/ListFormatoDocumento.xml')) {
+            $this->createViewFormats();
+        }
     }
 
     protected function createViewsApiKeys(string $viewName = 'ListApiKey'): void
@@ -343,6 +368,10 @@ class EditSettings extends PanelController
 
     protected function loadPaymentMethodValues(string $viewName): void
     {
+        if (false === $this->dataBase->tableExists('formaspago')) {
+            return;
+        }
+
         $idempresa = Tools::settings('default', 'idempresa');
         $where = [new DataBaseWhere('idempresa', $idempresa)];
         $methods = $this->codeModel->all('formaspago', 'codpago', 'descripcion', false, $where);
@@ -363,6 +392,10 @@ class EditSettings extends PanelController
 
     protected function loadSerie(string $viewName): void
     {
+        if (false === $this->dataBase->tableExists('series')) {
+            return;
+        }
+
         $columnSerie = $this->views[$viewName]->columnForName('serie');
         if ($columnSerie && $columnSerie->widget->getType() === 'select') {
             $series = $this->codeModel->all('series', 'codserie', 'descripcion', false, [
@@ -375,6 +408,10 @@ class EditSettings extends PanelController
 
     protected function loadSerieRectifying(string $viewName): void
     {
+        if (false === $this->dataBase->tableExists('series')) {
+            return;
+        }
+
         $columnSerie = $this->views[$viewName]->columnForName('rectifying-serie');
         if ($columnSerie && $columnSerie->widget->getType() === 'select') {
             $series = $this->codeModel->all('series', 'codserie', 'descripcion', false, [
@@ -386,6 +423,10 @@ class EditSettings extends PanelController
 
     protected function loadWarehouseValues(string $viewName): void
     {
+        if (false === $this->dataBase->tableExists('almacenes')) {
+            return;
+        }
+
         $idempresa = Tools::settings('default', 'idempresa');
         $where = [new DataBaseWhere('idempresa', $idempresa)];
         $almacenes = $this->codeModel->all('almacenes', 'codalmacen', 'nombre', false, $where);
