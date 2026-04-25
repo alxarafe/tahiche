@@ -71,6 +71,10 @@ class Kernel
         // Inicializamos plugins (excepto en rutas de despliegue)
         if ($url !== '/deploy') {
             Plugins::init();
+
+            if (class_exists('\\Modules\\Barcodes\\Init')) {
+                \Modules\Barcodes\Init::run();
+            }
         }
 
         // Dispatcher Estrangulador: Si hay parámetro 'module', delegamos en la nueva arquitectura

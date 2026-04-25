@@ -405,6 +405,10 @@ abstract class ModelClass
      */
     public function loadFromCode($code, array $where = [], array $order = []): bool
     {
+        if (true === $this->pipe('loadFromCodeBefore', $code, $where, $order)) {
+            return true;
+        }
+
         if (!empty($where)) {
             return $this->loadWhere($where, $order);
         }
