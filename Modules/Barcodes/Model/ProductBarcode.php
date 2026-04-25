@@ -39,9 +39,9 @@ class ProductBarcode extends ModelClass
     public static function findByBarcode(string $code): ?array
     {
         $barcode = new self();
-        if ($barcode->loadFromCode('', [new \FacturaScripts\Core\Where('codbarras', '=', $code)])) {
+        if ($barcode->loadFromCode('', [new \FacturaScripts\Core\Base\DataBase\DataBaseWhere('codbarras', $code)])) {
             $product = new \FacturaScripts\Core\Model\Producto();
-            if ($product->loadFromCode('', [new \FacturaScripts\Core\Where('idproducto', '=', $barcode->idproducto)])) {
+            if ($product->loadFromCode('', [new \FacturaScripts\Core\Base\DataBase\DataBaseWhere('idproducto', $barcode->idproducto)])) {
                 return [
                     'producto' => $product,
                     'cantidad' => $barcode->cantidad,
