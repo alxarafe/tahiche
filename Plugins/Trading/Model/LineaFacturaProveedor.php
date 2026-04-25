@@ -19,8 +19,8 @@
 
 namespace FacturaScripts\Plugins\Trading\Model;
 
-use FacturaScripts\Dinamic\Model\Base\BusinessDocumentLine;
-use FacturaScripts\Dinamic\Model\Base\InvoiceLineTrait;
+use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
+use FacturaScripts\Core\Model\Base\InvoiceLineTrait;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Dinamic\Model\FacturaProveedor as DinFacturaProveedor;
 

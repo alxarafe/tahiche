@@ -20,7 +20,7 @@
 namespace FacturaScripts\Plugins\Trading\Model;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Dinamic\Model\Base\TaxRelationTrait;
+use FacturaScripts\Core\Model\Base\TaxRelationTrait;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;

@@ -20,7 +20,7 @@
 namespace FacturaScripts\Plugins\Trading\Model;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Dinamic\Model\Base\PurchaseDocument;
+use FacturaScripts\Core\Model\Base\PurchaseDocument;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Lib\Calculator;
 use FacturaScripts\Dinamic\Model\LineaAlbaranProveedor as LineaAlbaran;

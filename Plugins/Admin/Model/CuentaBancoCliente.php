@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Plugins\Admin\Model;
 
-use FacturaScripts\Dinamic\Model\Base\IbanTrait;
+use FacturaScripts\Core\Model\Base\IbanTrait;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;

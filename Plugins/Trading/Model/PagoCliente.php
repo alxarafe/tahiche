@@ -19,8 +19,8 @@
 
 namespace FacturaScripts\Plugins\Trading\Model;
 
-use FacturaScripts\Dinamic\Model\Base\AccEntryRelationTrait;
-use FacturaScripts\Dinamic\Model\Base\PaymentRelationTrait;
+use FacturaScripts\Core\Model\Base\AccEntryRelationTrait;
+use FacturaScripts\Core\Model\Base\PaymentRelationTrait;
 use FacturaScripts\Core\Session;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;

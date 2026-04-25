@@ -20,8 +20,8 @@
 namespace FacturaScripts\Plugins\Admin\Model;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Dinamic\Model\Base\CompanyRelationTrait;
-use FacturaScripts\Dinamic\Model\Base\IbanTrait;
+use FacturaScripts\Core\Model\Base\CompanyRelationTrait;
+use FacturaScripts\Core\Model\Base\IbanTrait;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;

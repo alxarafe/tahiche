@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Plugins\Trading\Model;
 
-use FacturaScripts\Dinamic\Model\Base\BusinessDocumentLine;
+use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Dinamic\Model\AlbaranProveedor as DinAlbaranProveedor;
 
