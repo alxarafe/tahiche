@@ -216,11 +216,12 @@ class ProductsController extends ResourceController
 |--------|-----------|-------------|
 | Dinamic masivo | 🟡 En proceso | 1129 archivos generados. Desacoplándose paulatinamente mediante Modules y pipes nativos. |
 | Drivers DB duplicados | ✅ Resuelto | Se eliminaron `MysqlEngine` y `PostgresqlEngine`. Solo se usa PDO activamente mediante `PdoEngine`. |
-| Core acoplado | 🟡 En proceso | Controladores de negocio migrándose a la arquitectura hexagonal (Modules/). |
+| Core acoplado | 🟡 En proceso | Core siendo "vaciado" hacia `Plugins/` manteniendo *Hollow Bridges* por compatibilidad. |
 | Imagen FS | ✅ Resuelto | Implementada la identidad visual Tahiche ERP. |
 
 ## Progreso de Sprints (Completados)
 - **Sprint 1**: Hardening e Identidad Visual (Logos, CSS Tahiche).
 - **Sprint 2**: Unificación de la capa de DB a PDO (Eliminación de engines legacy, soporte unificado MySQL/PostgreSQL).
 - **Sprint 3**: Nuevos Componentes UI en ResourceController (`Autocomplete`, `Number`, `Money`, `Percentage`, `Barcode`).
-- **Sprint 4**: Módulo Barcodes completamente integrado en la arquitectura, con inyección nativa al Core mediante el nuevo hook `loadFromCodeBefore` implementado en `ModelClass`.
+- **Sprint 4**: Módulo Barcodes integrado con hook `loadFromCodeBefore`.
+- **Sprint 5 (Actual)**: Estrategia *Hollow Bridge*. Extracción del primer módulo de negocio (Contabilidad) desde `Core/` hacia `Plugins/Accounting`, dejando clases de puente en el Core para preservar 100% la retrocompatibilidad con plugins de terceros.
