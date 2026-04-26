@@ -3,7 +3,7 @@
 namespace Modules\Trading\Controller;
 
 use Tahiche\Infrastructure\Http\ResourceController;
-use Tahiche\Infrastructure\Http\LegacyBridgeTrait;
+use Tahiche\Infrastructure\Bridge\LegacyBridgeTrait;
 use FacturaScripts\Core\Html;
 use FacturaScripts\Core\Internal\ClassResolver;
 use FacturaScripts\Core\Model\CodeModel;

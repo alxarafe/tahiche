@@ -12,6 +12,7 @@ class EditProducto
     {
         return function () {
             /** @var EditController $this */
+            // @phpstan-ignore-next-line
             $this->addEditListView('EditProductBarcode', 'ProductBarcode', 'barcode', 'fas fa-barcode');
         };
     }
@@ -24,7 +25,7 @@ class EditProducto
                 $idproducto = $this->getViewModelValue('EditProducto', 'idproducto');
 
                 // Get all variants for this product
-                $variantes = \FacturaScripts\Core\Model\Variante::all([\FacturaScripts\Core\Where::eq('idproducto', $idproducto)]);
+                $variantes = \FacturaScripts\Plugins\Trading\Model\Variante::all([\FacturaScripts\Core\Where::eq('idproducto', $idproducto)]);
                 $variantIds = [];
                 foreach ($variantes as $v) {
                     $variantIds[] = $v->idvariante;

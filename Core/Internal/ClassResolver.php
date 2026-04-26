@@ -73,6 +73,8 @@ final class ClassResolver
      */
     public static function resolve(string $class): void
     {
+        $class = ltrim($class, '\\');
+
         // Solo nos interesan clases de FacturaScripts
         if (!str_starts_with($class, 'FacturaScripts\\')) {
             return;
@@ -98,6 +100,8 @@ final class ClassResolver
      */
     public static function getRealClass(string $class): ?string
     {
+        $class = ltrim($class, '\\');
+
         // Caso 1: FacturaScripts\Dinamic\Controller\EditProducto
         if (str_starts_with($class, 'FacturaScripts\\Dinamic\\')) {
             $suffix = substr($class, strlen('FacturaScripts\\Dinamic\\'));
@@ -158,21 +162,17 @@ final class ClassResolver
      */
     private static function searchInModules(string $suffix): ?string
     {
-        // Leemos las carpetas dentro de Modules/
         $modulesDir = FS_FOLDER . '/Modules';
-        if (!is_dir($modulesDir)) {
-            return null;
-        }
-
-        $modules = scandir($modulesDir);
-        foreach ($modules as $module) {
-            if ($module === '.' || $module === '..' || !is_dir($modulesDir . '/' . $module)) {
-                continue;
-            }
-
-            $moduleClass = 'Modules\\' . $module . '\\' . $suffix;
-            if (class_exists($moduleClass, true)) {
-                return $moduleClass;
+        if (is_dir($modulesDir)) {
+            $folders = scandir($modulesDir);
+            foreach (array_reverse($folders) as $folder) {
+                if ($folder === '.' || $folder === '..' || !is_dir($modulesDir . '/' . $folder)) {
+                    continue;
+                }
+                $modulePath = $modulesDir . '/' . $folder . '/' . str_replace('\\', '/', $suffix) . '.php';
+                if (file_exists($modulePath)) {
+                    return 'Modules\\' . $folder . '\\' . $suffix;
+                }
             }
         }
 
@@ -209,9 +209,9 @@ final class ClassResolver
 
         // Recorremos en orden inverso (último plugin activado/encontrado = mayor prioridad)
         foreach (array_reverse($plugins) as $plugin) {
-            $pluginClass = 'FacturaScripts\\Plugins\\' . $plugin . '\\' . $suffix;
-            if (class_exists($pluginClass, true)) {
-                return $pluginClass;
+            $pluginPath = FS_FOLDER . '/Plugins/' . $plugin . '/' . str_replace('\\', '/', $suffix) . '.php';
+            if (file_exists($pluginPath)) {
+                return 'FacturaScripts\\Plugins\\' . $plugin . '\\' . $suffix;
             }
         }
 

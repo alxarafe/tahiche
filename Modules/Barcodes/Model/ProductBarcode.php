@@ -40,7 +40,7 @@ class ProductBarcode extends ModelClass
     {
         $barcode = new self();
         if ($barcode->loadFromCode('', [new \FacturaScripts\Core\Base\DataBase\DataBaseWhere('codbarras', $code)])) {
-            $variante = new \FacturaScripts\Core\Model\Variante();
+            $variante = new \FacturaScripts\Plugins\Trading\Model\Variante();
             if ($variante->loadFromCode('', [new \FacturaScripts\Core\Base\DataBase\DataBaseWhere('idvariante', $barcode->idvariante)])) {
                 return [
                     'variante' => $variante,

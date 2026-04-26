@@ -15,7 +15,7 @@ use Modules\Barcodes\Model\ProductBarcode;
 
 class ProductBarcodesController extends ResourceController
 {
-    use \Tahiche\Infrastructure\Http\LegacyBridgeTrait;
+    use \Tahiche\Infrastructure\Bridge\LegacyBridgeTrait;
 
     protected function getModelClassName(): string
     {

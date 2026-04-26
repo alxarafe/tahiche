@@ -168,7 +168,7 @@ final class Kernel
                 $controllers[$file] = $file;
             }
         }
-        
+
         foreach ($controllers as $file) {
             // si no es un archivo php, lo ignoramos
             if ('.php' !== substr($file, -4)) {

@@ -2,4 +2,6 @@
 
 namespace Tahiche\Infrastructure\Adapter\Trading;
 
-class Variante extends \FacturaScripts\Core\Model\Variante {}
+class Variante extends \FacturaScripts\Plugins\Trading\Model\Variante
+{
+}

@@ -53,7 +53,7 @@ trait ExtensionsTrait
     public function __call($name, $arguments = [])
     {
         $class = static::class;
-        
+
         // Build cache if needed
         if (!isset(static::$extensionCache[$class][$name])) {
             $this->buildExtensionCache($name);
@@ -74,7 +74,7 @@ trait ExtensionsTrait
     public static function addExtension($extension, int $priority = 100): void
     {
         $class = static::class;
-        
+
         $methods = (new ReflectionClass($extension))->getMethods(ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_PROTECTED | ReflectionMethod::IS_PRIVATE);
         foreach ($methods as $method) {
             // Skip magic methods and constructors
@@ -93,7 +93,7 @@ trait ExtensionsTrait
             if (!isset(static::$extensions[$class])) {
                 static::$extensions[$class] = [];
             }
-            
+
             static::$extensions[$class][] = [
                 'name' => $method->name,
                 'function' => $result,

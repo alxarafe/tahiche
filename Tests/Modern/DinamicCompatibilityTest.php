@@ -27,7 +27,7 @@ class DinamicCompatibilityTest extends TestCase
         $legacyClass = "\\FacturaScripts\\Dinamic\\Model\\Impuesto";
         $realClass = ClassResolver::getRealClass($legacyClass) ?? $legacyClass;
 
-        $this->assertEquals("\\FacturaScripts\\Plugins\\Accounting\\Model\\Impuesto", $realClass);
+        $this->assertEquals("FacturaScripts\\Plugins\\Accounting\\Model\\Impuesto", $realClass);
         $this->assertTrue(class_exists($realClass));
     }
 
@@ -43,7 +43,7 @@ class DinamicCompatibilityTest extends TestCase
         // Aunque CodeModel fue movido al Core, Legacy debe poder solicitarlo y el Resolver debe guiarlo
         // Espera, CodeModel no está en plugins, está en Core
         // En ClassResolver: str_starts_with(..., 'FacturaScripts\Dinamic\') busca en Plugins y luego Core.
-        $this->assertEquals("\\FacturaScripts\\Core\\Model\\CodeModel", $realClass);
+        $this->assertEquals("FacturaScripts\\Core\\Model\\CodeModel", $realClass);
     }
 
     /**
