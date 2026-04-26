@@ -112,24 +112,32 @@ class About extends Controller
 
     private function getLimits(): array
     {
-        // Contar usuarios
-        $users = User::count();
+        $limits = [];
 
-        // Contar productos
-        $products = Producto::count();
+        // Contar usuarios (siempre disponible en Core)
+        if (class_exists('\\FacturaScripts\\Core\\Model\\User') || class_exists('\\FacturaScripts\\Dinamic\\Model\\User')) {
+            $limits['users'] = class_exists('\\FacturaScripts\\Dinamic\\Model\\User') ? \FacturaScripts\Dinamic\Model\User::count() : \FacturaScripts\Core\Model\User::count();
+        }
 
-        // Contar clientes
-        $customers = Cliente::count();
+                // Si está Trading activado
+        if (\FacturaScripts\Core\Plugins::isEnabled('Trading')) {
+            // Contar productos
+            if (class_exists('\\FacturaScripts\\Dinamic\\Model\\Producto')) {
+                $limits['products'] = \FacturaScripts\Dinamic\Model\Producto::count();
+            }
 
-        // Contar facturas de cliente
-        $invoices = FacturaCliente::count();
+            // Contar clientes
+            if (class_exists('\\FacturaScripts\\Dinamic\\Model\\Cliente')) {
+                $limits['customers'] = \FacturaScripts\Dinamic\Model\Cliente::count();
+            }
 
-        return [
-            'customers' => $customers,
-            'invoices' => $invoices,
-            'products' => $products,
-            'users' => $users,
-        ];
+            // Contar facturas de cliente
+            if (class_exists('\\FacturaScripts\\Dinamic\\Model\\FacturaCliente')) {
+                $limits['invoices'] = \FacturaScripts\Dinamic\Model\FacturaCliente::count();
+            }
+        }
+
+        return $limits;
     }
 
     private function getStorageDetails(): array

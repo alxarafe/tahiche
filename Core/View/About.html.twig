@@ -74,54 +74,62 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-4 col-sm-6">
-                                    <div class="text-center p-2">
-                                        <i class="fa-solid fa-users fa-2x text-primary mb-2"></i>
-                                        <h6 class="mb-1">{{ trans('users') }}</h6>
-                                        <p class="mb-0">
-                                            {% set userCount = fsc.data.limits.users is defined ? fsc.data.limits.users : 0 %}
-                                            {% set userLimit = config('user_limit') %}
-                                            <strong>{{ userCount }}</strong>
-                                            / {% if userLimit %}{{ userLimit }}{% else %}∞{% endif %}
-                                        </p>
+                                {% if fsc.data.limits.users is defined %}
+                                    <div class="col-lg-2 col-md-4 col-sm-6">
+                                        <div class="text-center p-2">
+                                            <i class="fa-solid fa-users fa-2x text-primary mb-2"></i>
+                                            <h6 class="mb-1">{{ trans('users') }}</h6>
+                                            <p class="mb-0">
+                                                {% set userCount = fsc.data.limits.users %}
+                                                {% set userLimit = config('user_limit') %}
+                                                <strong>{{ userCount }}</strong>
+                                                / {% if userLimit %}{{ userLimit }}{% else %}∞{% endif %}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-2 col-md-4 col-sm-6">
-                                    <div class="text-center p-2">
-                                        <i class="fa-solid fa-box fa-2x text-success mb-2"></i>
-                                        <h6 class="mb-1">{{ trans('products') }}</h6>
-                                        <p class="mb-0">
-                                            {% set productCount = fsc.data.limits.products is defined ? fsc.data.limits.products : 0 %}
-                                            {% set productLimit = config('product_limit') %}
-                                            <strong>{{ productCount }}</strong>
-                                            / {% if productLimit %}{{ productLimit }}{% else %}∞{% endif %}
-                                        </p>
+                                {% endif %}
+                                {% if fsc.data.limits.products is defined %}
+                                    <div class="col-lg-2 col-md-4 col-sm-6">
+                                        <div class="text-center p-2">
+                                            <i class="fa-solid fa-box fa-2x text-success mb-2"></i>
+                                            <h6 class="mb-1">{{ trans('products') }}</h6>
+                                            <p class="mb-0">
+                                                {% set productCount = fsc.data.limits.products %}
+                                                {% set productLimit = config('product_limit') %}
+                                                <strong>{{ productCount }}</strong>
+                                                / {% if productLimit %}{{ productLimit }}{% else %}∞{% endif %}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-2 col-md-4 col-sm-6">
-                                    <div class="text-center p-2">
-                                        <i class="fa-solid fa-user-tie fa-2x text-info mb-2"></i>
-                                        <h6 class="mb-1">{{ trans('customers') }}</h6>
-                                        <p class="mb-0">
-                                            {% set customerCount = fsc.data.limits.customers is defined ? fsc.data.limits.customers : 0 %}
-                                            {% set customerLimit = config('customer_limit') %}
-                                            <strong>{{ customerCount }}</strong>
-                                            / {% if customerLimit %}{{ customerLimit }}{% else %}∞{% endif %}
-                                        </p>
+                                {% endif %}
+                                {% if fsc.data.limits.customers is defined %}
+                                    <div class="col-lg-2 col-md-4 col-sm-6">
+                                        <div class="text-center p-2">
+                                            <i class="fa-solid fa-user-tie fa-2x text-info mb-2"></i>
+                                            <h6 class="mb-1">{{ trans('customers') }}</h6>
+                                            <p class="mb-0">
+                                                {% set customerCount = fsc.data.limits.customers %}
+                                                {% set customerLimit = config('customer_limit') %}
+                                                <strong>{{ customerCount }}</strong>
+                                                / {% if customerLimit %}{{ customerLimit }}{% else %}∞{% endif %}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-2 col-md-4 col-sm-6">
-                                    <div class="text-center p-2">
-                                        <i class="fa-solid fa-file-invoice fa-2x text-warning mb-2"></i>
-                                        <h6 class="mb-1">{{ trans('invoices') }}</h6>
-                                        <p class="mb-0">
-                                            {% set invoiceCount = fsc.data.limits.invoices is defined ? fsc.data.limits.invoices : 0 %}
-                                            {% set invoiceLimit = config('invoice_limit') %}
-                                            <strong>{{ invoiceCount }}</strong>
-                                            / {% if invoiceLimit %}{{ invoiceLimit }}{% else %}∞{% endif %}
-                                        </p>
+                                {% endif %}
+                                {% if fsc.data.limits.invoices is defined %}
+                                    <div class="col-lg-2 col-md-4 col-sm-6">
+                                        <div class="text-center p-2">
+                                            <i class="fa-solid fa-file-invoice fa-2x text-warning mb-2"></i>
+                                            <h6 class="mb-1">{{ trans('invoices') }}</h6>
+                                            <p class="mb-0">
+                                                {% set invoiceCount = fsc.data.limits.invoices %}
+                                                {% set invoiceLimit = config('invoice_limit') %}
+                                                <strong>{{ invoiceCount }}</strong>
+                                                / {% if invoiceLimit %}{{ invoiceLimit }}{% else %}∞{% endif %}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
