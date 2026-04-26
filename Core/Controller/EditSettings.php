@@ -340,6 +340,10 @@ class EditSettings extends PanelController
                 $this->loadSerie($viewName);
                 $this->loadSerieRectifying($viewName);
                 $this->loadRegimeValues($viewName);
+                $this->loadFiscalIdValues($viewName);
+                $this->loadCurrencyValues($viewName);
+                $this->loadTaxValues($viewName);
+                $this->loadRetentionValues($viewName);
 
                 // Disable columns if their tables do not exist
                 if (false === $this->dataBase->tableExists('divisas')) {
@@ -390,6 +394,58 @@ class EditSettings extends PanelController
                 new DataBaseWhere('mimetype', 'image/gif,image/jpeg,image/png', 'IN')
             ]);
             $columnLogo->widget->setValuesFromCodeModel($images);
+        }
+    }
+
+    protected function loadCurrencyValues(string $viewName): void
+    {
+        if (false === $this->dataBase->tableExists('divisas')) {
+            return;
+        }
+
+        $divisas = $this->codeModel->all('divisas', 'coddivisa', 'descripcion');
+        $column = $this->views[$viewName]->columnForName('currency');
+        if ($column && $column->widget->getType() === 'select') {
+            $column->widget->setValuesFromCodeModel($divisas);
+        }
+    }
+
+    protected function loadFiscalIdValues(string $viewName): void
+    {
+        if (false === $this->dataBase->tableExists('idsfiscales')) {
+            return;
+        }
+
+        $ids = $this->codeModel->all('idsfiscales', 'tipoidfiscal', 'tipoidfiscal');
+        $column = $this->views[$viewName]->columnForName('fiscal-id');
+        if ($column && $column->widget->getType() === 'select') {
+            $column->widget->setValuesFromCodeModel($ids);
+        }
+    }
+
+    protected function loadRetentionValues(string $viewName): void
+    {
+        if (false === $this->dataBase->tableExists('retenciones')) {
+            return;
+        }
+
+        $retenciones = $this->codeModel->all('retenciones', 'codretencion', 'descripcion');
+        $column = $this->views[$viewName]->columnForName('retention');
+        if ($column && $column->widget->getType() === 'select') {
+            $column->widget->setValuesFromCodeModel($retenciones);
+        }
+    }
+
+    protected function loadTaxValues(string $viewName): void
+    {
+        if (false === $this->dataBase->tableExists('impuestos')) {
+            return;
+        }
+
+        $impuestos = $this->codeModel->all('impuestos', 'codimpuesto', 'descripcion');
+        $column = $this->views[$viewName]->columnForName('tax');
+        if ($column && $column->widget->getType() === 'select') {
+            $column->widget->setValuesFromCodeModel($impuestos);
         }
     }
 
