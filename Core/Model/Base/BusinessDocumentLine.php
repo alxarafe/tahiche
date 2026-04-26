@@ -315,7 +315,7 @@ abstract class BusinessDocumentLine extends NewModelClass
         return $original;
     }
 
-    public function getProducto(): Producto
+    public function getProducto()
     {
         $producto = new Producto();
 
@@ -328,7 +328,7 @@ abstract class BusinessDocumentLine extends NewModelClass
         return $producto;
     }
 
-    public function getVariante(): Variante
+    public function getVariante()
     {
         $variante = new Variante();
         $variante->loadWhereEq('referencia', $this->referencia);
@@ -458,7 +458,7 @@ abstract class BusinessDocumentLine extends NewModelClass
     /**
      * Aplica las modificaciones de stock según el $mode.
      *
-     * @param Stock $stock
+     * @param $stock
      * @param int $mode
      * @param float $quantity
      * @param float $served

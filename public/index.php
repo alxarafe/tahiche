@@ -20,6 +20,15 @@ ini_set('display_errors', '1');
 // 1. Carga del Autoloader de Composer
 require_once __DIR__ . '/../vendor/autoload.php';
 
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    file_put_contents(__DIR__ . '/../debug_error.log', "Error [$errno]: $errstr in $errfile on line $errline\n", FILE_APPEND);
+    return false; // let the default error handler run too
+});
+set_exception_handler(function($e) {
+    file_put_contents(__DIR__ . '/../debug_error.log', "Exception: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine() . "\n" . $e->getTraceAsString() . "\n", FILE_APPEND);
+    throw $e; // Re-throw to ensure standard output
+});
+
 // 2. Definición de constantes de rutas globales
 define('APP_PATH', dirname(__DIR__));
 define('BASE_PATH', __DIR__);

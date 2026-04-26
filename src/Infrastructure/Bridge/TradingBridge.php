@@ -18,4 +18,9 @@ class TradingBridge
     {
         Producto::addExtension($extension);
     }
+
+    public static function addEditProductoExtension($extension): void
+    {
+        \FacturaScripts\Plugins\Trading\Controller\EditProducto::addExtension($extension);
+    }
 }

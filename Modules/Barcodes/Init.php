@@ -13,5 +13,6 @@ class Init
     {
         // Register barcode extensions
         TradingBridge::addProductoExtension(new ProductExtension());
+        TradingBridge::addEditProductoExtension(new \Modules\Barcodes\Extension\Controller\EditProducto());
     }
 }

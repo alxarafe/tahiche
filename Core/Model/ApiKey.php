@@ -111,7 +111,7 @@ class ApiKey extends ModelClass
      *
      * @return ?ApiAccess The ApiAccess object if found, false otherwise.
      */
-    public function getAccess(string $resource): ?ApiAccess
+    public function getAccess(string $resource)
     {
         $apiAccess = new ApiAccess();
         $where = [

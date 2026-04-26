@@ -13,7 +13,7 @@ class ProductBarcode extends ModelClass
     use ModelTrait;
 
     public ?int $id = null;
-    public ?int $idproducto = null;
+    public ?int $idvariante = null;
     public ?string $codbarras = null;
     public ?string $tipo = 'EAN-13';
     public ?float $cantidad = 1;
@@ -40,10 +40,11 @@ class ProductBarcode extends ModelClass
     {
         $barcode = new self();
         if ($barcode->loadFromCode('', [new \FacturaScripts\Core\Base\DataBase\DataBaseWhere('codbarras', $code)])) {
-            $product = new \FacturaScripts\Plugins\Trading\Model\Producto();
-            if ($product->loadFromCode('', [new \FacturaScripts\Core\Base\DataBase\DataBaseWhere('idproducto', $barcode->idproducto)])) {
+            $variante = new \FacturaScripts\Core\Model\Variante();
+            if ($variante->loadFromCode('', [new \FacturaScripts\Core\Base\DataBase\DataBaseWhere('idvariante', $barcode->idvariante)])) {
                 return [
-                    'producto' => $product,
+                    'variante' => $variante,
+                    'producto' => $variante->getProducto(),
                     'cantidad' => $barcode->cantidad,
                     'barcode' => $barcode,
                 ];

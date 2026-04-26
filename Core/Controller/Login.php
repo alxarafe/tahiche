@@ -335,7 +335,7 @@ class Login implements ControllerInterface
         $this->updateUserAndRedirect($user, Session::getClientIp(), $request);
     }
 
-    protected function updateUserAndRedirect(User $user, string $ip, Request $request): void
+    protected function updateUserAndRedirect($user, string $ip, Request $request): void
     {
         // update user data
         Session::set('user', $user);
@@ -375,7 +375,7 @@ class Login implements ControllerInterface
         Tools::log()->notice('logout-ok');
     }
 
-    protected function saveCookies(User $user, Request $request): void
+    protected function saveCookies($user, Request $request): void
     {
         $expiration = time() + (int)Tools::config('cookies_expire', 31536000);
         $path = Tools::config('route', '/');

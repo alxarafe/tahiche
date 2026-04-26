@@ -167,16 +167,16 @@ class EditSettings extends PanelController
         //  en su Init.php, no hardcodeadas en el Core. La comprobación file_exists es un
         //  parche temporal. Ver también: loadSerie, loadPaymentMethodValues, checkTax, etc.
         //  que acceden a tablas de plugins directamente.
-        if (file_exists(FS_FOLDER . '/Dinamic/XMLView/EditIdentificadorFiscal.xml')) {
+        if (file_exists(FS_FOLDER . '/var/cache/xmlview/EditIdentificadorFiscal.xml')) {
             $this->createViewsIdFiscal();
         }
-        if (file_exists(FS_FOLDER . '/Dinamic/XMLView/ListSecuenciaDocumento.xml')) {
+        if (file_exists(FS_FOLDER . '/var/cache/xmlview/ListSecuenciaDocumento.xml')) {
             $this->createViewSequences();
         }
-        if (file_exists(FS_FOLDER . '/Dinamic/XMLView/ListEstadoDocumento.xml')) {
+        if (file_exists(FS_FOLDER . '/var/cache/xmlview/ListEstadoDocumento.xml')) {
             $this->createViewStates();
         }
-        if (file_exists(FS_FOLDER . '/Dinamic/XMLView/ListFormatoDocumento.xml')) {
+        if (file_exists(FS_FOLDER . '/var/cache/xmlview/ListFormatoDocumento.xml')) {
             $this->createViewFormats();
         }
     }
@@ -445,7 +445,7 @@ class EditSettings extends PanelController
     private function allSettingsXMLViews(): array
     {
         $names = [];
-        foreach (Tools::folderScan(FS_FOLDER . '/Dinamic/XMLView') as $fileName) {
+        foreach (Tools::folderScan(FS_FOLDER . '/var/cache/xmlview') as $fileName) {
             if (0 === strpos($fileName, self::KEY_SETTINGS)) {
                 $names[] = substr($fileName, 0, -4);
             }

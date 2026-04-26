@@ -67,7 +67,7 @@ class InvoiceToAccounting extends AccountingClass
     /**
      * Method to launch the accounting process
      *
-     * @param FacturaCliente|FacturaProveedor $model
+     * @param FacturaCliente|$model
      */
     public function generate($model)
     {
@@ -90,11 +90,11 @@ class InvoiceToAccounting extends AccountingClass
     /**
      * Add the customer line to the accounting entry
      *
-     * @param Asiento $entry
+     * @param $entry
      *
      * @return bool
      */
-    protected function addCustomerLine(Asiento $entry): bool
+    protected function addCustomerLine($entry): bool
     {
         $customer = new Cliente();
         if (false === $customer->load($this->document->codcliente)) {
@@ -118,11 +118,11 @@ class InvoiceToAccounting extends AccountingClass
      * Add the goods purchase line to the accounting entry.
      * Make one line for each product/family purchase subaccount.
      *
-     * @param Asiento $entry
+     * @param $entry
      *
      * @return bool
      */
-    protected function addGoodsPurchaseLine(Asiento $entry): bool
+    protected function addGoodsPurchaseLine($entry): bool
     {
         $rectifAccount = $this->getSpecialSubAccount('DEVCOM');
         $purchaseAccount = $this->document->idfacturarect && $rectifAccount->exists() ? $rectifAccount :
@@ -144,11 +144,11 @@ class InvoiceToAccounting extends AccountingClass
      * Add the goods sales line to the accounting entry.
      * Make one line for each product/family sale subaccount.
      *
-     * @param Asiento $entry
+     * @param $entry
      *
      * @return bool
      */
-    protected function addGoodsSalesLine(Asiento $entry): bool
+    protected function addGoodsSalesLine($entry): bool
     {
         $rectifAccount = $this->getSpecialSubAccount('DEVVEN');
         $salesAccount = $this->document->idfacturarect && $rectifAccount->exists() ? $rectifAccount :
@@ -167,11 +167,11 @@ class InvoiceToAccounting extends AccountingClass
     }
 
     /**
-     * @param Asiento $entry
+     * @param $entry
      *
      * @return bool
      */
-    protected function addPurchaseIrpfLines(Asiento $entry): bool
+    protected function addPurchaseIrpfLines($entry): bool
     {
         if (empty($this->document->totalirpf) || count($this->subtotals) == 0) {
             return true;
@@ -202,11 +202,11 @@ class InvoiceToAccounting extends AccountingClass
     }
 
     /**
-     * @param Asiento $entry
+     * @param $entry
      *
      * @return bool
      */
-    protected function addPurchaseSuppliedLines(Asiento $entry): bool
+    protected function addPurchaseSuppliedLines($entry): bool
     {
         if (empty($this->document->totalsuplidos)) {
             return true;
@@ -224,11 +224,11 @@ class InvoiceToAccounting extends AccountingClass
     /**
      * Add the purchase line to the accounting entry
      *
-     * @param Asiento $entry
+     * @param $entry
      *
      * @return bool
      */
-    protected function addPurchaseTaxLines(Asiento $entry): bool
+    protected function addPurchaseTaxLines($entry): bool
     {
         $isIntra = in_array($this->document->operacion, [
             InvoiceOperation::INTRA_COMMUNITY,
@@ -287,11 +287,11 @@ class InvoiceToAccounting extends AccountingClass
     }
 
     /**
-     * @param Asiento $entry
+     * @param $entry
      *
      * @return bool
      */
-    protected function addSalesIrpfLines(Asiento $entry): bool
+    protected function addSalesIrpfLines($entry): bool
     {
         if (empty($this->document->totalirpf) || count($this->subtotals) == 0) {
             return true;
@@ -317,11 +317,11 @@ class InvoiceToAccounting extends AccountingClass
     /**
      * Add the supplied line to the accounting entry
      *
-     * @param Asiento $entry
+     * @param $entry
      *
      * @return bool
      */
-    protected function addSalesSuppliedLines(Asiento $entry): bool
+    protected function addSalesSuppliedLines($entry): bool
     {
         if (empty($this->document->totalsuplidos)) {
             return true;
@@ -339,11 +339,11 @@ class InvoiceToAccounting extends AccountingClass
     /**
      * Add the sales line to the accounting entry
      *
-     * @param Asiento $entry
+     * @param $entry
      *
      * @return bool
      */
-    protected function addSalesTaxLines(Asiento $entry): bool
+    protected function addSalesTaxLines($entry): bool
     {
         $isIntra = in_array($this->document->operacion, [
             InvoiceOperation::INTRA_COMMUNITY,
@@ -398,11 +398,11 @@ class InvoiceToAccounting extends AccountingClass
     }
 
     /**
-     * @param Asiento $entry
+     * @param $entry
      *
      * @return bool
      */
-    protected function addSupplierLine(Asiento $entry): bool
+    protected function addSupplierLine($entry): bool
     {
         $supplier = new Proveedor();
         if (false === $supplier->load($this->document->codproveedor)) {
@@ -610,7 +610,7 @@ class InvoiceToAccounting extends AccountingClass
     /**
      * Assign the document data to the accounting entry
      *
-     * @param Asiento $entry
+     * @param $entry
      * @param string $concept
      */
     protected function setAccountingData(Asiento &$entry, string $concept): void

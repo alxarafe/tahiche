@@ -60,7 +60,7 @@ final class Ejercicios implements DataSrcInterface
      *
      * @return Ejercicio
      */
-    public static function get($code): Ejercicio
+    public static function get($code)
     {
         foreach (self::all() as $item) {
             if ($item->id() === $code) {

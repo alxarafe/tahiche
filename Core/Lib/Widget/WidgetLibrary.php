@@ -209,7 +209,7 @@ class WidgetLibrary extends BaseWidget
         return $html;
     }
 
-    public function uploadFile(UploadedFile $uploadFile): AttachedFile
+    public function uploadFile(UploadedFile $uploadFile)
     {
         if (false === $uploadFile->isValid()) {
             return new AttachedFile();

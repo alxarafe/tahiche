@@ -25,9 +25,9 @@ use FacturaScripts\Core\DataSrc\Empresas;
 use FacturaScripts\Core\DataSrc\FormasPago;
 use FacturaScripts\Core\DataSrc\Series;
 use FacturaScripts\Core\Lib\InvoiceOperation;
-use FacturaScripts\Dinamic\Model\Base\BusinessDocument;
-use FacturaScripts\Dinamic\Model\Base\PurchaseDocument;
-use FacturaScripts\Dinamic\Model\Base\TransformerDocument;
+use FacturaScripts\Core\Model\Base\BusinessDocument;
+use FacturaScripts\Core\Model\Base\PurchaseDocument;
+use FacturaScripts\Core\Model\Base\TransformerDocument;
 use FacturaScripts\Core\Session;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\EstadoDocumento;
@@ -436,7 +436,7 @@ trait CommonSalesPurchases
             . '</div>';
     }
 
-    protected static function idestadoIcon(EstadoDocumento $status, bool $alternative = false): string
+    protected static function idestadoIcon($status, bool $alternative = false): string
     {
         if ($status->icon) {
             return $status->icon;
@@ -447,7 +447,7 @@ trait CommonSalesPurchases
         return $status->editable ? 'fa-solid fa-pen' : 'fa-solid fa-lock';
     }
 
-    protected static function idestadoTextColor(EstadoDocumento $status): string
+    protected static function idestadoTextColor($status): string
     {
         if ($status->generadoc) {
             return ' text-success';

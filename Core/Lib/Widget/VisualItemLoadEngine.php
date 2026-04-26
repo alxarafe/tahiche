@@ -48,7 +48,7 @@ class VisualItemLoadEngine
      * Loads an xmlview data into a PageOption model.
      *
      * @param string $name
-     * @param PageOption $model
+     * @param $model
      *
      * @return bool
      */
@@ -56,8 +56,9 @@ class VisualItemLoadEngine
     {
         $model->name = htmlspecialchars($name);
 
-        $fileName = FS_FOLDER . '/Dinamic/XMLView/' . $model->name . '.xml';
-        if (FS_DEBUG && !file_exists($fileName)) {
+        // Buscamos el XML compilado en la caché moderna
+        $fileName = FS_FOLDER . '/var/cache/xmlview/' . $model->name . '.xml';
+        if (false === file_exists($fileName)) {
             $fileName = FS_FOLDER . '/Core/XMLView/' . $model->name . '.xml';
         }
 
@@ -102,9 +103,9 @@ class VisualItemLoadEngine
      * @param array $columns
      * @param array $modals
      * @param array $rows
-     * @param PageOption $model
+     * @param $model
      */
-    public static function loadArray(array &$columns, array &$modals, array &$rows, PageOption $model): void
+    public static function loadArray(array &$columns, array &$modals, array &$rows, $model): void
     {
         static::getGroupsColumns($model->columns, $columns);
         static::getGroupsColumns($model->modals, $modals);

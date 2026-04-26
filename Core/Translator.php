@@ -76,7 +76,7 @@ final class Translator
 
     public static function deploy(): void
     {
-        Tools::folderCheckOrCreate(FS_FOLDER . '/Dinamic/Translation');
+        Tools::folderCheckOrCreate(FS_FOLDER . '/var/cache/translation');
 
         // obtenemos las carpetas a analizar
         $folders = [FS_FOLDER . '/Core/Translation'];
@@ -108,7 +108,7 @@ final class Translator
             }
 
             file_put_contents(
-                FS_FOLDER . '/Dinamic/Translation/' . $lang . '.json',
+                FS_FOLDER . '/var/cache/translation/' . $lang . '.json',
                 json_encode($data, JSON_PRETTY_PRINT)
             );
         }
@@ -180,8 +180,8 @@ final class Translator
         $folders = [FS_FOLDER . '/Core/Translation'];
 
         // después las de dinamic
-        if (file_exists(FS_FOLDER . '/Dinamic/Translation')) {
-            $folders[] = FS_FOLDER . '/Dinamic/Translation';
+        if (file_exists(FS_FOLDER . '/var/cache/translation')) {
+            $folders[] = FS_FOLDER . '/var/cache/translation';
         }
 
         // por último las de myfiles

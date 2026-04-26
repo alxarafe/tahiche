@@ -21,7 +21,7 @@ namespace FacturaScripts\Core\Lib\AjaxForms;
 
 use FacturaScripts\Core\Base\DataBase;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Dinamic\Model\Base\PurchaseDocument;
+use FacturaScripts\Core\Model\Base\PurchaseDocument;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\AtributoValor;
 use FacturaScripts\Dinamic\Model\Fabricante;
@@ -351,7 +351,7 @@ class PurchasesModalHTML
             . '</div>';
     }
 
-    private static function subfamilias(Familia $family, int $level = 1): string
+    private static function subfamilias($family, int $level = 1): string
     {
         $options = '';
         foreach ($family->getSubfamilias() as $fam) {

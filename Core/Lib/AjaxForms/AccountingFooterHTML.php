@@ -34,7 +34,7 @@ class AccountingFooterHTML
     {
     }
 
-    public static function render(Asiento $model): string
+    public static function render($model): string
     {
         return '<div class="container-fluid">'
             . '<div class="row g-2 align-items-center mt-3">'
@@ -51,7 +51,7 @@ class AccountingFooterHTML
             . '</div>';
     }
 
-    protected static function deleteBtn(Asiento $model): string
+    protected static function deleteBtn($model): string
     {
         if (false === $model->exists() || false === $model->editable) {
             return '';
@@ -96,7 +96,7 @@ class AccountingFooterHTML
     /**
      * Render the unbalance value
      */
-    protected static function descuadre(Asiento $model): string
+    protected static function descuadre($model): string
     {
         $nf0 = Tools::settings('default', 'decimals', 2);
         $unbalance = isset($model->debe, $model->haber) ? round($model->debe - $model->haber, $nf0) : 0.0;
@@ -114,7 +114,7 @@ class AccountingFooterHTML
     /**
      * Render the amount field
      */
-    protected static function importe(Asiento $model): string
+    protected static function importe($model): string
     {
         return '<div class="col-sm-6 col-md-4 col-lg-2 mb-2">'
             . '<div class="input-group">'
@@ -123,7 +123,7 @@ class AccountingFooterHTML
             . '</div></div>';
     }
 
-    protected static function newSubaccount(Asiento $model): string
+    protected static function newSubaccount($model): string
     {
         if (false === $model->editable) {
             return '<div class="col-sm"></div>';
@@ -142,7 +142,7 @@ class AccountingFooterHTML
             . '</div>';
     }
 
-    protected static function saveBtn(Asiento $model): string
+    protected static function saveBtn($model): string
     {
         if (false === $model->editable) {
             return '<div class="col-sm-auto">'
@@ -157,7 +157,7 @@ class AccountingFooterHTML
             . '</div>';
     }
 
-    protected static function moveBtn(Asiento $model): string
+    protected static function moveBtn($model): string
     {
         if (false === $model->editable) {
             return '';

@@ -87,7 +87,7 @@ abstract class AccountingClosingBase
     /**
      * Delete special accounting entry from exercise.
      *
-     * @param Ejercicio $exercise
+     * @param $exercise
      *
      * @return bool
      */
@@ -105,7 +105,7 @@ abstract class AccountingClosingBase
      *      - Create a line to canceling the balance (if necessary)
      *      - Update account totals
      *
-     * @param Ejercicio $exercise
+     * @param $exercise
      * @param int $idjournal
      *
      * @return bool
@@ -140,7 +140,7 @@ abstract class AccountingClosingBase
     /**
      * Search and load data account from a special account code
      *
-     * @param Ejercicio $exercise
+     * @param $exercise
      * @param string $specialAccount
      *
      * @return bool
@@ -160,7 +160,7 @@ abstract class AccountingClosingBase
     /**
      * Establishes the common data of the accounting entry
      *
-     * @param Asiento $entry
+     * @param $entry
      */
     protected function setData(&$entry): void
     {
@@ -176,7 +176,7 @@ abstract class AccountingClosingBase
     /**
      * Establishes the common data of the entries of the accounting entry
      *
-     * @param Partida $line
+     * @param $line
      * @param array $data
      */
     protected function setDataLine(&$line, $data): void
@@ -192,7 +192,7 @@ abstract class AccountingClosingBase
      * Add accounting entry line with balance override.
      * Return true without doing anything, if you do not need balance override.
      *
-     * @param Asiento $accountEntry
+     * @param $accountEntry
      * @param float $debit
      * @param float $credit
      *
@@ -207,7 +207,7 @@ abstract class AccountingClosingBase
      * Create each of the lines of the accounting entry
      * with the accounts that have a balance.
      *
-     * @param Asiento $accountEntry
+     * @param $accountEntry
      * @param array $balance
      * @param float $debit
      * @param float $credit
@@ -232,7 +232,7 @@ abstract class AccountingClosingBase
     /**
      * Delete accounting entry of type indicated.
      *
-     * @param Ejercicio $exercise
+     * @param $exercise
      * @param string $type
      */
     private function deleteAccountEntry($exercise, $type): bool
@@ -280,7 +280,7 @@ abstract class AccountingClosingBase
      * Create new accounting entry for channel and journal.
      * New accounting it's set into accountEntry param.
      *
-     * @param Asiento $accountEntry
+     * @param $accountEntry
      * @param int $channel
      * @param int $idjournal
      *

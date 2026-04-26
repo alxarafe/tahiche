@@ -125,7 +125,7 @@ END;
         return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . $unit[$i];
     }
 
-    private function job(string $name): CronJob
+    private function job(string $name)
     {
         $job = new CronJob();
         $where = [

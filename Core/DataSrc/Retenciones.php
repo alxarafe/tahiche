@@ -56,7 +56,7 @@ final class Retenciones implements DataSrcInterface
         return CodeModel::array2codeModel($codes, $addEmpty);
     }
 
-    public static function default(): Retencion
+    public static function default()
     {
         $code = Tools::settings('default', 'codretencion', '');
         return self::get($code);
@@ -67,7 +67,7 @@ final class Retenciones implements DataSrcInterface
      *
      * @return Retencion
      */
-    public static function get($code): Retencion
+    public static function get($code)
     {
         foreach (self::all() as $item) {
             if ($item->id() === $code) {

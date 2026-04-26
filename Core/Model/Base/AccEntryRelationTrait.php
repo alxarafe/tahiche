@@ -26,7 +26,7 @@ trait AccEntryRelationTrait
     /** @var int */
     public $idasiento;
 
-    public function getAccountingEntry(): Asiento
+    public function getAccountingEntry()
     {
         $accEntry = new Asiento();
         $accEntry->load($this->idasiento);

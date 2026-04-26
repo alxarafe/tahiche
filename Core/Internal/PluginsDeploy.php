@@ -37,7 +37,15 @@ final class PluginsDeploy
 
     public static function initControllers(): void
     {
-        $files = Tools::folderScan(Tools::folder('Dinamic', 'Controller'), false);
+        $files = [];
+        foreach (Tools::folderScan(Tools::folder('Core', 'Controller')) as $file) {
+            $files[$file] = $file;
+        }
+        foreach (self::$enabledPlugins as $pluginName) {
+            foreach (Tools::folderScan(Tools::folder('Plugins', $pluginName, 'Controller')) as $file) {
+                $files[$file] = $file;
+            }
+        }
         foreach ($files as $fileName) {
             if (substr($fileName, -4) !== '.php') {
                 continue;
@@ -59,8 +67,8 @@ final class PluginsDeploy
             Tools::log()->debug('Loading controller: ' . $controllerName);
 
             if (!class_exists($controllerNamespace)) {
-                // forzamos la carga del archivo porque en este punto el autoloader no lo encontrará
-                require Tools::folder('Dinamic', 'Controller', $controllerName . '.php');
+                Tools::log()->warning('Controller not found: ' . $controllerNamespace);
+                continue;
             }
 
             try {
@@ -94,12 +102,22 @@ final class PluginsDeploy
         self::$fileList = [];
 
         $folders = ['Assets', 'Controller', 'Data', 'Error', 'Lib', 'Model', 'Table', 'View', 'Worker', 'XMLView'];
-        foreach ($folders as $folder) {
-            if ($clean) {
-                Tools::folderDelete(Tools::folder('Dinamic', $folder));
-            }
+        // Limpiamos también la caché moderna de XMLView y Assets
+        if ($clean) {
+            Tools::folderDelete(FS_FOLDER . '/var/cache/xmlview');
+            Tools::folderDelete(FS_FOLDER . '/var/cache/assets');
+            Tools::folderDelete(FS_FOLDER . '/Dinamic'); // Extirpamos Dinamic en cada limpieza
+            @unlink(FS_FOLDER . '/var/cache/class_resolver.php');
+        }
 
-            Tools::folderCheckOrCreate(Tools::folder('Dinamic', $folder));
+        foreach ($folders as $folder) {
+            // Creamos las carpetas base en var/cache/assets en lugar de Dinamic
+            if ($folder !== 'XMLView') {
+                $cacheDir = FS_FOLDER . '/var/cache/assets/' . $folder;
+                if (!is_dir($cacheDir)) {
+                    mkdir($cacheDir, 0777, true);
+                }
+            }
 
             // examinamos los plugins
             foreach (self::$enabledPlugins as $pluginName) {
@@ -181,7 +199,11 @@ final class PluginsDeploy
 
     private static function linkFile(string $fileName, string $folder, string $filePath): void
     {
-        $path = Tools::folder('Dinamic', $folder, $fileName);
+        $path = FS_FOLDER . '/var/cache/assets/' . $folder . '/' . $fileName;
+        $dir = dirname($path);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
 
         if (!copy($filePath, $path)) {
             throw new Exception('Failed to copy file: ' . $filePath . ' to ' . $path);
@@ -205,7 +227,10 @@ final class PluginsDeploy
             $filePath = Tools::folder($path, $fileName);
 
             if (is_dir($filePath)) {
-                Tools::folderCheckOrCreate(Tools::folder('Dinamic', $folder, $fileName));
+                $cacheDir = FS_FOLDER . '/var/cache/assets/' . $folder . '/' . $fileName;
+                if (!is_dir($cacheDir)) {
+                    mkdir($cacheDir, 0777, true);
+                }
                 continue;
             } elseif ($fileInfo['filename'] === '' || !is_file($filePath)) {
                 continue;
@@ -229,37 +254,9 @@ final class PluginsDeploy
 
     private static function linkPHPFile(string $fileName, string $folder, string $place, string $pluginName): void
     {
-        $auxNamespace = empty($pluginName) ? $place : 'Plugins\\' . $pluginName;
-        $namespace = 'FacturaScripts\\' . $auxNamespace . '\\' . $folder;
-        $newNamespace = "FacturaScripts\Dinamic\\" . $folder;
-
-        $paths = explode(DIRECTORY_SEPARATOR, $fileName);
-        for ($key = 0; $key < count($paths) - 1; ++$key) {
-            $namespace .= '\\' . $paths[$key];
-            $newNamespace .= '\\' . $paths[$key];
-        }
-
-        $classType = self::getClassType($fileName, $folder, $place, $pluginName);
-        if (empty($classType)) {
-            // No es un archivo de clase, lo ignoramos
-            return;
-        }
-
-        $className = basename($fileName, '.php');
-        $txt = '<?php namespace ' . $newNamespace . ";\n\n"
-            . '/**' . "\n"
-            . ' * Class created by Core/Internal/PluginsDeploy' . "\n"
-            . ' * @author FacturaScripts <carlos@facturascripts.com>' . "\n"
-            . ' */' . "\n"
-            . $classType . ' ' . $className . ' extends \\' . $namespace . '\\' . $className;
-
-        $txt .= self::extensionSupport($newNamespace) ? "\n{\n\tuse \FacturaScripts\Core\Template\ExtensionsTrait;\n}\n" : "\n{\n}\n";
-
-        $destinationPath = Tools::folder('Dinamic', $folder, $fileName);
-        if (file_put_contents($destinationPath, $txt) === false) {
-            throw new Exception('Unable to write file: ' . $destinationPath);
-        }
-
+        // En lugar de generar físicamente los archivos en Dinamic/, confiamos en ClassResolver
+        // para mapear dinámicamente las clases legacy a sus nuevas ubicaciones.
+        // Mantenemos el registro de la clase en fileList por si otros procesos internos lo usan.
         self::$fileList[$folder][$fileName] = $fileName;
     }
 
@@ -293,7 +290,12 @@ final class PluginsDeploy
             self::mergeXMLDocs($xml, $xmlExtension);
         }
 
-        $destinationPath = Tools::folder('Dinamic', $folder, $fileName);
+        // Guardamos en la nueva caché moderna
+        $destinationDir = FS_FOLDER . '/var/cache/xmlview';
+        if (!is_dir($destinationDir)) {
+            mkdir($destinationDir, 0777, true);
+        }
+        $destinationPath = $destinationDir . '/' . $fileName;
         if ($xml->asXML($destinationPath) === false) {
             throw new Exception('Unable to write XML file: ' . $destinationPath);
         }

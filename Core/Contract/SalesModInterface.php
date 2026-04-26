@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Contract;
 
-use FacturaScripts\Dinamic\Model\Base\SalesDocument;
+use FacturaScripts\Core\Model\Base\SalesDocument;
 
 interface SalesModInterface
 {

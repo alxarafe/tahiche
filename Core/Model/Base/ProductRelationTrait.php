@@ -29,7 +29,7 @@ trait ProductRelationTrait
     /** @var int */
     public $idproducto;
 
-    public function getProducto(): Producto
+    public function getProducto()
     {
         $producto = new Producto();
         $producto->load($this->idproducto);

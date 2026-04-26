@@ -21,8 +21,8 @@ namespace FacturaScripts\Core\DataSrc;
 
 use FacturaScripts\Core\Cache;
 use FacturaScripts\Core\Tools;
-use FacturaScripts\Dinamic\Model\CodeModel;
-use FacturaScripts\Dinamic\Model\Divisa;
+use FacturaScripts\Core\Model\CodeModel;
+use FacturaScripts\Core\Model\Divisa;
 
 final class Divisas implements DataSrcInterface
 {
@@ -56,7 +56,7 @@ final class Divisas implements DataSrcInterface
         return CodeModel::array2codeModel($codes, $addEmpty);
     }
 
-    public static function default(): Divisa
+    public static function default()
     {
         $code = Tools::settings('default', 'coddivisa', 'EUR');
         return self::get($code);
@@ -67,7 +67,7 @@ final class Divisas implements DataSrcInterface
      *
      * @return Divisa
      */
-    public static function get($code): Divisa
+    public static function get($code)
     {
         foreach (self::all() as $item) {
             if ($item->id() === $code) {

@@ -56,7 +56,7 @@ final class Series implements DataSrcInterface
         return CodeModel::array2codeModel($codes, $addEmpty);
     }
 
-    public static function default(): Serie
+    public static function default()
     {
         $code = Tools::settings('default', 'codserie', 'A');
         return self::get($code);
@@ -67,7 +67,7 @@ final class Series implements DataSrcInterface
      *
      * @return Serie
      */
-    public static function get($code): Serie
+    public static function get($code)
     {
         foreach (self::all() as $item) {
             if ($item->id() === $code) {

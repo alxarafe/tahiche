@@ -20,7 +20,7 @@
 namespace FacturaScripts\Core\Lib\AjaxForms;
 
 use FacturaScripts\Core\Contract\PurchasesModInterface;
-use FacturaScripts\Dinamic\Model\Base\PurchaseDocument;
+use FacturaScripts\Core\Model\Base\PurchaseDocument;
 use FacturaScripts\Core\Tools;
 
 /**

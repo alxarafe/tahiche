@@ -343,7 +343,7 @@ final class Html
         }
 
         // cargamos las rutas para las plantillas
-        $path = FS_DEBUG ? FS_FOLDER . '/Core/View' : FS_FOLDER . '/Dinamic/View';
+        $path = FS_DEBUG ? FS_FOLDER . '/Core/View' : FS_FOLDER . '/var/cache/assets/View';
         self::$loader = new FilesystemLoader($path);
         if (self::$plugins) {
             self::loadPluginFolders();

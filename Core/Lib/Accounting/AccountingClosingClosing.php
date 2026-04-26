@@ -35,7 +35,7 @@ class AccountingClosingClosing extends AccountingClosingBase
      * Execute main process.
      * Create a new account entry for channel with a one line by account balance.
      *
-     * @param Ejercicio $exercise
+     * @param $exercise
      * @param int $idjournal
      *
      * @return bool
@@ -117,7 +117,7 @@ class AccountingClosingClosing extends AccountingClosingBase
     /**
      * Establishes the common data of the entries of the accounting entry
      *
-     * @param Partida $line
+     * @param $line
      * @param array $data
      */
     protected function setDataLine(&$line, $data): void

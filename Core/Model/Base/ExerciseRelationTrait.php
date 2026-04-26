@@ -36,7 +36,7 @@ trait ExerciseRelationTrait
      */
     public $codejercicio;
 
-    public function getExercise(string $codejercicio = ''): Ejercicio
+    public function getExercise(string $codejercicio = '')
     {
         $code = empty($codejercicio) ? $this->codejercicio : $codejercicio;
         return Ejercicios::get($code);

@@ -62,16 +62,24 @@ class ApiRoot extends ApiController
     {
         $resources = [];
 
-        // recorremos todas las clases en /Dinamic/Lib/API
-        $folder = Tools::folder('Dinamic', 'Lib', 'API');
-        foreach (Tools::folderScan($folder, false) as $resource) {
-            if (substr($resource, -4) !== '.php') {
+        // recorremos todas las clases en /Core/Lib/API y /Plugins/*/Lib/API
+        $files = [];
+        foreach (Tools::folderScan(Tools::folder('Core', 'Lib', 'API')) as $file) {
+            $files[$file] = $file;
+        }
+        foreach (\FacturaScripts\Core\Plugins::enabled() as $pluginName) {
+            foreach (Tools::folderScan(Tools::folder('Plugins', $pluginName, 'Lib', 'API')) as $file) {
+                $files[$file] = $file;
+            }
+        }
+        foreach ($files as $file) {
+            if (substr($file, -4) !== '.php') {
                 continue;
             }
 
             // The name of the class will be the same as that of the file without the php extension.
             // Classes will be descendants of Base/APIResourceClass.
-            $class = substr('\\FacturaScripts\\Dinamic\\Lib\\API\\' . $resource, 0, -4);
+            $class = substr('\\FacturaScripts\\Dinamic\\Lib\\API\\' . $file, 0, -4);
             $APIClass = new $class($this->response, $this->request, []);
             if (isset($APIClass) && method_exists($APIClass, 'getResources')) {
                 // getResources obtains an associative array of arrays generated

@@ -21,8 +21,8 @@ namespace FacturaScripts\Core\DataSrc;
 
 use FacturaScripts\Core\Cache;
 use FacturaScripts\Core\Tools;
-use FacturaScripts\Dinamic\Model\CodeModel;
-use FacturaScripts\Dinamic\Model\Pais;
+use FacturaScripts\Core\Model\CodeModel;
+use FacturaScripts\Core\Model\Pais;
 
 final class Paises implements DataSrcInterface
 {
@@ -61,7 +61,7 @@ final class Paises implements DataSrcInterface
         return CodeModel::array2codeModel($codes, $addEmpty);
     }
 
-    public static function default(): Pais
+    public static function default()
     {
         $code = Tools::settings('default', 'codpais', 'ESP');
         return self::get($code);
@@ -72,7 +72,7 @@ final class Paises implements DataSrcInterface
      *
      * @return Pais
      */
-    public static function get($code): Pais
+    public static function get($code)
     {
         foreach (self::all() as $item) {
             if ($item->id() === $code) {

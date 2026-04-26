@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tahiche\Infrastructure\Http;
+namespace Tahiche\Infrastructure\Bridge;
 
 use FacturaScripts\Core\Plugins;
 
@@ -174,5 +174,31 @@ trait LegacyBridgeTrait
         // En FS, listView() recupera una vista existente para añadirle cosas.
         // Por compatibilidad, devolvemos un objeto absorbente.
         return $this->addListView($viewName, '', '');
+    }
+
+    // --- UTILITIES PARA EL CONTROLADOR HEXAGONAL ---
+
+    protected function transLegacy(string $text): string
+    {
+        return \FacturaScripts\Core\Tools::trans($text);
+    }
+
+    protected function countLegacyRecords(string $modelClass, string $foreignKey, $id): int
+    {
+        return (new $modelClass())->count([\FacturaScripts\Core\Where::eq($foreignKey, $id)]);
+    }
+
+    protected function getLegacyModelCount(string $modelName, string $foreignKey, $id): int
+    {
+        $modelClass = \FacturaScripts\Core\Internal\ClassResolver::getRealClass("\\FacturaScripts\\Dinamic\\Model\\" . $modelName) ?? "\\FacturaScripts\\Dinamic\\Model\\" . $modelName;
+        if (class_exists($modelClass)) {
+            return $this->countLegacyRecords($modelClass, $foreignKey, $id);
+        }
+        return 0;
+    }
+
+    protected function getLegacyRelatedRecords(string $modelClass, string $foreignKey, $foreignValue): array
+    {
+        return (new $modelClass())->all([\FacturaScripts\Core\Where::eq($foreignKey, $foreignValue)]);
     }
 }

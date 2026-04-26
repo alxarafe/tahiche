@@ -56,7 +56,7 @@ final class Almacenes implements DataSrcInterface
         return CodeModel::array2codeModel($codes, $addEmpty);
     }
 
-    public static function default(): Almacen
+    public static function default()
     {
         $code = Tools::settings('default', 'codalmacen');
         return self::get($code);
@@ -67,7 +67,7 @@ final class Almacenes implements DataSrcInterface
      *
      * @return Almacen
      */
-    public static function get($code): Almacen
+    public static function get($code)
     {
         foreach (self::all() as $item) {
             if ($item->id() === $code) {

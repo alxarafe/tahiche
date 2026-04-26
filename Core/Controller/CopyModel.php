@@ -22,7 +22,7 @@ namespace FacturaScripts\Core\Controller;
 use FacturaScripts\Core\Base\Controller;
 use FacturaScripts\Core\Base\ControllerPermissions;
 use FacturaScripts\Core\Lib\Calculator;
-use FacturaScripts\Dinamic\Model\Base\BusinessDocument;
+use FacturaScripts\Core\Model\Base\BusinessDocument;
 use FacturaScripts\Dinamic\Model\Producto;
 use FacturaScripts\Dinamic\Model\Variante;
 use FacturaScripts\Core\Response;
@@ -394,7 +394,7 @@ class CopyModel extends Controller
         $this->dataBase->beginTransaction();
 
         // obtenemos el producto origen
-        /** @var Producto $productoOrigen */
+        /** @var $productoOrigen */
         $productoOrigen = $this->model;
 
         // obtenemos las variantes del producto origen

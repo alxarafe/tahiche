@@ -242,7 +242,7 @@ trait ListViewFiltersTrait
      *
      * @return int
      */
-    public function savePageFilter(Request $request, User $user): int
+    public function savePageFilter(Request $request, $user): int
     {
         $pageFilter = new PageFilter();
         // Set values data filter

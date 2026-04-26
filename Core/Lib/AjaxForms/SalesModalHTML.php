@@ -23,7 +23,7 @@ use FacturaScripts\Core\Base\ControllerPermissions;
 use FacturaScripts\Core\Base\DataBase;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Cache;
-use FacturaScripts\Dinamic\Model\Base\SalesDocument;
+use FacturaScripts\Core\Model\Base\SalesDocument;
 use FacturaScripts\Dinamic\Model\User;
 use FacturaScripts\Core\Session;
 use FacturaScripts\Core\Tools;
@@ -162,7 +162,7 @@ class SalesModalHTML
             . $options . '</select>';
     }
 
-    protected static function getClientes(User $user, ControllerPermissions $permissions): array
+    protected static function getClientes($user, ControllerPermissions $permissions): array
     {
         $cacheKey = 'model-Cliente-sales-modal-' . $user->nick;
 
@@ -400,7 +400,7 @@ class SalesModalHTML
         }
     }
 
-    private static function subfamilias(Familia $family, int $level = 1): string
+    private static function subfamilias($family, int $level = 1): string
     {
         $options = '';
         foreach ($family->getSubfamilias() as $fam) {

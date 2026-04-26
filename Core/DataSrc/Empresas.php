@@ -21,8 +21,8 @@ namespace FacturaScripts\Core\DataSrc;
 
 use FacturaScripts\Core\Cache;
 use FacturaScripts\Core\Tools;
-use FacturaScripts\Dinamic\Model\CodeModel;
-use FacturaScripts\Dinamic\Model\Empresa;
+use FacturaScripts\Core\Model\CodeModel;
+use FacturaScripts\Core\Model\Empresa;
 
 final class Empresas implements DataSrcInterface
 {
@@ -58,7 +58,7 @@ final class Empresas implements DataSrcInterface
         return CodeModel::array2codeModel($codes, $addEmpty);
     }
 
-    public static function default(): Empresa
+    public static function default()
     {
         $id = Tools::settings('default', 'idempresa');
         return self::get($id);
@@ -69,7 +69,7 @@ final class Empresas implements DataSrcInterface
      *
      * @return Empresa
      */
-    public static function get($code): Empresa
+    public static function get($code)
     {
         foreach (self::all() as $item) {
             if ($item->id() == $code) {

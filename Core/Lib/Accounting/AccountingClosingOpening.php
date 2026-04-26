@@ -53,7 +53,7 @@ class AccountingClosingOpening extends AccountingClosingBase
      * Delete main process.
      * Delete opening accounting entry from exercise.
      *
-     * @param Ejercicio $exercise
+     * @param $exercise
      *
      * @return bool
      */
@@ -69,7 +69,7 @@ class AccountingClosingOpening extends AccountingClosingBase
      * Create a new account entry for channel with a one line by account balance.
      * The informed exercise must be the closed exercise.
      *
-     * @param Ejercicio $exercise
+     * @param $exercise
      * @param int $idjournal
      *
      * @return bool
@@ -175,7 +175,7 @@ class AccountingClosingOpening extends AccountingClosingBase
     /**
      * Establishes the common data of the accounting entry
      *
-     * @param Asiento $entry
+     * @param $entry
      */
     protected function setData(&$entry): void
     {
@@ -187,7 +187,7 @@ class AccountingClosingOpening extends AccountingClosingBase
      * Establishes the common data of the entries of the accounting entry.
      * Set new exercise data values.
      *
-     * @param Partida $line
+     * @param $line
      * @param array $data
      */
     protected function setDataLine(&$line, $data): void

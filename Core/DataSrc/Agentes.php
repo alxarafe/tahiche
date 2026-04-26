@@ -60,7 +60,7 @@ final class Agentes implements DataSrcInterface
      *
      * @return Agente
      */
-    public static function get($code): Agente
+    public static function get($code)
     {
         foreach (self::all() as $item) {
             if ($item->id() === $code) {

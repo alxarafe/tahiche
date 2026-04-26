@@ -62,7 +62,7 @@ final class GruposClientes implements DataSrcInterface
      *
      * @return GrupoClientes
      */
-    public static function get($code): GrupoClientes
+    public static function get($code)
     {
         foreach (self::all() as $item) {
             if ($item->id() === $code) {

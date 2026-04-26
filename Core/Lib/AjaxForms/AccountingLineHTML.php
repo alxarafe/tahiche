@@ -42,7 +42,7 @@ class AccountingLineHTML
     protected static $num = 0;
 
     /**
-     * @param Asiento $model
+     * @param $model
      * @param Partida[] $lines
      * @param array $formData
      */
@@ -104,7 +104,7 @@ class AccountingLineHTML
     /**
      * Render the lines of the accounting entry.
      */
-    public static function render(array $lines, Asiento $model): string
+    public static function render(array $lines, $model): string
     {
         $html = '';
         foreach ($lines as $line) {
@@ -119,7 +119,7 @@ class AccountingLineHTML
     /**
      * Render one of the lines of the accounting entry
      */
-    public static function renderLine(Partida $line, Asiento $model): string
+    public static function renderLine($line, $model): string
     {
         static::$num++;
         $idlinea = $line->idpartida ?? 'n' . static::$num;
@@ -135,7 +135,7 @@ class AccountingLineHTML
             . '</div>';
     }
 
-    private static function renderLineModal(Partida $line, string $idlinea, Asiento $model): string
+    private static function renderLineModal($line, string $idlinea, $model): string
     {
         return '<div class="modal fade" id="lineModal-' . $idlinea . '" tabindex="-1" aria-labelledby="lineModal-' . $idlinea . 'Label" aria-hidden="true">'
             . '<div class="modal-dialog modal-dialog-centered">'
@@ -173,7 +173,7 @@ class AccountingLineHTML
             . '</div>';
     }
 
-    protected static function applyToLine(array &$formData, Partida &$line, string $id, Asiento $model): void
+    protected static function applyToLine(array &$formData, Partida &$line, string $id, $model): void
     {
         $line->baseimponible = (float)($formData['baseimponible_' . $id] ?? '0');
         $line->cifnif = $formData['cifnif_' . $id] ?? '';
@@ -204,7 +204,7 @@ class AccountingLineHTML
     /**
      * Amount base for apply tax.
      */
-    protected static function baseimponible(Partida $line, Asiento $model): string
+    protected static function baseimponible($line, $model): string
     {
         $idlinea = $line->idpartida ?? 'n' . static::$num;
         $attributes = $model->editable ? 'name="baseimponible_' . $idlinea . '"' : 'disabled';
@@ -225,7 +225,7 @@ class AccountingLineHTML
         $model->importe = max([$model->debe, $model->haber]);
     }
 
-    protected static function cifnif(Partida $line, Asiento $model): string
+    protected static function cifnif($line, $model): string
     {
         $idlinea = $line->idpartida ?? 'n' . static::$num;
         $attributes = $model->editable ? 'name="cifnif_' . $idlinea . '"' : 'disabled';
@@ -235,7 +235,7 @@ class AccountingLineHTML
             . '</div>';
     }
 
-    protected static function codserie(Partida $line, Asiento $model): string
+    protected static function codserie($line, $model): string
     {
         $options = ['<option value="">------</option>'];
         foreach (Series::all() as $row) {
@@ -255,7 +255,7 @@ class AccountingLineHTML
             . '</div>';
     }
 
-    protected static function concepto(Partida $line, Asiento $model): string
+    protected static function concepto($line, $model): string
     {
         $idlinea = $line->idpartida ?? 'n' . static::$num;
         $attributes = $model->editable
@@ -267,7 +267,7 @@ class AccountingLineHTML
             . '</div>';
     }
 
-    protected static function contrapartida(Partida $line, Asiento $model): string
+    protected static function contrapartida($line, $model): string
     {
         $idlinea = $line->idpartida ?? 'n' . static::$num;
         $attributes = $model->editable
@@ -280,7 +280,7 @@ class AccountingLineHTML
             . '</div>';
     }
 
-    protected static function debe(Partida $line, Asiento $model): string
+    protected static function debe($line, $model): string
     {
         $idlinea = $line->idpartida ?? 'n' . static::$num;
         $attributes = $model->editable
@@ -292,7 +292,7 @@ class AccountingLineHTML
             . '</div>';
     }
 
-    protected static function documento(Partida $line, Asiento $model): string
+    protected static function documento($line, $model): string
     {
         $idlinea = $line->idpartida ?? 'n' . static::$num;
         $attributes = $model->editable ? 'name="documento_' . $idlinea . '"' : 'disabled';
@@ -302,7 +302,7 @@ class AccountingLineHTML
             . '</div>';
     }
 
-    protected static function getSubcuenta(string $code, Asiento $model): Subcuenta
+    protected static function getSubcuenta(string $code, $model)
     {
         $subcuenta = new Subcuenta();
         if (empty($code) || empty($model->codejercicio)) {
@@ -317,7 +317,7 @@ class AccountingLineHTML
         return $subcuenta;
     }
 
-    protected static function haber(Partida $line, Asiento $model): string
+    protected static function haber($line, $model): string
     {
         $idlinea = $line->idpartida ?? 'n' . static::$num;
         $attributes = $model->editable
@@ -330,7 +330,7 @@ class AccountingLineHTML
             . '</div>';
     }
 
-    protected static function iva(Partida $line, Asiento $model): string
+    protected static function iva($line, $model): string
     {
         // preseleccionamos el impuesto que corresponda
         $codimpuesto = null;
@@ -360,7 +360,7 @@ class AccountingLineHTML
             . '</div>';
     }
 
-    protected static function recargo(Partida $line, Asiento $model): string
+    protected static function recargo($line, $model): string
     {
         $idlinea = $line->idpartida ?? 'n' . static::$num;
         $attributes = $model->editable ? 'name="recargo_' . $idlinea . '"' : 'disabled';
@@ -370,7 +370,7 @@ class AccountingLineHTML
             . '</div>';
     }
 
-    protected static function renderExpandButton(string $idlinea, Asiento $model): string
+    protected static function renderExpandButton(string $idlinea, $model): string
     {
         if ($model->editable) {
             return '<div class="col-sm-auto pb-1">'
@@ -386,14 +386,14 @@ class AccountingLineHTML
             . Tools::trans('more') . '"><i class="fa-solid fa-ellipsis-h"></i></button></div>';
     }
 
-    protected static function saldo(Subcuenta $subcuenta): string
+    protected static function saldo($subcuenta): string
     {
         return '<div class="col pb-2 small">' . Tools::trans('balance')
             . '<input type="text" class="form-control" value="' . Tools::number($subcuenta->saldo) . '" tabindex="-1" readonly>'
             . '</div>';
     }
 
-    protected static function subcuenta(Partida $line, Asiento $model): string
+    protected static function subcuenta($line, $model): string
     {
         $idlinea = $line->idpartida ?? 'n' . static::$num;
         $subcuenta = static::getSubcuenta($line->codsubcuenta, $model);

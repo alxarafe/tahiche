@@ -45,12 +45,12 @@ class RoleUser extends ModelClass
     /** @var string */
     public $nick;
 
-    public function getRole(): Role
+    public function getRole()
     {
         return $this->belongsTo(Role::class, 'codrole');
     }
 
-    public function getUser(): User
+    public function getUser()
     {
         return $this->belongsTo(User::class, 'nick');
     }

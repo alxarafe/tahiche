@@ -19,8 +19,8 @@
 
 namespace FacturaScripts\Core\Template;
 
-use FacturaScripts\Dinamic\Model\Base\BusinessDocument;
-use FacturaScripts\Dinamic\Model\Base\BusinessDocumentLine;
+use FacturaScripts\Core\Model\Base\BusinessDocument;
+use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
 
 abstract class CalculatorModClass
 {

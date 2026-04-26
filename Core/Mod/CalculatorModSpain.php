@@ -21,10 +21,10 @@ namespace FacturaScripts\Core\Mod;
 
 use FacturaScripts\Core\DataSrc\Impuestos;
 use FacturaScripts\Core\Lib\TaxExceptions;
-use FacturaScripts\Dinamic\Model\Base\BusinessDocument;
-use FacturaScripts\Dinamic\Model\Base\BusinessDocumentLine;
-use FacturaScripts\Dinamic\Model\Base\PurchaseDocument;
-use FacturaScripts\Dinamic\Model\Base\SalesDocument;
+use FacturaScripts\Core\Model\Base\BusinessDocument;
+use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
+use FacturaScripts\Core\Model\Base\PurchaseDocument;
+use FacturaScripts\Core\Model\Base\SalesDocument;
 use FacturaScripts\Dinamic\Model\Impuesto;
 use FacturaScripts\Core\Template\CalculatorModClass;
 use FacturaScripts\Core\Tools;

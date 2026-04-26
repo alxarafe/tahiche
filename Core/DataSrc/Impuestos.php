@@ -56,7 +56,7 @@ final class Impuestos implements DataSrcInterface
         return CodeModel::array2codeModel($codes, $addEmpty);
     }
 
-    public static function default(): Impuesto
+    public static function default()
     {
         $code = Tools::settings('default', 'codimpuesto', 'IVA21');
         return self::get($code);
@@ -67,7 +67,7 @@ final class Impuestos implements DataSrcInterface
      *
      * @return Impuesto
      */
-    public static function get($code): Impuesto
+    public static function get($code)
     {
         foreach (self::all() as $item) {
             if ($item->id() === $code) {

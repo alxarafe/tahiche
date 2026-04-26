@@ -29,7 +29,7 @@ trait SerieRelationTrait
      */
     public $codserie;
 
-    public function getSerie(): Serie
+    public function getSerie()
     {
         return Series::get($this->codserie);
     }

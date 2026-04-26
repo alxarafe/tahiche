@@ -86,7 +86,7 @@ class ClosingToAcounting
      * Execute the delete process, deleting selected entry accounts
      * and reopening exercise.
      *
-     * @param Ejercicio $exercise
+     * @param $exercise
      * @param array $data
      *
      * @return bool
@@ -126,7 +126,7 @@ class ClosingToAcounting
      * Execute the main process of regularization, closing and opening
      * of accounts.
      *
-     * @param Ejercicio $exercise
+     * @param $exercise
      * @param array $data
      *
      * @return bool

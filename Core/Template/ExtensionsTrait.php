@@ -52,14 +52,16 @@ trait ExtensionsTrait
      */
     public function __call($name, $arguments = [])
     {
+        $class = static::class;
+        
         // Build cache if needed
-        if (!isset(static::$extensionCache[$name])) {
+        if (!isset(static::$extensionCache[$class][$name])) {
             $this->buildExtensionCache($name);
         }
 
         // Execute first extension found (respecting priority)
-        if (!empty(static::$extensionCache[$name])) {
-            return call_user_func_array(static::$extensionCache[$name][0]->bindTo($this, static::class), $arguments);
+        if (!empty(static::$extensionCache[$class][$name])) {
+            return call_user_func_array(static::$extensionCache[$class][$name][0]->bindTo($this, static::class), $arguments);
         }
 
         throw new BadMethodCallException('Method ' . $name . ' does not exist on class ' . static::class . '.');
@@ -71,6 +73,8 @@ trait ExtensionsTrait
      */
     public static function addExtension($extension, int $priority = 100): void
     {
+        $class = static::class;
+        
         $methods = (new ReflectionClass($extension))->getMethods(ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_PROTECTED | ReflectionMethod::IS_PRIVATE);
         foreach ($methods as $method) {
             // Skip magic methods and constructors
@@ -86,7 +90,11 @@ trait ExtensionsTrait
                 throw new BadMethodCallException('Method ' . $method->name . ' in extension ' . get_class($extension) . ' must return a Closure.');
             }
 
-            self::$extensions[] = [
+            if (!isset(static::$extensions[$class])) {
+                static::$extensions[$class] = [];
+            }
+            
+            static::$extensions[$class][] = [
                 'name' => $method->name,
                 'function' => $result,
                 'priority' => max(0, min(1000, $priority)) // Ensure priority is between 0-1000
@@ -94,7 +102,7 @@ trait ExtensionsTrait
         }
 
         // Clear cache when adding new extensions
-        static::$extensionCache = [];
+        static::$extensionCache[$class] = [];
     }
 
     /**
@@ -102,8 +110,9 @@ trait ExtensionsTrait
      */
     public static function clearExtensions(): void
     {
-        static::$extensions = [];
-        static::$extensionCache = [];
+        $class = static::class;
+        static::$extensions[$class] = [];
+        static::$extensionCache[$class] = [];
     }
 
     /**
@@ -113,8 +122,10 @@ trait ExtensionsTrait
      */
     public static function getExtensions(): array
     {
+        $class = static::class;
         $names = [];
-        foreach (static::$extensions as $ext) {
+        $exts = static::$extensions[$class] ?? [];
+        foreach ($exts as $ext) {
             $names[] = $ext['name'];
         }
         return array_unique($names);
@@ -122,11 +133,12 @@ trait ExtensionsTrait
 
     public function hasExtension($name): bool
     {
-        if (!isset(static::$extensionCache[$name])) {
+        $class = static::class;
+        if (!isset(static::$extensionCache[$class][$name])) {
             $this->buildExtensionCache($name);
         }
 
-        return !empty(static::$extensionCache[$name]);
+        return !empty(static::$extensionCache[$class][$name]);
     }
 
     /**
@@ -137,12 +149,13 @@ trait ExtensionsTrait
      */
     public function pipe($name, ...$arguments)
     {
+        $class = static::class;
         // Build cache if needed
-        if (!isset(static::$extensionCache[$name])) {
+        if (!isset(static::$extensionCache[$class][$name])) {
             $this->buildExtensionCache($name);
         }
 
-        foreach (static::$extensionCache[$name] as $function) {
+        foreach (static::$extensionCache[$class][$name] as $function) {
             $return = call_user_func_array($function->bindTo($this, static::class), $arguments);
             if ($return !== null) {
                 return $return;
@@ -160,12 +173,13 @@ trait ExtensionsTrait
      */
     public function pipeFalse($name, ...$arguments): bool
     {
+        $class = static::class;
         // Build cache if needed
-        if (!isset(static::$extensionCache[$name])) {
+        if (!isset(static::$extensionCache[$class][$name])) {
             $this->buildExtensionCache($name);
         }
 
-        foreach (static::$extensionCache[$name] as $function) {
+        foreach (static::$extensionCache[$class][$name] as $function) {
             $return = call_user_func_array($function->bindTo($this, static::class), $arguments);
             if ($return === false) {
                 return false;
@@ -183,17 +197,22 @@ trait ExtensionsTrait
      */
     public static function removeExtension(string $name): bool
     {
-        $originalCount = count(static::$extensions);
+        $class = static::class;
+        if (!isset(static::$extensions[$class])) {
+            return false;
+        }
 
-        static::$extensions = array_filter(static::$extensions, function ($ext) use ($name) {
+        $originalCount = count(static::$extensions[$class]);
+
+        static::$extensions[$class] = array_filter(static::$extensions[$class], function ($ext) use ($name) {
             return $ext['name'] !== $name;
         });
 
-        $removed = count(static::$extensions) < $originalCount;
+        $removed = count(static::$extensions[$class]) < $originalCount;
 
         // Clear cache when removing extensions
         if ($removed) {
-            unset(static::$extensionCache[$name]);
+            unset(static::$extensionCache[$class][$name]);
         }
 
         return $removed;
@@ -206,8 +225,11 @@ trait ExtensionsTrait
      */
     private function buildExtensionCache(string $name): void
     {
+        $class = static::class;
+        $extensionsArray = static::$extensions[$class] ?? [];
+
         // Filter extensions by name
-        $extensions = array_filter(static::$extensions, function ($ext) use ($name) {
+        $extensions = array_filter($extensionsArray, function ($ext) use ($name) {
             return $ext['name'] === $name;
         });
 
@@ -217,6 +239,6 @@ trait ExtensionsTrait
         });
 
         // Store sorted functions in cache
-        static::$extensionCache[$name] = array_column($extensions, 'function');
+        static::$extensionCache[$class][$name] = array_column($extensions, 'function');
     }
 }

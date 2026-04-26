@@ -90,7 +90,7 @@ class MenuManager
         });
     }
 
-    protected function getUserAccess(User $user): array
+    protected function getUserAccess($user): array
     {
         $cacheKey = 'model-RoleAccess-User-' . $user->id();
         return Cache::remember($cacheKey, function () use ($user) {
@@ -105,7 +105,7 @@ class MenuManager
         });
     }
 
-    protected function loadUserMenu(User $user): void
+    protected function loadUserMenu($user): void
     {
         // cargamos todas las páginas del menú
         $allPages = $this->getAllPages();
@@ -113,7 +113,7 @@ class MenuManager
         if (!$user->admin) {
             // ahora quitamos las que no tiene acceso el usuario
             $userAccess = $this->getUserAccess($user);
-            $allPages = array_filter($allPages, function (Page $page) use ($userAccess) {
+            $allPages = array_filter($allPages, function ($page) use ($userAccess) {
                 return in_array($page->name, $userAccess);
             });
         }

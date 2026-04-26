@@ -27,7 +27,7 @@ trait CompanyRelationTrait
     /** @var int */
     public $idempresa;
 
-    public function getCompany(): Empresa
+    public function getCompany()
     {
         return Empresas::get($this->idempresa);
     }

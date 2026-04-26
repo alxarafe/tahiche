@@ -127,11 +127,7 @@ final class DbUpdater
 
     public static function getTableXmlLocation(string $table_name): string
     {
-        // primero buscamos en Dinamic/Table (plugins activos desplegados)
-        $dinFile = Tools::folder('Dinamic', 'Table', $table_name . '.xml');
-        if (file_exists($dinFile)) {
-            return $dinFile;
-        }
+        // primero en Core/Table (modelos fundacionales)
 
         // luego en Core/Table (modelos fundacionales)
         $coreFile = Tools::folder('Core', 'Table', $table_name . '.xml');

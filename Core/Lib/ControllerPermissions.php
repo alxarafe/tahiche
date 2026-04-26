@@ -55,7 +55,7 @@ final class ControllerPermissions
     /** @var bool Whether the user can only see their own data */
     public $onlyOwnerData = false;
 
-    public function __construct(?User $user = null, ?string $pageName = null)
+    public function __construct($user = null, ?string $pageName = null)
     {
         if (!$this->hasValidParameters($user, $pageName)) {
             return;
@@ -105,7 +105,7 @@ final class ControllerPermissions
     /**
      * Check if the provided parameters are valid for initialization.
      */
-    private function hasValidParameters(?User $user, ?string $pageName): bool
+    private function hasValidParameters($user, ?string $pageName): bool
     {
         return !empty($user) && !empty($pageName);
     }

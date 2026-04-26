@@ -23,7 +23,7 @@ use FacturaScripts\Core\Contract\SalesModInterface;
 use FacturaScripts\Core\DataSrc\Agentes;
 use FacturaScripts\Core\DataSrc\Paises;
 use FacturaScripts\Dinamic\Model\AgenciaTransporte;
-use FacturaScripts\Dinamic\Model\Base\SalesDocument;
+use FacturaScripts\Core\Model\Base\SalesDocument;
 use FacturaScripts\Dinamic\Model\Cliente;
 use FacturaScripts\Dinamic\Model\Contacto;
 use FacturaScripts\Core\Session;

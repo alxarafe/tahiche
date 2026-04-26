@@ -50,7 +50,7 @@ class PaymentToAccounting
     }
 
     /**
-     * @param PagoCliente|PagoProveedor $payment
+     * @param PagoCliente|$payment
      * @return bool
      */
     public function generate($payment): bool

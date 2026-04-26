@@ -513,7 +513,7 @@ class NewMail
     /**
      * Establece el usuario que manda el email.
      */
-    public function setUser(User $user): NewMail
+    public function setUser($user): NewMail
     {
         $this->fromNick = $user->nick;
 

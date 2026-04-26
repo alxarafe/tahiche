@@ -51,13 +51,13 @@ class AccountingCreation
      * Create a subaccount with the code and the reported description
      * belonging to the group and exercise.
      *
-     * @param Cuenta $account Parent group account
+     * @param $account Parent group account
      * @param string $code The code of the subaccount
      * @param string $description The description of the subaccount
      *
      * @return Subcuenta
      */
-    public function createFromAccount($account, $code, $description = ''): Subcuenta
+    public function createFromAccount($account, $code, $description = '')
     {
         if (!$account->exists() || !$this->checkExercise($account->codejercicio)) {
             return new Subcuenta();
@@ -77,12 +77,12 @@ class AccountingCreation
     /**
      * Create an account into informed exercise.
      *
-     * @param Cuenta $account
+     * @param $account
      * @param string $codejercicio
      *
      * @return Cuenta
      */
-    public function copyAccountToExercise($account, $codejercicio): Cuenta
+    public function copyAccountToExercise($account, $codejercicio)
     {
         // account already exists?
         $newAccount = new Cuenta();
@@ -114,12 +114,12 @@ class AccountingCreation
      *    - Search account and copy from source subaccount if it don't exist.
      *    - Save new subaccount.
      *
-     * @param Subcuenta $subAccount
+     * @param $subAccount
      * @param string $codejercicio
      *
      * @return Subcuenta
      */
-    public function copySubAccountToExercise($subAccount, $codejercicio): Subcuenta
+    public function copySubAccountToExercise($subAccount, $codejercicio)
     {
         if (!$this->checkExercise($codejercicio)) {
             return new Subcuenta();
@@ -155,12 +155,12 @@ class AccountingCreation
      * If the customer or supplier does not have an associated accounting subaccount,
      * one is calculated automatically.
      *
-     * @param Cliente|Proveedor $subject Customer or Supplier model
-     * @param Cuenta $account Parent group account model
+     * @param Cliente|$subject Customer or Supplier model
+     * @param $account Parent group account model
      *
      * @return Subcuenta
      */
-    public function createSubjectAccount(&$subject, $account): Subcuenta
+    public function createSubjectAccount(&$subject, $account)
     {
         if (!$account->exists() || !$this->checkExercise($account->codejercicio)) {
             return new Subcuenta();
@@ -222,8 +222,8 @@ class AccountingCreation
     /**
      * Calculate an accounting subaccount from the customer or supplier code
      *
-     * @param Cliente|Proveedor $subject Customer or Supplier model
-     * @param Cuenta $account Parent group account model
+     * @param Cliente|$subject Customer or Supplier model
+     * @param $account Parent group account model
      *
      * @return string
      */

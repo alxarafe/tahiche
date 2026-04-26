@@ -35,7 +35,7 @@ use FacturaScripts\Dinamic\Model\Variante;
  */
 class CostPriceTools
 {
-    public static function update(Variante $variant): void
+    public static function update($variant): void
     {
         if (empty($variant->id())) {
             return;
@@ -65,9 +65,9 @@ class CostPriceTools
     /**
      * Returns the actual cost of the product stock.
      *
-     * @param Variante $variant
+     * @param $variant
      */
-    protected static function updateActualPrice(Variante $variant): void
+    protected static function updateActualPrice($variant): void
     {
         if ($variant->stockfis < 1) {
             static::updateLastPrice($variant);
@@ -129,9 +129,9 @@ class CostPriceTools
     /**
      * Returns the average price to buy this product.
      *
-     * @param Variante $variant
+     * @param $variant
      */
-    protected static function updateAveragePrice(Variante $variant): void
+    protected static function updateAveragePrice($variant): void
     {
         $prices = [];
         $supplierProduct = new ProductoProveedor();
@@ -148,9 +148,9 @@ class CostPriceTools
     /**
      * Returns the last price to buy this product.
      *
-     * @param Variante $variant
+     * @param $variant
      */
-    protected static function updateLastPrice(Variante $variant): void
+    protected static function updateLastPrice($variant): void
     {
         $supplierProduct = new ProductoProveedor();
         $where = [new DataBaseWhere('referencia', $variant->referencia)];
@@ -164,9 +164,9 @@ class CostPriceTools
     /**
      * Returns the high price to buy this product.
      *
-     * @param Variante $variant
+     * @param $variant
      */
-    protected static function updateHighPrice(Variante $variant): void
+    protected static function updateHighPrice($variant): void
     {
         $supplierProduct = new ProductoProveedor();
         $where = [new DataBaseWhere('referencia', $variant->referencia)];

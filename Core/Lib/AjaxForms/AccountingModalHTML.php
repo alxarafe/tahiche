@@ -44,12 +44,12 @@ class AccountingModalHTML
         self::$query = isset($formData['fp_query']) ? Tools::noHtml(mb_strtolower($formData['fp_query'], 'UTF8')) : '';
     }
 
-    public static function render(Asiento $model): string
+    public static function render($model): string
     {
         return static::modalSubaccount($model);
     }
 
-    public static function renderSubaccountList(Asiento $model): string
+    public static function renderSubaccountList($model): string
     {
         $tbody = '';
         foreach (static::getSubaccounts($model) as $subaccount) {
@@ -78,7 +78,7 @@ class AccountingModalHTML
             . '</table>';
     }
 
-    protected static function getSubaccounts(Asiento $model): array
+    protected static function getSubaccounts($model): array
     {
         if (empty($model->codejercicio)) {
             $model->setDate($model->fecha);
@@ -105,7 +105,7 @@ class AccountingModalHTML
         return Subcuenta::all($where, $order);
     }
 
-    protected static function modalSubaccount(Asiento $model): string
+    protected static function modalSubaccount($model): string
     {
         return '<div class="modal" id="findSubaccountModal" tabindex="-1" aria-hidden="true">'
             . '<div class="modal-dialog modal-xl">'

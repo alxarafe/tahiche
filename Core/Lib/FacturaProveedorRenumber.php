@@ -101,7 +101,7 @@ class FacturaProveedorRenumber
         return self::$db;
     }
 
-    protected static function renumberInvoices(array &$entries, int &$number, Serie $serie, SecuenciaDocumento $sequence): bool
+    protected static function renumberInvoices(array &$entries, int &$number, $serie, $sequence): bool
     {
         $sql = '';
         foreach ($entries as $row) {

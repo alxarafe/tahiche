@@ -63,7 +63,7 @@ final class Session
         self::$data[$key] = $value;
     }
 
-    public static function user(): User
+    public static function user()
     {
         if (isset(self::$data['user']) && self::$data['user'] instanceof User) {
             return self::$data['user'];

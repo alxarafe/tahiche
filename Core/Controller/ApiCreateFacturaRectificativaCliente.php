@@ -64,7 +64,7 @@ class ApiCreateFacturaRectificativaCliente extends ApiController
         }
     }
 
-    protected function newRefundAction(): ?FacturaCliente
+    protected function newRefundAction()
     {
         $invoice = new FacturaCliente();
         $code = $this->request->input('idfactura');

@@ -330,10 +330,16 @@ class Wizard extends Controller
     {
         // load all models
         $modelNames = [];
-        $modelsFolder = Tools::folder('Dinamic', 'Model');
-        foreach (Tools::folderScan($modelsFolder) as $fileName) {
-            if ('.php' === substr($fileName, -4)) {
+        foreach (Tools::folderScan(Tools::folder('Core', 'Model')) as $fileName) {
+            if (substr($fileName, -4) === '.php') {
                 $modelNames[] = substr($fileName, 0, -4);
+            }
+        }
+        foreach (\FacturaScripts\Core\Plugins::enabled() as $pluginName) {
+            foreach (Tools::folderScan(Tools::folder('Plugins', $pluginName, 'Model')) as $fileName) {
+                if (substr($fileName, -4) === '.php') {
+                    $modelNames[] = substr($fileName, 0, -4);
+                }
             }
         }
         if (false === $this->dataBase->tableExists('fs_users')) {
@@ -461,7 +467,7 @@ class Wizard extends Controller
         $secuencia->save();
     }
 
-    private function setWarehouse(Almacen $almacen, string $codpais): void
+    private function setWarehouse($almacen, string $codpais): void
     {
         $almacen->ciudad = $this->empresa->ciudad;
         $almacen->codpais = $codpais;
@@ -477,7 +483,7 @@ class Wizard extends Controller
         Tools::settingsSave();
     }
 
-    private function uploadLogoFile(UploadedFile $uploadFile): AttachedFile
+    private function uploadLogoFile(UploadedFile $uploadFile)
     {
         // exclude php files
         if (in_array($uploadFile->getClientMimeType(), ['application/x-php', 'text/x-php'])) {
@@ -499,7 +505,7 @@ class Wizard extends Controller
         return $file->save() ? $file : new AttachedFile();
     }
 
-    private function getTransferPaymentMethod(): FormaPago
+    private function getTransferPaymentMethod()
     {
         $paymentMethod = new FormaPago();
         if ($paymentMethod->load('TRANS')) {

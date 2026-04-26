@@ -95,6 +95,7 @@ final class Kernel
     public static function init(): void
     {
         self::startTimer('kernel::init');
+        \FacturaScripts\Core\Internal\ClassResolver::register();
 
         // cargamos algunas constantes para dar soporte a versiones antiguas
         $initial_codpais = Tools::config('initial_codpais', 'ESP');
@@ -157,9 +158,18 @@ final class Kernel
         // cargamos la página por defecto
         $homePage = Tools::settings('default', 'homepage', 'Root');
 
-        // recorremos toda la lista de archivos de la carpeta Dinamic/Controller
-        $dir = Tools::folder('Dinamic', 'Controller');
-        foreach (Tools::folderScan($dir) as $file) {
+        // recorremos toda la lista de archivos de controladores originales
+        $controllers = [];
+        foreach (Tools::folderScan(Tools::folder('Core', 'Controller')) as $file) {
+            $controllers[$file] = $file;
+        }
+        foreach (\FacturaScripts\Core\Plugins::enabled() as $pluginName) {
+            foreach (Tools::folderScan(Tools::folder('Plugins', $pluginName, 'Controller')) as $file) {
+                $controllers[$file] = $file;
+            }
+        }
+        
+        foreach ($controllers as $file) {
             // si no es un archivo php, lo ignoramos
             if ('.php' !== substr($file, -4)) {
                 continue;

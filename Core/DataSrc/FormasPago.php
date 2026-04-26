@@ -56,7 +56,7 @@ final class FormasPago implements DataSrcInterface
         return CodeModel::array2codeModel($codes, $addEmpty);
     }
 
-    public static function default(): FormaPago
+    public static function default()
     {
         $code = Tools::settings('default', 'codpago');
         return self::get($code);
@@ -67,7 +67,7 @@ final class FormasPago implements DataSrcInterface
      *
      * @return FormaPago
      */
-    public static function get($code): FormaPago
+    public static function get($code)
     {
         foreach (self::all() as $item) {
             if ($item->id() === $code) {

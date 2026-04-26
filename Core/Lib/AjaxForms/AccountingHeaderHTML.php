@@ -48,7 +48,7 @@ class AccountingHeaderHTML
         $model->operacion = !empty($formData['operacion']) ? $formData['operacion'] : null;
     }
 
-    public static function render(Asiento $model): string
+    public static function render($model): string
     {
         return '<div class="container-fluid">'
             . '<div class="row g-2">'
@@ -62,7 +62,7 @@ class AccountingHeaderHTML
             . '</div></div><br/>';
     }
 
-    protected static function canal(Asiento $model): string
+    protected static function canal($model): string
     {
         $attributes = $model->editable ? 'name="canal"' : 'disabled';
         return '<div class="col-sm-6 col-md-4 col-lg-2">'
@@ -73,7 +73,7 @@ class AccountingHeaderHTML
             . '</div>';
     }
 
-    protected static function concepto(Asiento $model): string
+    protected static function concepto($model): string
     {
         $attributes = $model->editable ? 'name="concepto" autocomplete="off" required' : 'disabled';
         return '<div class="col-sm-6 col-md-4 col-lg">'
@@ -84,7 +84,7 @@ class AccountingHeaderHTML
             . '</div>';
     }
 
-    protected static function documento(Asiento $model): string
+    protected static function documento($model): string
     {
         if (empty($model->documento)) {
             return '';
@@ -124,7 +124,7 @@ class AccountingHeaderHTML
             . '</div></div>';
     }
 
-    protected static function diario(Asiento $model): string
+    protected static function diario($model): string
     {
         $options = '<option value="">' . Tools::trans('optional') . '</option>'
             . '<option value="">------</option>';
@@ -141,7 +141,7 @@ class AccountingHeaderHTML
             . '</div>';
     }
 
-    protected static function fecha(Asiento $model): string
+    protected static function fecha($model): string
     {
         $attributes = $model->editable ? 'name="fecha" required' : 'disabled';
         return '<div class="col-sm-6 col-md-4 col-lg-2">'
@@ -151,7 +151,7 @@ class AccountingHeaderHTML
             . '</div>';
     }
 
-    private static function getConceptItems(Asiento $model): string
+    private static function getConceptItems($model): string
     {
         $result = '';
         foreach (ConceptoPartida::all([], ['descripcion' => 'ASC']) as $concept) {
@@ -173,7 +173,7 @@ class AccountingHeaderHTML
         return $result;
     }
 
-    protected static function idempresa(Asiento $model): string
+    protected static function idempresa($model): string
     {
         $companyList = Empresas::all();
         if (count($companyList) < 2) {
@@ -191,7 +191,7 @@ class AccountingHeaderHTML
             . '</div>';
     }
 
-    protected static function operacion(Asiento $model): string
+    protected static function operacion($model): string
     {
         $attributes = $model->editable ? 'name="operacion"' : 'disabled';
         return '<div class="col-sm-6 col-md-4 col-lg-2">'

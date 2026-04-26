@@ -20,8 +20,8 @@
 namespace FacturaScripts\Core\DataSrc;
 
 use FacturaScripts\Core\Cache;
-use FacturaScripts\Dinamic\Model\CodeModel;
-use FacturaScripts\Dinamic\Model\User;
+use FacturaScripts\Core\Model\CodeModel;
+use FacturaScripts\Core\Model\User;
 
 final class Users implements DataSrcInterface
 {
@@ -60,7 +60,7 @@ final class Users implements DataSrcInterface
      *
      * @return User
      */
-    public static function get($code): User
+    public static function get($code)
     {
         foreach (self::all() as $user) {
             if ($user->nick === $code) {

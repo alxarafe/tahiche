@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Lib;
 
-use FacturaScripts\Dinamic\Model\Base\BusinessDocument;
+use FacturaScripts\Core\Model\Base\BusinessDocument;
 use FacturaScripts\Dinamic\Model\SecuenciaDocumento;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\Where;
@@ -40,7 +40,7 @@ class BusinessDocumentCode
         return CodePatterns::trans($sequence->patron, $document, ['long' => $sequence->longnumero]);
     }
 
-    public static function getOtherExercises(SecuenciaDocumento $sequence): array
+    public static function getOtherExercises($sequence): array
     {
         $other = [];
 
@@ -59,7 +59,7 @@ class BusinessDocumentCode
         return $other;
     }
 
-    public static function getSequence(BusinessDocument $document): SecuenciaDocumento
+    public static function getSequence(BusinessDocument $document)
     {
         $selectedSequence = new DinSecuenciaDocumento();
         $patron = static::getDefaultPattern($document);
@@ -226,7 +226,7 @@ class BusinessDocumentCode
         return (string)$newNumber;
     }
 
-    protected static function getPrevious(SecuenciaDocumento $sequence, BusinessDocument $document): array
+    protected static function getPrevious($sequence, BusinessDocument $document): array
     {
         $where = [
             Where::eq('codserie', $sequence->codserie),

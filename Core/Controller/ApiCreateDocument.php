@@ -20,7 +20,7 @@
 namespace FacturaScripts\Core\Controller;
 
 use FacturaScripts\Core\Lib\Calculator;
-use FacturaScripts\Dinamic\Model\Base\BusinessDocument;
+use FacturaScripts\Core\Model\Base\BusinessDocument;
 use FacturaScripts\Core\Response;
 use FacturaScripts\Core\Template\ApiController;
 use FacturaScripts\Core\Tools;

@@ -59,7 +59,7 @@ class TarifaProducto extends JoinModel
         return $name === 'preciotarifa' ? $this->priceInRate() : parent::__get($name);
     }
 
-    public function getRate(): Tarifa
+    public function getRate()
     {
         if (isset(self::$rates[$this->codtarifa])) {
             return self::$rates[$this->codtarifa];

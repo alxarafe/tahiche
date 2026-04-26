@@ -149,7 +149,7 @@ class RoleAccess extends ModelClass
         return $this->belongsTo(Page::class, 'pagename') ?? new DinPage();
     }
 
-    public function getRole(): DinRole
+    public function getRole()
     {
         return $this->belongsTo(Role::class, 'codrole') ?? new DinRole();
     }

@@ -30,7 +30,7 @@ trait PaymentRelationTrait
     /** @var string */
     public $codpago;
 
-    public function getPaymentMethod(): FormaPago
+    public function getPaymentMethod()
     {
         return FormasPago::get($this->codpago);
     }

@@ -36,7 +36,7 @@ trait TaxRelationTrait
      *
      * @return Impuesto
      */
-    public function getTax(): Impuesto
+    public function getTax()
     {
         return Impuestos::get($this->codimpuesto);
     }

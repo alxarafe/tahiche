@@ -247,7 +247,7 @@ abstract class TransformerDocument extends BusinessDocument
      *
      * @return EstadoDocumento
      */
-    public function getStatus(): EstadoDocumento
+    public function getStatus()
     {
         $status = new EstadoDocumento();
         $status->load($this->idestado);
@@ -259,7 +259,7 @@ abstract class TransformerDocument extends BusinessDocument
      *
      * @return EstadoDocumento|null
      */
-    public function getPreviousStatus(): ?EstadoDocumento
+    public function getPreviousStatus()
     {
         if (empty($this->idestado_ant)) {
             return null;

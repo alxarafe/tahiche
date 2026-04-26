@@ -41,7 +41,7 @@ class PartidaAsiento extends JoinModel
         $this->asiento = new Asiento();
     }
 
-    public function getPartida(): Partida
+    public function getPartida()
     {
         $partida = new Partida();
         $partida->load($this->idpartida);

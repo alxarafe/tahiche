@@ -32,7 +32,7 @@ class AsientoExport
     private static $haber = 0;
     private static $saldo = 0;
 
-    public static function show(Asiento $asiento, string $option, string $title, int $idformat, string $langcode, &$response): void
+    public static function show($asiento, string $option, string $title, int $idformat, string $langcode, &$response): void
     {
         $exportManager = new ExportManager();
         $exportManager->newDoc($option, $title, $idformat, $langcode);
@@ -59,11 +59,11 @@ class AsientoExport
     }
 
     /**
-     * @param Asiento $asiento
+     * @param $asiento
      * @param ExportManager $exportManager
      * @return void
      */
-    private static function addLines(Asiento $asiento, ExportManager $exportManager): void
+    private static function addLines($asiento, ExportManager $exportManager): void
     {
         $i18n = Tools::lang();
         $header = [
@@ -102,7 +102,7 @@ class AsientoExport
         $exportManager->addTablePage($header, $data, $options, $title);
     }
 
-    private static function addTaxData(Asiento $asiento, ExportManager $exportManager)
+    private static function addTaxData($asiento, ExportManager $exportManager)
     {
         $i18n = Tools::lang();
         $header = [

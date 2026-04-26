@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Lib\Accounting;
 
-use FacturaScripts\Dinamic\Model\Base\ModelClass;
+use FacturaScripts\Core\Model\Base\ModelClass;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Asiento;
 use FacturaScripts\Dinamic\Model\Partida;
@@ -50,8 +50,8 @@ abstract class AccountingClass extends AccountingAccounts
     /**
      * Add a standard line to the accounting entry based on the reported sub-account
      *
-     * @param Asiento $accountEntry
-     * @param Subcuenta $subaccount
+     * @param $accountEntry
+     * @param $subaccount
      * @param bool $isDebit
      * @param float $amount
      *
@@ -65,10 +65,10 @@ abstract class AccountingClass extends AccountingAccounts
     /**
      * Add a group of lines from array of subaccounts/amount.
      *
-     * @param Asiento $accountEntry
+     * @param $accountEntry
      * @param array $totals
      * @param bool $isDebit
-     * @param Subcuenta $counterpart
+     * @param $counterpart
      * @param string $accountError
      * @param string $saveError
      *
@@ -102,9 +102,9 @@ abstract class AccountingClass extends AccountingAccounts
      * Add a line of taxes to the accounting entry based on the sub-account
      * and values reported
      *
-     * @param Asiento $accountEntry
-     * @param Subcuenta $subaccount
-     * @param Subcuenta $counterpart
+     * @param $accountEntry
+     * @param $subaccount
+     * @param $counterpart
      * @param bool $isDebit
      * @param array $values
      *
@@ -141,9 +141,9 @@ abstract class AccountingClass extends AccountingAccounts
      * Add a line of taxes to the accounting entry based on the sub-account
      * and values reported
      *
-     * @param Asiento $accountEntry
-     * @param Subcuenta $subaccount
-     * @param Subcuenta $counterpart
+     * @param $accountEntry
+     * @param $subaccount
+     * @param $counterpart
      * @param bool $isDebit
      * @param array $values
      *
@@ -175,8 +175,8 @@ abstract class AccountingClass extends AccountingAccounts
     /**
      * Obtain a standard line to the accounting entry based on the reported sub-account
      *
-     * @param Asiento $accountEntry
-     * @param Subcuenta $subaccount
+     * @param $accountEntry
+     * @param $subaccount
      * @param bool $isDebit
      * @param float $amount
      *

@@ -22,7 +22,7 @@ namespace FacturaScripts\Core\Lib\PDF;
 use Exception;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Lib\TaxExceptions;
-use FacturaScripts\Dinamic\Model\Base\BusinessDocument;
+use FacturaScripts\Core\Model\Base\BusinessDocument;
 use FacturaScripts\Core\Template\ExtensionsTrait;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\AgenciaTransporte;
@@ -59,7 +59,7 @@ abstract class PDFDocument extends PDFCore
     /**
      * Combine address if the parameters don´t empty
      *
-     * @param BusinessDocument|Contacto $model
+     * @param BusinessDocument|$model
      *
      * @return string
      */
@@ -79,8 +79,8 @@ abstract class PDFDocument extends PDFCore
      * If it is a supplier invoice, it returns the supplier's default address.
      * If it is a customer invoice, return the invoice address
      *
-     * @param Cliente|Proveedor $subject
-     * @param BusinessDocument|Contacto $model
+     * @param Cliente|$subject
+     * @param BusinessDocument|$model
      *
      * @return string
      */
@@ -95,7 +95,7 @@ abstract class PDFDocument extends PDFCore
     }
 
     /**
-     * @param BusinessDocument|ReciboCliente $receipt
+     * @param BusinessDocument|$receipt
      *
      * @return string
      */
@@ -628,7 +628,7 @@ abstract class PDFDocument extends PDFCore
             $yPos = $this->pdf->ez['pageHeight'] - $logoSize['height'] - $this->pdf->ez['topMargin'];
             $this->addImageFromAttachedFile($logoFile, $xPos, $yPos, $logoSize['width'], $logoSize['height']);
         } else {
-            $logoPath = FS_FOLDER . '/Dinamic/Assets/Images/horizontal-logo.png';
+            $logoPath = FS_FOLDER . '/var/cache/assets/Assets/Images/horizontal-logo.png';
             $logoSize = $this->calcImageSize($logoPath);
             $yPos = $this->pdf->ez['pageHeight'] - $logoSize['height'] - $this->pdf->ez['topMargin'];
             $this->addImageFromFile($logoPath, $xPos, $yPos, $logoSize['width'], $logoSize['height']);
@@ -687,7 +687,7 @@ abstract class PDFDocument extends PDFCore
     }
 
     /**
-     * @param FacturaCliente $invoice
+     * @param $invoice
      */
     protected function insertInvoicePayMethod($invoice)
     {
@@ -715,7 +715,7 @@ abstract class PDFDocument extends PDFCore
     }
 
     /**
-     * @param FacturaCliente $invoice
+     * @param $invoice
      */
     protected function insertInvoiceReceipts($invoice)
     {

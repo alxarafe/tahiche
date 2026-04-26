@@ -40,7 +40,11 @@ class Files implements ControllerInterface
             return;
         }
 
-        $this->filePath = Tools::folder() . $url;
+        if (strpos($url, '/Dinamic/') === 0) {
+            $this->filePath = Tools::folder() . '/var/cache/assets/' . substr($url, 9);
+        } else {
+            $this->filePath = Tools::folder() . $url;
+        }
 
         if (false === is_file($this->filePath)) {
             throw new KernelException(

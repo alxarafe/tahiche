@@ -99,7 +99,7 @@ class AssetManager
 
         // generamos el nombre del archivo
         $file_name = 'combined-' . md5($seed) . '.css';
-        $file_path = Tools::folder('Dinamic', 'Assets', 'CSS', $file_name);
+        $file_path = FS_FOLDER . '/var/cache/assets/Assets/CSS/' . $file_name;
 
         // si el archivo no existe, lo creamos
         if (!file_exists($file_path)) {
@@ -111,10 +111,14 @@ class AssetManager
                     continue;
                 }
 
-                $content .= static::fixCombinedCss(
-                    file_get_contents($item['asset']),
-                    $route . '/' . $item['asset']
-                );
+                // obtenemos la ruta física real
+                $physicalPath = str_replace(Tools::config('route') . '/Dinamic/Assets', FS_FOLDER . '/var/cache/assets/Assets', $item['asset']);
+                if (file_exists($physicalPath)) {
+                    $content .= static::fixCombinedCss(
+                        file_get_contents($physicalPath),
+                        $route . '/' . ltrim($item['asset'], '/')
+                    );
+                }
             }
             file_put_contents($file_path, $content);
         }
@@ -140,7 +144,7 @@ class AssetManager
 
         // generamos el nombre del archivo
         $file_name = 'combined-' . md5($seed) . '.js';
-        $file_path = Tools::folder('Dinamic', 'Assets', 'JS', $file_name);
+        $file_path = FS_FOLDER . '/var/cache/assets/Assets/JS/' . $file_name;
 
         // si el archivo no existe, lo creamos
         if (!file_exists($file_path)) {
@@ -152,7 +156,11 @@ class AssetManager
                     continue;
                 }
 
-                $content .= file_get_contents($item['asset']);
+                // obtenemos la ruta física real
+                $physicalPath = str_replace(Tools::config('route') . '/Dinamic/Assets', FS_FOLDER . '/var/cache/assets/Assets', $item['asset']);
+                if (file_exists($physicalPath)) {
+                    $content .= file_get_contents($physicalPath);
+                }
             }
             file_put_contents($file_path, $content);
         }
@@ -202,7 +210,7 @@ class AssetManager
     public static function setAssetsForPage(string $name): void
     {
         foreach (['css' => 'CSS', 'js' => 'JS', 'mjs' => 'JS'] as $ext => $folder) {
-            $file_path = Tools::folder('Dinamic', 'Assets', $folder, $name . '.' . $ext);
+            $file_path = FS_FOLDER . '/var/cache/assets/Assets/' . $folder . '/' . $name . '.' . $ext;
             if (file_exists($file_path)) {
                 $route = implode('/', [
                     Tools::config('route'), 'Dinamic', 'Assets', $folder, $name . '.' . $ext

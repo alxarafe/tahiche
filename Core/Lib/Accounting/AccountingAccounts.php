@@ -85,7 +85,7 @@ class AccountingAccounts
      *   - Fourth search for the general account classified as a special account for customers
      *     and then search for a sub account belonging to the account
      *
-     * @param Cliente $customer
+     * @param $customer
      * @param string $specialAccount
      *
      * @return Subcuenta
@@ -123,7 +123,7 @@ class AccountingAccounts
     /**
      * Get the accounting sub-account for the group's customer and the fiscal year.
      *
-     * @param GrupoClientes $group
+     * @param $group
      * @param string $specialAccount
      *
      * @return Subcuenta
@@ -174,7 +174,7 @@ class AccountingAccounts
     /**
      * Get the accounting sub-account for Purchase Retention.
      *
-     * @param Retencion $retention
+     * @param $retention
      * @param string $specialAccount
      *
      * @return Subcuenta
@@ -187,7 +187,7 @@ class AccountingAccounts
     /**
      * Get the accounting sub-account for Sales Retention.
      *
-     * @param Retencion $retention
+     * @param $retention
      * @param string $specialAccount
      *
      * @return Subcuenta
@@ -295,7 +295,7 @@ class AccountingAccounts
      * If it does not exist, search for the sub-account
      * associated with the special type indicated
      *
-     * @param Proveedor $supplier
+     * @param $supplier
      * @param string $specialAccount
      *
      * @return Subcuenta
@@ -328,7 +328,7 @@ class AccountingAccounts
     /**
      * Get the accounting sub-account for Impacted Tax.
      *
-     * @param Impuesto $tax
+     * @param $tax
      * @param string $specialAccount
      *
      * @return Subcuenta
@@ -341,7 +341,7 @@ class AccountingAccounts
     /**
      * Get the accounting sub-account for Supported Tax.
      *
-     * @param Impuesto $tax
+     * @param $tax
      * @param string $specialAccount
      *
      * @return Subcuenta

@@ -19,8 +19,8 @@
 
 namespace FacturaScripts\Core\Contract;
 
-use FacturaScripts\Dinamic\Model\Base\BusinessDocumentLine;
-use FacturaScripts\Dinamic\Model\Base\PurchaseDocument;
+use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
+use FacturaScripts\Core\Model\Base\PurchaseDocument;
 
 interface PurchasesLineModInterface
 {

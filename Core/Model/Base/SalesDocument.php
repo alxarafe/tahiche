@@ -243,7 +243,7 @@ abstract class SalesDocument extends TransformerDocument
         return $newLine;
     }
 
-    public function getRate(): Tarifa
+    public function getRate()
     {
         $rate = new Tarifa();
         $subject = $this->getSubject();

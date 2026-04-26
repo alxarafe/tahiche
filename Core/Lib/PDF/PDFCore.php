@@ -128,13 +128,13 @@ abstract class PDFCore extends ExportBase
     }
 
     /**
-     * @param AttachedFile $file
+     * @param $file
      * @param int|float $xPos
      * @param int|float $yPos
      * @param int|float $width
      * @param int|float $height
      */
-    protected function addImageFromAttachedFile(AttachedFile $file, $xPos, $yPos, $width, $height)
+    protected function addImageFromAttachedFile($file, $xPos, $yPos, $width, $height)
     {
         switch ($file->mimetype) {
             case 'image/gif':

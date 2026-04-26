@@ -38,7 +38,7 @@ class ReceiptGenerator
     const PARTIAL_AMOUNT_MULTIPLIER = 1.5;
 
     /**
-     * @param FacturaCliente|FacturaProveedor $invoice
+     * @param FacturaCliente|$invoice
      * @param int $number
      *
      * @return bool
@@ -67,7 +67,7 @@ class ReceiptGenerator
     }
 
     /**
-     * @param FacturaCliente|FacturaProveedor $invoice
+     * @param FacturaCliente|$invoice
      */
     public function update(&$invoice)
     {
@@ -100,7 +100,7 @@ class ReceiptGenerator
     }
 
     /**
-     * @param FacturaCliente $invoice
+     * @param $invoice
      * @param int $number
      *
      * @return bool
@@ -142,7 +142,7 @@ class ReceiptGenerator
     }
 
     /**
-     * @param FacturaProveedor $invoice
+     * @param $invoice
      * @param int $number
      *
      * @return bool
@@ -214,7 +214,7 @@ class ReceiptGenerator
     }
 
     /**
-     * @param FacturaCliente $invoice
+     * @param $invoice
      * @param int $number
      * @param float $amount
      *
@@ -234,7 +234,7 @@ class ReceiptGenerator
     }
 
     /**
-     * @param FacturaProveedor $invoice
+     * @param $invoice
      * @param int $number
      * @param float $amount
      *
@@ -254,7 +254,7 @@ class ReceiptGenerator
     }
 
     /**
-     * @param FacturaCliente $invoice
+     * @param $invoice
      *
      * @return bool
      */
@@ -289,7 +289,7 @@ class ReceiptGenerator
     }
 
     /**
-     * @param FacturaProveedor $invoice
+     * @param $invoice
      *
      * @return bool
      */

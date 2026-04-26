@@ -125,6 +125,7 @@ class Kernel
             }, true, true); // prepend = true
         }
 
+        \FacturaScripts\Core\Internal\ClassResolver::register();
         FSKernel::init();
     }
 

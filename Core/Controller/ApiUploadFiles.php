@@ -53,7 +53,7 @@ class ApiUploadFiles extends ApiController
         ]);
     }
 
-    private function uploadFile(UploadedFile $uploadFile): ?AttachedFile
+    private function uploadFile(UploadedFile $uploadFile)
     {
         if (false === $uploadFile->isValid()) {
             return null;

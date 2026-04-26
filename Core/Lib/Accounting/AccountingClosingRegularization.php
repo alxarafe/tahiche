@@ -36,7 +36,7 @@ class AccountingClosingRegularization extends AccountingClosingBase
      * Execute main process.
      * Create a new account entry for channel with a one line by account balance.
      *
-     * @param Ejercicio $exercise
+     * @param $exercise
      * @param int $idjournal
      *
      * @return bool
@@ -123,7 +123,7 @@ class AccountingClosingRegularization extends AccountingClosingBase
     /**
      * Add regularization lines to account entry.
      *
-     * @param Asiento $accountEntry
+     * @param $accountEntry
      * @param float $debit
      * @param float $credit
      *
@@ -141,7 +141,7 @@ class AccountingClosingRegularization extends AccountingClosingBase
     /**
      * Establishes the common data of the entries of the accounting entry
      *
-     * @param Partida $line
+     * @param $line
      * @param array $data
      */
     protected function setDataLine(&$line, $data): void
@@ -157,7 +157,7 @@ class AccountingClosingRegularization extends AccountingClosingBase
 
     /**
      *
-     * @param Asiento $accountEntry
+     * @param $accountEntry
      * @param float $debit
      * @param float $credit
      *
