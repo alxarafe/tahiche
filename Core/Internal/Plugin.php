@@ -77,6 +77,9 @@ final class Plugin
     /** @var float */
     public $version = 0.0;
 
+    /** @var string */
+    public $wizard = '';
+
     public function __construct(array $data = [])
     {
         $this->enabled = $data['enabled'] ?? false;
@@ -85,6 +88,7 @@ final class Plugin
         $this->order = intval($data['order'] ?? 0);
         $this->post_disable = $data['post_disable'] ?? false;
         $this->post_enable = $data['post_enable'] ?? false;
+        $this->wizard = $data['wizard'] ?? '';
 
         $this->loadIniFile();
     }
@@ -332,6 +336,7 @@ final class Plugin
         }
 
         $this->version = floatval($data['version'] ?? 0);
+        $this->wizard = $data['wizard'] ?? $this->wizard;
         $this->installed = $this->exists();
 
         $this->hidden = $this->hidden();
