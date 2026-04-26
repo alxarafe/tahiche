@@ -62,7 +62,7 @@ class WizardAccounting extends Controller
 
         // check if there is an accounting plan available for this country
         $codpais = Tools::settings('default', 'codpais', 'ESP');
-        $filePath = FS_FOLDER . '/Dinamic/Data/Codpais/' . $codpais . '/defaultPlan.csv';
+        $filePath = FS_FOLDER . '/var/cache/assets/Data/Codpais/' . $codpais . '/defaultPlan.csv';
         $this->hasPlan = file_exists($filePath);
 
         $action = $this->request->inputOrQuery('action', '');
@@ -93,7 +93,7 @@ class WizardAccounting extends Controller
         $codpais = Tools::settings('default', 'codpais', 'ESP');
 
         // ¿Hay un plan contable para ese país?
-        $filePath = FS_FOLDER . '/Dinamic/Data/Codpais/' . $codpais . '/defaultPlan.csv';
+        $filePath = FS_FOLDER . '/var/cache/assets/Data/Codpais/' . $codpais . '/defaultPlan.csv';
         if (false === file_exists($filePath)) {
             return;
         }

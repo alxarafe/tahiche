@@ -276,10 +276,10 @@ class EditEjercicio extends EditController
 
     protected function importDefaultPlan(string $codejercicio): bool
     {
-        $filePath = FS_FOLDER . '/Dinamic/Data/Lang/' . Tools::config('lang') . '/defaultPlan.csv';
+        $filePath = FS_FOLDER . '/var/cache/assets/Data/Lang/' . Tools::config('lang') . '/defaultPlan.csv';
         if (false === file_exists($filePath)) {
             $codpais = Tools::settings('default', 'codpais');
-            $filePath = FS_FOLDER . '/Dinamic/Data/Codpais/' . $codpais . '/defaultPlan.csv';
+            $filePath = FS_FOLDER . '/var/cache/assets/Data/Codpais/' . $codpais . '/defaultPlan.csv';
         }
 
         if (false === file_exists($filePath)) {
