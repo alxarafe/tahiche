@@ -168,19 +168,12 @@ class EditSettings extends PanelController
         $this->createViewsApiKeys();
 
         // FIXME: Estas pestañas deberían ser registradas por cada plugin vía extensiones
-        //  en su Init.php, no hardcodeadas en el Core. La comprobación file_exists es un
-        //  parche temporal. Ver también: loadSerie, loadPaymentMethodValues, checkTax, etc.
-        //  que acceden a tablas de plugins directamente.
-        if (file_exists(FS_FOLDER . '/var/cache/xmlview/EditIdentificadorFiscal.xml')) {
+        //  en su Init.php, no hardcodeadas en el Core. La comprobación mediante isEnabled es un
+        //  parche temporal mucho más estable que comprobar los archivos cacheados.
+        if (\FacturaScripts\Core\Plugins::isEnabled('BusinessBase')) {
             $this->createViewsIdFiscal();
-        }
-        if (file_exists(FS_FOLDER . '/var/cache/xmlview/ListSecuenciaDocumento.xml')) {
             $this->createViewSequences();
-        }
-        if (file_exists(FS_FOLDER . '/var/cache/xmlview/ListEstadoDocumento.xml')) {
             $this->createViewStates();
-        }
-        if (file_exists(FS_FOLDER . '/var/cache/xmlview/ListFormatoDocumento.xml')) {
             $this->createViewFormats();
         }
     }
