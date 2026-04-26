@@ -165,6 +165,13 @@ final class Html
             'formToken',
             function (bool $input = true) {
                 $tokenClass = new MultiRequestProtection();
+                
+                // Ensure the seed matches what Login::validateFormToken expects
+                $cookieNick = $_COOKIE['fsNick'] ?? '';
+                if ($cookieNick) {
+                    $tokenClass->addSeed($cookieNick);
+                }
+
                 return $input ?
                     '<input type="hidden" name="multireqtoken" value="' . $tokenClass->newToken() . '"/>' :
                     $tokenClass->newToken();

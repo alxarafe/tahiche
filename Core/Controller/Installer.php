@@ -98,7 +98,8 @@ class Installer implements ControllerInterface
             $this->createDataBase() &&
             $this->createFolders() &&
             $this->saveHtaccess() &&
-            $this->saveInstall();
+            $this->saveInstall() &&
+            $this->initializeData();
 
         if ($installed) {
             if (!empty($this->request->input('unattended', ''))) {
@@ -242,17 +243,17 @@ class Installer implements ControllerInterface
             $visit($name);
         }
 
-        // Build the plugins.json data with all plugins enabled
+        // Build the plugins.json data with only the Admin plugin enabled
+        // This ensures a minimal clean installation without unnecessary tables.
         $pluginsData = [];
-        $order = 1;
-        foreach ($sorted as $pluginName) {
+        if (isset($discovered['Admin'])) {
             $pluginsData[] = [
-                'name' => $pluginName,
-                'folder' => $pluginName,
+                'name' => 'Admin',
+                'folder' => 'Admin',
                 'enabled' => true,
                 'installed' => true,
-                'order' => $order++,
-                'post_enable' => true,
+                'order' => 1,
+                'post_enable' => false,
                 'post_disable' => false,
             ];
         }
@@ -260,6 +261,41 @@ class Installer implements ControllerInterface
         // Write plugins.json so that Plugins::enabled() returns the full list
         $filePath = FS_FOLDER . DIRECTORY_SEPARATOR . 'MyFiles' . DIRECTORY_SEPARATOR . Plugins::FILE_NAME;
         file_put_contents($filePath, json_encode($pluginsData, JSON_PRETTY_PRINT));
+    }
+
+    private function initializeData(): bool
+    {
+        // Now that config.php is saved, we need to:
+        // 1. Load the new config so DB constants are defined
+        // 2. Connect to the database
+        // 3. Deploy plugin tables
+        // 4. Create initial data (empresa, user)
+        try {
+            // Load the freshly written config.php to define DB constants
+            require FS_FOLDER . '/config.php';
+
+            // Create a new DataBase instance (now db_name is defined) and connect
+            $db = new \FacturaScripts\Core\Base\DataBase();
+            if (false === $db->connect()) {
+                Tools::log()->critical('cant-connect-database');
+                return false;
+            }
+
+            // Deploy plugin tables (creates tables from XML definitions)
+            Plugins::deploy();
+
+            // Install foundational models (creates their tables and initial data)
+            $empresa = new \FacturaScripts\Dinamic\Model\Empresa();
+            $empresa->install();
+
+            $user = new \FacturaScripts\Dinamic\Model\User();
+            $user->install();
+
+            return true;
+        } catch (\Exception $e) {
+            Tools::log()->critical($e->getMessage());
+            return false;
+        }
     }
 
     private function getUri(): string

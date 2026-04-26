@@ -17,7 +17,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace FacturaScripts\Plugins\Admin\Model;
+namespace FacturaScripts\Plugins\Trading\Model;
 
 use FacturaScripts\Core\DataSrc\Series;
 use FacturaScripts\Core\Template\ModelClass;

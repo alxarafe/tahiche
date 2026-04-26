@@ -137,7 +137,9 @@ class Wizard extends Controller
     {
         foreach ($names as $name) {
             $className = '\\FacturaScripts\\Dinamic\\Model\\' . $name;
-            new $className();
+            if (class_exists($className)) {
+                new $className();
+            }
         }
     }
 
@@ -223,18 +225,24 @@ class Wizard extends Controller
         $this->empresa->save();
 
         // assigns warehouse?
-        $where = [
-            Where::eq('idempresa', $this->empresa->idempresa),
-            Where::orIsNull('idempresa')
-        ];
-        foreach (Almacen::all($where) as $almacen) {
-            $this->setWarehouse($almacen, $codpais);
-            return;
-        }
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\Almacen')) {
+            $where = [
+                \FacturaScripts\Core\Base\DataBase\DataBaseWhere::eq('idempresa', $this->empresa->idempresa),
+                \FacturaScripts\Core\Base\DataBase\DataBaseWhere::orIsNull('idempresa')
+            ];
+            foreach (\FacturaScripts\Dinamic\Model\Almacen::all($where) as $almacen) {
+                $this->setWarehouse($almacen, $codpais);
+                return;
+            }
 
-        // no assigned warehouse? Create a new one
-        $almacen = new Almacen();
-        $this->setWarehouse($almacen, $codpais);
+            // no assigned warehouse? Create a new one
+            $almacen = new \FacturaScripts\Dinamic\Model\Almacen();
+            $this->setWarehouse($almacen, $codpais);
+        } else {
+            // Save idempresa even if Almacen is disabled
+            \FacturaScripts\Core\Tools::settingsSet('default', 'idempresa', $this->empresa->idempresa);
+            \FacturaScripts\Core\Tools::settingsSave();
+        }
     }
 
     private function saveEmail(string $email): bool

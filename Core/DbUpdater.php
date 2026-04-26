@@ -127,9 +127,13 @@ final class DbUpdater
 
     public static function getTableXmlLocation(string $table_name): string
     {
-        // primero en Core/Table (modelos fundacionales)
+        // primero buscamos en la caché de XML (archivos fusionados)
+        $cacheFile = Tools::folder('var', 'cache', 'xmlview', $table_name . '.xml');
+        if (file_exists($cacheFile)) {
+            return $cacheFile;
+        }
 
-        // luego en Core/Table (modelos fundacionales)
+        // después en Core/Table (modelos fundacionales)
         $coreFile = Tools::folder('Core', 'Table', $table_name . '.xml');
         if (file_exists($coreFile)) {
             return $coreFile;

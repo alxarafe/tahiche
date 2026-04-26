@@ -139,13 +139,17 @@ class User extends ModelClass
 
         // si el usuario no tiene página de inicio, la ponemos
         if (empty($this->homepage)) {
-            foreach ($role->getAccesses() as $access) {
+            $accesses = $role->getAccesses();
+            foreach ($accesses as $access) {
                 $this->homepage = $access->pagename;
                 if ('List' == substr($this->homepage, 0, 4)) {
                     break;
                 }
             }
-            $this->save();
+
+            if ($this->homepage) {
+                $this->save();
+            }
         }
 
         return true;
@@ -280,7 +284,9 @@ class User extends ModelClass
         // we need this models to be checked before
         new DinPage();
         new DinEmpresa();
-        new DinSerie();
+        if (class_exists(DinSerie::class)) {
+            new DinSerie();
+        }
 
         $nick = Tools::config('initial_user', 'admin');
         $pass = Tools::config('initial_pass', 'admin');
@@ -463,8 +469,12 @@ class User extends ModelClass
             return true;
         }
 
-        $agent = new DinAgente();
-        if (false === $agent->load($this->codagente)) {
+        if (class_exists(DinAgente::class)) {
+            $agent = new DinAgente();
+            if (false === $agent->load($this->codagente)) {
+                $this->codagente = null;
+            }
+        } else {
             $this->codagente = null;
         }
 
@@ -479,10 +489,14 @@ class User extends ModelClass
             return true;
         }
 
-        $warehouse = new DinAlmacen();
-        if (false === $warehouse->load($this->codalmacen) || $warehouse->idempresa != $this->idempresa) {
-            $this->codalmacen = Tools::settings('default', 'codalmacen');
-            $this->idempresa = Tools::settings('default', 'idempresa');
+        if (class_exists(DinAlmacen::class)) {
+            $warehouse = new DinAlmacen();
+            if (false === $warehouse->load($this->codalmacen) || $warehouse->idempresa != $this->idempresa) {
+                $this->codalmacen = Tools::settings('default', 'codalmacen');
+                $this->idempresa = Tools::settings('default', 'idempresa');
+            }
+        } else {
+            $this->codalmacen = null;
         }
 
         return true;

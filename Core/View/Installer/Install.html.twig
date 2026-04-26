@@ -7,18 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="generator" content="FacturaScripts"/>
     <meta name="robots" content="noindex"/>
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css"/>
-    <link rel="shortcut icon" href="Core/Assets/Images/favicon.ico"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="Core/Assets/Images/apple-icon-180x180.png"/>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css"/>
+    <link rel="shortcut icon" href="/Core/Assets/Images/favicon.ico?v=2"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/Core/Assets/Images/apple-icon-180x180.png?v=2"/>
     <style>
         body {
             background-color: #FCF9FA;
         }
     </style>
-    <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="node_modules/@fortawesome/fontawesome-free/js/all.min.js"></script>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/node_modules/@fortawesome/fontawesome-free/js/all.min.js"></script>
     <script>
         $(document).ready(function () {
             // Detectar timezone automáticamente
@@ -60,8 +60,8 @@
 <nav class="navbar navbar-expand-md bg-dark navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="" onclick="location.reload();">
-            <img src="Core/Assets/Images/logo.png" width="30" height="30" class="align-top me-2" alt="FacturaScripts"/>
-            FacturaScripts {{ version }}
+            <img src="/Core/Assets/Images/logo.png?v=2" width="30" height="30" class="align-top me-2" alt="Tahiche"/>
+            Tahiche {{ version }}
         </a>
 
         <div class="navbar-nav ms-auto">
@@ -96,7 +96,7 @@
 <div class="container-fluid">
     <div class="row align-items-center">
         <div class="col-md-5 text-center mb-4 mb-md-0">
-            <img src="Core/Assets/Images/install.png" alt="{{ trans('installer') }}" class="img-fluid" loading="lazy">
+            <img src="/Core/Assets/Images/install.png" alt="{{ trans('installer') }}" class="img-fluid" loading="lazy">
         </div>
         <div class="col-md-7 bg-white px-5">
             <br/>
@@ -353,8 +353,8 @@
 
             <footer class="text-center pt-5 pb-3">
                 &COPY; 2013-{{ 'now' | date('Y') }}
-                <a href="https://facturascripts.com" rel="nofollow" target="_blank"
-                   class="text-muted">FacturaScripts</a>
+                <a href="https://github.com/alxarafe/tahiche" rel="nofollow" target="_blank"
+                   class="text-muted">Tahiche</a>
             </footer>
         </div>
     </div>
