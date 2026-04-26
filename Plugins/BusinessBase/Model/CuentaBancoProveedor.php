@@ -23,7 +23,6 @@ use FacturaScripts\Core\Model\Base\IbanTrait;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;
-use FacturaScripts\Dinamic\Model\Proveedor as DinProveedor;
 
 /**
  * A bank account of a provider.
@@ -56,17 +55,24 @@ class CuentaBancoProveedor extends ModelClass
         $this->principal = true;
     }
 
-    public function getSubject(): DinProveedor
+    public function getSubject()
     {
-        $provider = new DinProveedor();
-        $provider->load($this->codproveedor);
-        return $provider;
+        $className = '\\FacturaScripts\\Dinamic\\Model\\Proveedor';
+        if (class_exists($className)) {
+            $provider = new $className();
+            $provider->load($this->codproveedor);
+            return $provider;
+        }
+        return null;
     }
 
     public function install(): string
     {
-        // needed dependencies
-        new Proveedor();
+        // needed dependencies — only if the model exists
+        $className = '\\FacturaScripts\\Dinamic\\Model\\Proveedor';
+        if (class_exists($className)) {
+            new $className();
+        }
 
         return parent::install();
     }
@@ -130,7 +136,11 @@ class CuentaBancoProveedor extends ModelClass
 
     public function url(string $type = 'auto', string $list = 'List'): string
     {
-        return empty($this->codproveedor) || $type == 'list' ? parent::url($type, $list) : $this->getSubject()->url();
+        $subject = $this->getSubject();
+        if (empty($this->codproveedor) || $type == 'list' || null === $subject) {
+            return parent::url($type, $list);
+        }
+        return $subject->url();
     }
 
     protected function saveInsert(): bool

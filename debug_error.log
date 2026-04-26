@@ -44,3 +44,45 @@ Exception: Class "FacturaScripts\Dinamic\Model\Ejercicio" not found in /var/www/
 #13 {main}
 Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
 Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Exception: Class "FacturaScripts\Dinamic\Model\Cliente" not found in /var/www/html/Plugins/BusinessBase/Model/CuentaBancoCliente.php on line 76
+#0 /var/www/html/Core/Template/ModelClass.php(105): FacturaScripts\Plugins\BusinessBase\Model\CuentaBancoCliente->install()
+#1 /var/www/html/Plugins/BusinessBase/Controller/Wizard.php(144): FacturaScripts\Core\Template\ModelClass->__construct()
+#2 /var/www/html/Plugins/BusinessBase/Controller/Wizard.php(358): FacturaScripts\Plugins\BusinessBase\Controller\Wizard->initModels(Array)
+#3 /var/www/html/Plugins/BusinessBase/Controller/Wizard.php(117): FacturaScripts\Plugins\BusinessBase\Controller\Wizard->saveStep3()
+#4 /var/www/html/Core/Base/Controller.php(274): FacturaScripts\Plugins\BusinessBase\Controller\Wizard->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#5 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
+#6 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/Wizard')
+#7 /var/www/html/src/Infrastructure/Http/Kernel.php(161): FacturaScripts\Core\Kernel::run('/Wizard')
+#8 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/Wizard')
+#9 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/Wizard')
+#10 {main}
+Exception: Class "FacturaScripts\Dinamic\Model\Cliente" not found in /var/www/html/Plugins/BusinessBase/Model/CuentaBancoCliente.php on line 76
+#0 /var/www/html/Core/Template/ModelClass.php(105): FacturaScripts\Plugins\BusinessBase\Model\CuentaBancoCliente->install()
+#1 /var/www/html/Plugins/BusinessBase/Controller/Wizard.php(112): FacturaScripts\Core\Template\ModelClass->__construct()
+#2 /var/www/html/Plugins/BusinessBase/Controller/Wizard.php(264): FacturaScripts\Plugins\BusinessBase\Controller\Wizard->initModels(Array)
+#3 /var/www/html/Plugins/BusinessBase/Controller/Wizard.php(241): FacturaScripts\Plugins\BusinessBase\Controller\Wizard->finalizeWizard()
+#4 /var/www/html/Plugins/BusinessBase/Controller/Wizard.php(91): FacturaScripts\Plugins\BusinessBase\Controller\Wizard->saveStep1()
+#5 /var/www/html/Core/Base/Controller.php(274): FacturaScripts\Plugins\BusinessBase\Controller\Wizard->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#6 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
+#7 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/Wizard')
+#8 /var/www/html/src/Infrastructure/Http/Kernel.php(161): FacturaScripts\Core\Kernel::run('/Wizard')
+#9 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/Wizard')
+#10 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/Wizard')
+#11 {main}
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Exception: Class "FacturaScripts\Dinamic\Model\Cliente" not found in /var/www/html/Plugins/BusinessBase/Model/CuentaBancoCliente.php on line 76
+#0 /var/www/html/Core/Template/ModelClass.php(105): FacturaScripts\Plugins\BusinessBase\Model\CuentaBancoCliente->install()
+#1 /var/www/html/Plugins/BusinessBase/Controller/Wizard.php(112): FacturaScripts\Core\Template\ModelClass->__construct()
+#2 /var/www/html/Plugins/BusinessBase/Controller/Wizard.php(264): FacturaScripts\Plugins\BusinessBase\Controller\Wizard->initModels(Array)
+#3 /var/www/html/Plugins/BusinessBase/Controller/Wizard.php(241): FacturaScripts\Plugins\BusinessBase\Controller\Wizard->finalizeWizard()
+#4 /var/www/html/Plugins/BusinessBase/Controller/Wizard.php(91): FacturaScripts\Plugins\BusinessBase\Controller\Wizard->saveStep1()
+#5 /var/www/html/Core/Base/Controller.php(274): FacturaScripts\Plugins\BusinessBase\Controller\Wizard->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#6 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
+#7 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/Wizard')
+#8 /var/www/html/src/Infrastructure/Http/Kernel.php(161): FacturaScripts\Core\Kernel::run('/Wizard')
+#9 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/Wizard')
+#10 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/Wizard')
+#11 {main}

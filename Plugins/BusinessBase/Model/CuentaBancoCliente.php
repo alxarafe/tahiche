@@ -23,7 +23,6 @@ use FacturaScripts\Core\Model\Base\IbanTrait;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;
-use FacturaScripts\Dinamic\Model\Cliente as DinCliente;
 
 /**
  * A bank account of a client.
@@ -63,17 +62,24 @@ class CuentaBancoCliente extends ModelClass
         $this->principal = true;
     }
 
-    public function getSubject(): DinCliente
+    public function getSubject()
     {
-        $customer = new DinCliente();
-        $customer->load($this->codcliente);
-        return $customer;
+        $className = '\\FacturaScripts\\Dinamic\\Model\\Cliente';
+        if (class_exists($className)) {
+            $customer = new $className();
+            $customer->load($this->codcliente);
+            return $customer;
+        }
+        return null;
     }
 
     public function install(): string
     {
-        // needed dependencies
-        new DinCliente();
+        // needed dependencies — only if the model exists
+        $className = '\\FacturaScripts\\Dinamic\\Model\\Cliente';
+        if (class_exists($className)) {
+            new $className();
+        }
 
         return parent::install();
     }
@@ -134,7 +140,11 @@ class CuentaBancoCliente extends ModelClass
 
     public function url(string $type = 'auto', string $list = 'List'): string
     {
-        return empty($this->codcliente) || $type == 'list' ? parent::url($type, $list) : $this->getSubject()->url();
+        $subject = $this->getSubject();
+        if (empty($this->codcliente) || $type == 'list' || null === $subject) {
+            return parent::url($type, $list);
+        }
+        return $subject->url();
     }
 
     protected function saveInsert(): bool
@@ -146,3 +156,4 @@ class CuentaBancoCliente extends ModelClass
         return parent::saveInsert();
     }
 }
+
