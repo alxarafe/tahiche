@@ -192,7 +192,22 @@ final class ClassResolver
             $plugins = [];
         }
 
-        // Recorremos en orden inverso (último plugin activado = mayor prioridad)
+        // Si no hay plugins activados (caso de instalación limpia),
+        // escaneamos físicamente la carpeta Plugins/ para permitir que el instalador funcione.
+        if (empty($plugins)) {
+            $pluginsDir = FS_FOLDER . '/Plugins';
+            if (is_dir($pluginsDir)) {
+                $folders = scandir($pluginsDir);
+                foreach ($folders as $folder) {
+                    if ($folder === '.' || $folder === '..' || !is_dir($pluginsDir . '/' . $folder)) {
+                        continue;
+                    }
+                    $plugins[] = $folder;
+                }
+            }
+        }
+
+        // Recorremos en orden inverso (último plugin activado/encontrado = mayor prioridad)
         foreach (array_reverse($plugins) as $plugin) {
             $pluginClass = 'FacturaScripts\\Plugins\\' . $plugin . '\\' . $suffix;
             if (class_exists($pluginClass, true)) {
