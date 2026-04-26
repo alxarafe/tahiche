@@ -125,6 +125,10 @@ class ListAsiento extends ListController
             $this->addFilterSelect($viewName, 'codejercicio', 'exercise', 'codejercicio', $selectExercise);
         }
 
+        if (false === $this->dataBase->tableExists('diarios')) {
+            new \FacturaScripts\Plugins\Accounting\Model\Diario();
+        }
+
         $selectJournals = $this->codeModel->all('diarios', 'iddiario', 'descripcion');
         $this->addFilterSelect($viewName, 'iddiario', 'journals', 'iddiario', $selectJournals);
 
@@ -163,6 +167,11 @@ class ListAsiento extends ListController
 
     protected function createViewsNotBalanced(string $viewName = 'ListAsiento-not'): void
     {
+        // ensure table exists before running raw SQL
+        if (false === $this->dataBase->tableExists('partidas')) {
+            new \FacturaScripts\Plugins\Accounting\Model\Partida();
+        }
+
         $ids = [];
         $sql = 'SELECT partidas.idasiento, ABS(SUM(partidas.debe) - SUM(partidas.haber))'
             . ' FROM partidas GROUP BY 1 HAVING ROUND(ABS(SUM(partidas.debe) - SUM(partidas.haber)), 2) >= 0.01';

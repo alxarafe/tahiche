@@ -165,13 +165,21 @@ class Dashboard extends Controller
      */
     private function loadCreateLinks(): void
     {
-        $this->createLinks['EditProducto'] = 'product';
-        $this->createLinks['EditCliente'] = 'customer';
-        $this->createLinks['EditContacto'] = 'contact';
-        $this->createLinks['EditFacturaCliente'] = 'customer-invoice';
-        $this->createLinks['EditAlbaranCliente'] = 'customer-delivery-note';
-        $this->createLinks['EditPedidoCliente'] = 'customer-order';
-        $this->createLinks['EditPresupuestoCliente'] = 'customer-estimation';
+        $links = [
+            'EditProducto' => 'product',
+            'EditCliente' => 'customer',
+            'EditContacto' => 'contact',
+            'EditFacturaCliente' => 'customer-invoice',
+            'EditAlbaranCliente' => 'customer-delivery-note',
+            'EditPedidoCliente' => 'customer-order',
+            'EditPresupuestoCliente' => 'customer-estimation'
+        ];
+
+        foreach ($links as $controller => $label) {
+            if (class_exists('\\FacturaScripts\\Dinamic\\Controller\\' . $controller)) {
+                $this->createLinks[$controller] = $label;
+            }
+        }
 
         $this->pipe('loadCreateLinks');
     }
