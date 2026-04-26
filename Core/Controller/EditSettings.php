@@ -282,6 +282,17 @@ class EditSettings extends PanelController
 
     protected function editAction(): bool
     {
+        // Prevent record-not-found abortion if settings table is empty
+        $code = $this->request->input('code', '');
+        if ($this->views[$this->active]->model instanceof Settings) {
+            $code = empty($code) ? $this->getKeyFromViewName($this->active) : $code;
+            $settings = new Settings();
+            if (false === $settings->loadFromCode($code)) {
+                $settings->name = $code;
+                $settings->save();
+            }
+        }
+
         if (false === parent::editAction()) {
             return false;
         }
