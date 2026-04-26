@@ -128,6 +128,10 @@ class EditSettings extends PanelController
 
     protected function createDocTypeFilter(string $viewName): void
     {
+        if (false === $this->dataBase->tableExists('estados_documentos')) {
+            return;
+        }
+
         $types = $this->codeModel->all('estados_documentos', 'tipodoc', 'tipodoc');
 
         // custom translation
@@ -343,6 +347,20 @@ class EditSettings extends PanelController
                 $this->loadSerie($viewName);
                 $this->loadSerieRectifying($viewName);
                 $this->loadRegimeValues($viewName);
+
+                // Disable columns if their tables do not exist
+                if (false === $this->dataBase->tableExists('divisas')) {
+                    $view->disableColumn('currency');
+                }
+                if (false === $this->dataBase->tableExists('formaspago')) {
+                    $view->disableColumn('payment-method');
+                }
+                if (false === $this->dataBase->tableExists('retenciones')) {
+                    $view->disableColumn('retention');
+                }
+                if (false === $this->dataBase->tableExists('empresas')) {
+                    $view->disableColumn('company');
+                }
                 break;
 
             default:
