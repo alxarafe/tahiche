@@ -44,20 +44,20 @@ class CSVImport
         }
 
         $codpais = Tools::settings('default', 'codpais', 'ESP');
-        $filePath = FS_FOLDER . '/Dinamic/Data/Codpais/' . $codpais . '/' . $table . '.csv';
+        $filePath = FS_FOLDER . '/var/cache/assets/Data/Codpais/' . $codpais . '/' . $table . '.csv';
         if (file_exists($filePath)) {
             return $filePath;
         }
 
         $config_lang = Tools::config('lang');
         $lang = strtoupper(substr($config_lang, 0, 2));
-        $filePath = FS_FOLDER . '/Dinamic/Data/Lang/' . $lang . '/' . $table . '.csv';
+        $filePath = FS_FOLDER . '/var/cache/assets/Data/Lang/' . $lang . '/' . $table . '.csv';
         if (file_exists($filePath)) {
             return $filePath;
         }
 
         // If everything else fails
-        $filePath = FS_FOLDER . '/Dinamic/Data/Lang/ES/' . $table . '.csv';
+        $filePath = FS_FOLDER . '/var/cache/assets/Data/Lang/ES/' . $table . '.csv';
         if (file_exists($filePath)) {
             return $filePath;
         }

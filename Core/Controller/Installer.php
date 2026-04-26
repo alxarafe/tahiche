@@ -243,20 +243,9 @@ class Installer implements ControllerInterface
             $visit($name);
         }
 
-        // Build the plugins.json data with only the Admin plugin enabled
+        // Build the plugins.json data without any plugins enabled
         // This ensures a minimal clean installation without unnecessary tables.
         $pluginsData = [];
-        if (isset($discovered['Admin'])) {
-            $pluginsData[] = [
-                'name' => 'Admin',
-                'folder' => 'Admin',
-                'enabled' => true,
-                'installed' => true,
-                'order' => 1,
-                'post_enable' => false,
-                'post_disable' => false,
-            ];
-        }
 
         // Write plugins.json so that Plugins::enabled() returns the full list
         $filePath = FS_FOLDER . DIRECTORY_SEPARATOR . 'MyFiles' . DIRECTORY_SEPARATOR . Plugins::FILE_NAME;

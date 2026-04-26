@@ -353,10 +353,19 @@ END;
         }
 
         // elegimos un modelo al azar
-        $models = [
-            new AlbaranCliente(), new FacturaCliente(), new PedidoCliente(), new PresupuestoCliente(),
-            new AlbaranProveedor(), new FacturaProveedor(), new PedidoProveedor(), new PresupuestoProveedor()
-        ];
+        $models = [];
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\AlbaranCliente')) $models[] = new \FacturaScripts\Dinamic\Model\AlbaranCliente();
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\FacturaCliente')) $models[] = new \FacturaScripts\Dinamic\Model\FacturaCliente();
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\PedidoCliente')) $models[] = new \FacturaScripts\Dinamic\Model\PedidoCliente();
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\PresupuestoCliente')) $models[] = new \FacturaScripts\Dinamic\Model\PresupuestoCliente();
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\AlbaranProveedor')) $models[] = new \FacturaScripts\Dinamic\Model\AlbaranProveedor();
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\FacturaProveedor')) $models[] = new \FacturaScripts\Dinamic\Model\FacturaProveedor();
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\PedidoProveedor')) $models[] = new \FacturaScripts\Dinamic\Model\PedidoProveedor();
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\PresupuestoProveedor')) $models[] = new \FacturaScripts\Dinamic\Model\PresupuestoProveedor();
+
+        if (empty($models)) {
+            return;
+        }
         shuffle($models);
         echo $models[0]->modelClassName();
         ob_flush();
@@ -398,6 +407,10 @@ END;
         echo PHP_EOL . PHP_EOL . Tools::trans('updating-families') . ' ... ';
         ob_flush();
 
+        if (!class_exists('\\FacturaScripts\\Dinamic\\Model\\Familia') || !class_exists('\\FacturaScripts\\Dinamic\\Model\\Producto')) {
+            return;
+        }
+
         // recorremos todas las familias para actualizar su contador de productos
         foreach (Familia::all() as $familia) {
             $count = Producto::count([Where::eq('codfamilia', $familia->codfamilia)]);
@@ -414,6 +427,10 @@ END;
     {
         echo PHP_EOL . PHP_EOL . Tools::trans('updating-manufacturers') . ' ... ';
         ob_flush();
+
+        if (!class_exists('\\FacturaScripts\\Dinamic\\Model\\Fabricante') || !class_exists('\\FacturaScripts\\Dinamic\\Model\\Producto')) {
+            return;
+        }
 
         // recorremos todos los fabricantes para actualizar su contador de productos
         foreach (Fabricante::all() as $fabricante) {
@@ -438,27 +455,31 @@ END;
             Where::lt('vencimiento', Tools::date())
         ];
         $orderBy = ['vencimiento' => 'DESC'];
-        foreach (ReciboProveedor::all($where, $orderBy, 0, 500) as $recibo) {
-            // si el código de factura ha cambiado, lo guardamos
-            $factura = $recibo->getInvoice();
-            if ($recibo->codigofactura != $factura->codigo) {
-                $recibo->codigofactura = $factura->codigo;
-            }
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\ReciboProveedor')) {
+            foreach (ReciboProveedor::all($where, $orderBy, 0, 500) as $recibo) {
+                // si el código de factura ha cambiado, lo guardamos
+                $factura = $recibo->getInvoice();
+                if ($recibo->codigofactura != $factura->codigo) {
+                    $recibo->codigofactura = $factura->codigo;
+                }
 
-            // guardamos para que se actualice
-            $recibo->save();
+                // guardamos para que se actualice
+                $recibo->save();
+            }
         }
 
-        // recorremos todos los recibos de venta impagados con fecha anterior a hoy
-        foreach (ReciboCliente::all($where, $orderBy, 0, 500) as $recibo) {
-            // si el código de factura ha cambiado, lo guardamos
-            $factura = $recibo->getInvoice();
-            if ($recibo->codigofactura != $factura->codigo) {
-                $recibo->codigofactura = $factura->codigo;
-            }
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\ReciboCliente')) {
+            // recorremos todos los recibos de venta impagados con fecha anterior a hoy
+            foreach (ReciboCliente::all($where, $orderBy, 0, 500) as $recibo) {
+                // si el código de factura ha cambiado, lo guardamos
+                $factura = $recibo->getInvoice();
+                if ($recibo->codigofactura != $factura->codigo) {
+                    $recibo->codigofactura = $factura->codigo;
+                }
 
-            // guardamos para que se actualice
-            $recibo->save();
+                // guardamos para que se actualice
+                $recibo->save();
+            }
         }
     }
 
@@ -471,14 +492,18 @@ END;
         $where = [Where::eq('pagada', false)];
         $orderBy = ['fecha' => 'DESC'];
 
-        // recorremos las facturas de cliente impagadas
-        foreach (FacturaCliente::all($where, $orderBy, 0, 500) as $factura) {
-            $generator->update($factura);
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\FacturaCliente')) {
+            // recorremos las facturas de cliente impagadas
+            foreach (FacturaCliente::all($where, $orderBy, 0, 500) as $factura) {
+                $generator->update($factura);
+            }
         }
 
-        // recorremos las facturas de proveedor impagadas
-        foreach (FacturaProveedor::all($where, $orderBy, 0, 500) as $factura) {
-            $generator->update($factura);
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\FacturaProveedor')) {
+            // recorremos las facturas de proveedor impagadas
+            foreach (FacturaProveedor::all($where, $orderBy, 0, 500) as $factura) {
+                $generator->update($factura);
+            }
         }
     }
 }

@@ -407,19 +407,7 @@ class Controller implements ControllerInterface
      */
     protected function validateFormToken(): bool
     {
-        // valid request?
         $token = $this->request->inputOrQuery('multireqtoken', '');
-        if (empty($token) || false === $this->multiRequestProtection->validate($token)) {
-            Tools::log()->warning('invalid-request');
-            return false;
-        }
-
-        // duplicated request?
-        if ($this->multiRequestProtection->tokenExist($token)) {
-            Tools::log()->warning('duplicated-request');
-            return false;
-        }
-
-        return true;
+        return $this->multiRequestProtection->checkToken($token);
     }
 }

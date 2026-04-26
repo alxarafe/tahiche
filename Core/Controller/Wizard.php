@@ -78,8 +78,12 @@ class Wizard extends Controller
     public function getSelectValues(string $modelName, bool $addEmpty = false): array
     {
         $values = $addEmpty ? ['' => '------'] : [];
-        $modelName = '\\FacturaScripts\\Dinamic\\Model\\' . $modelName;
-        $model = new $modelName();
+        $modelClassName = '\\FacturaScripts\\Dinamic\\Model\\' . $modelName;
+        if (false === class_exists($modelClassName)) {
+            return $values;
+        }
+        
+        $model = new $modelClassName();
 
         $order = [$model->primaryDescriptionColumn() => 'ASC'];
         foreach ($model->all([], $order, 0, self::ITEM_SELECT_LIMIT) as $newModel) {
@@ -227,8 +231,8 @@ class Wizard extends Controller
         // assigns warehouse?
         if (class_exists('\\FacturaScripts\\Dinamic\\Model\\Almacen')) {
             $where = [
-                \FacturaScripts\Core\Base\DataBase\DataBaseWhere::eq('idempresa', $this->empresa->idempresa),
-                \FacturaScripts\Core\Base\DataBase\DataBaseWhere::orIsNull('idempresa')
+                \FacturaScripts\Core\Where::eq('idempresa', $this->empresa->idempresa),
+                \FacturaScripts\Core\Where::orIsNull('idempresa')
             ];
             foreach (\FacturaScripts\Dinamic\Model\Almacen::all($where) as $almacen) {
                 $this->setWarehouse($almacen, $codpais);
@@ -359,14 +363,16 @@ class Wizard extends Controller
         Plugins::deploy(true, true);
 
         // obtenemos el rol de empleados, y lo asignamos como rol predeterminado
-        $role = new Role();
-        if ($role->load('employee')) {
-            Tools::settingsSet('default', 'codrole', $role->codrole);
-            Tools::settingsSave();
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\Role')) {
+            $role = new \FacturaScripts\Dinamic\Model\Role();
+            if ($role->load('employee')) {
+                Tools::settingsSet('default', 'codrole', $role->codrole);
+                Tools::settingsSave();
+            }
         }
 
         // change user homepage
-        $this->user->homepage = $this->dataBase->tableExists('fs_users') ? 'AdminPlugins' : static::NEW_DEFAULT_PAGE;
+        $this->user->homepage = $this->dataBase->tableExists('fs_users') && class_exists('\\FacturaScripts\\Dinamic\\Controller\\AdminPlugins') ? 'AdminPlugins' : static::NEW_DEFAULT_PAGE;
         $this->user->save();
 
         // change template and redirect
@@ -387,21 +393,23 @@ class Wizard extends Controller
             return;
         }
 
-        $account = new CuentaBanco();
-        if (!empty($paymentMethod->codcuentabanco)) {
-            $account->load($paymentMethod->codcuentabanco);
-        }
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\CuentaBanco')) {
+            $account = new \FacturaScripts\Dinamic\Model\CuentaBanco();
+            if (!empty($paymentMethod->codcuentabanco)) {
+                $account->load($paymentMethod->codcuentabanco);
+            }
 
-        $account->descripcion = empty($bankName) ? $this->empresa->nombrecorto : $bankName;
-        $account->iban = $iban;
-        $account->idempresa = $this->empresa->idempresa;
-        if (false === $account->save()) {
-            return;
-        }
+            $account->descripcion = empty($bankName) ? $this->empresa->nombrecorto : $bankName;
+            $account->iban = $iban;
+            $account->idempresa = $this->empresa->idempresa;
+            if (false === $account->save()) {
+                return;
+            }
 
-        $paymentMethod->codcuentabanco = $account->codcuenta;
-        $paymentMethod->idempresa = $this->empresa->idempresa;
-        $paymentMethod->save();
+            $paymentMethod->codcuentabanco = $account->codcuenta;
+            $paymentMethod->idempresa = $this->empresa->idempresa;
+            $paymentMethod->save();
+        }
     }
 
     private function saveLogo(): bool
@@ -443,8 +451,12 @@ class Wizard extends Controller
             return;
         }
 
+        if (!class_exists('\\FacturaScripts\\Dinamic\\Model\\SecuenciaDocumento')) {
+            return;
+        }
+
         // buscamos las secuencias de FacturaCliente para actualizar el número de inicio
-        $secuencia = new SecuenciaDocumento();
+        $secuencia = new \FacturaScripts\Dinamic\Model\SecuenciaDocumento();
         $where = [
             Where::eq('codejercicio', $exerciseCode),
             Where::eq('codserie', 'A'),
@@ -515,7 +527,13 @@ class Wizard extends Controller
 
     private function getTransferPaymentMethod()
     {
-        $paymentMethod = new FormaPago();
+        if (!class_exists('\\FacturaScripts\\Dinamic\\Model\\FormaPago')) {
+            return new class {
+                public function exists() { return false; }
+            };
+        }
+        
+        $paymentMethod = new \FacturaScripts\Dinamic\Model\FormaPago();
         if ($paymentMethod->load('TRANS')) {
             return $paymentMethod;
         }

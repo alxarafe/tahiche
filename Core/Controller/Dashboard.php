@@ -229,42 +229,56 @@ class Dashboard extends Controller
      */
     private function loadOpenLinks(): void
     {
-        $this->setOpenLinksForDocument(new FacturaCliente(), 'invoice');
-        $this->setOpenLinksForDocument(new AlbaranCliente(), 'delivery-note');
-        $this->setOpenLinksForDocument(new PedidoCliente(), 'order');
-        $this->setOpenLinksForDocument(new PresupuestoCliente(), 'estimation');
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\FacturaCliente')) {
+            $this->setOpenLinksForDocument(new FacturaCliente(), 'invoice');
+        }
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\AlbaranCliente')) {
+            $this->setOpenLinksForDocument(new AlbaranCliente(), 'delivery-note');
+        }
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\PedidoCliente')) {
+            $this->setOpenLinksForDocument(new PedidoCliente(), 'order');
+        }
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\PresupuestoCliente')) {
+            $this->setOpenLinksForDocument(new PresupuestoCliente(), 'estimation');
+        }
 
         $minDate = Tools::date('-2 days');
         $minDateTime = Tools::dateTime('-2 days');
 
         $whereCustomer = [Where::gte('fechaalta', $minDate)];
-        foreach (Cliente::all($whereCustomer, ['fechaalta' => 'DESC'], 0, 3) as $customer) {
-            $this->openLinks[] = [
-                'type' => 'customer',
-                'url' => $customer->url(),
-                'name' => $customer->nombre,
-                'date' => $customer->fechaalta,
-            ];
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\Cliente')) {
+            foreach (Cliente::all($whereCustomer, ['fechaalta' => 'DESC'], 0, 3) as $customer) {
+                $this->openLinks[] = [
+                    'type' => 'customer',
+                    'url' => $customer->url(),
+                    'name' => $customer->nombre,
+                    'date' => $customer->fechaalta,
+                ];
+            }
         }
 
         $whereContact = [Where::gte('fechaalta', $minDate)];
-        foreach (Contacto::all($whereContact, ['fechaalta' => 'DESC'], 0, 3) as $contact) {
-            $this->openLinks[] = [
-                'type' => 'contact',
-                'url' => $contact->url(),
-                'name' => $contact->fullName(),
-                'date' => $contact->fechaalta,
-            ];
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\Contacto')) {
+            foreach (Contacto::all($whereContact, ['fechaalta' => 'DESC'], 0, 3) as $contact) {
+                $this->openLinks[] = [
+                    'type' => 'contact',
+                    'url' => $contact->url(),
+                    'name' => $contact->fullName(),
+                    'date' => $contact->fechaalta,
+                ];
+            }
         }
 
         $whereProd = [Where::gte('actualizado', $minDateTime)];
-        foreach (Producto::all($whereProd, ['actualizado' => 'DESC'], 0, 3) as $product) {
-            $this->openLinks[] = [
-                'type' => 'product',
-                'url' => $product->url(),
-                'name' => $product->referencia,
-                'date' => $product->actualizado,
-            ];
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\Producto')) {
+            foreach (Producto::all($whereProd, ['actualizado' => 'DESC'], 0, 3) as $product) {
+                $this->openLinks[] = [
+                    'type' => 'product',
+                    'url' => $product->url(),
+                    'name' => $product->referencia,
+                    'date' => $product->actualizado,
+                ];
+            }
         }
 
         $this->pipe('loadOpenLinks');
@@ -280,7 +294,9 @@ class Dashboard extends Controller
             Where::lt('vencimiento', Tools::date()),
             Where::gt('vencimiento', date('Y-m-d', strtotime('-1 year'))),
         ];
-        $this->receipts = ReciboCliente::all($where, ['vencimiento' => 'DESC']);
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\ReciboCliente')) {
+            $this->receipts = ReciboCliente::all($where, ['vencimiento' => 'DESC']);
+        }
 
         if (count($this->receipts) > 0) {
             $this->sections[] = 'receipts';
@@ -292,38 +308,42 @@ class Dashboard extends Controller
      */
     private function loadStats(): void
     {
-        $totalModel = new TotalModel();
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\TotalModel')) {
+            $totalModel = new \FacturaScripts\Dinamic\Model\TotalModel();
 
-        // compras
-        $this->stats['purchases'] = [
-            $this->getStatsMonth(0) => $totalModel->sum('facturasprov', 'neto', $this->getStatsWhere('fecha', 0)),
-            $this->getStatsMonth(1) => $totalModel->sum('facturasprov', 'neto', $this->getStatsWhere('fecha', 1)),
-            $this->getStatsMonth(2) => $totalModel->sum('facturasprov', 'neto', $this->getStatsWhere('fecha', 2)),
-        ];
+            // compras
+            $this->stats['purchases'] = [
+                $this->getStatsMonth(0) => $totalModel->sum('facturasprov', 'neto', $this->getStatsWhere('fecha', 0)),
+                $this->getStatsMonth(1) => $totalModel->sum('facturasprov', 'neto', $this->getStatsWhere('fecha', 1)),
+                $this->getStatsMonth(2) => $totalModel->sum('facturasprov', 'neto', $this->getStatsWhere('fecha', 2)),
+            ];
 
-        // ventas
-        $this->stats['sales'] = [
-            $this->getStatsMonth(0) => $totalModel->sum('facturascli', 'neto', $this->getStatsWhere('fecha', 0)),
-            $this->getStatsMonth(1) => $totalModel->sum('facturascli', 'neto', $this->getStatsWhere('fecha', 1)),
-            $this->getStatsMonth(2) => $totalModel->sum('facturascli', 'neto', $this->getStatsWhere('fecha', 2)),
-        ];
+            // ventas
+            $this->stats['sales'] = [
+                $this->getStatsMonth(0) => $totalModel->sum('facturascli', 'neto', $this->getStatsWhere('fecha', 0)),
+                $this->getStatsMonth(1) => $totalModel->sum('facturascli', 'neto', $this->getStatsWhere('fecha', 1)),
+                $this->getStatsMonth(2) => $totalModel->sum('facturascli', 'neto', $this->getStatsWhere('fecha', 2)),
+            ];
 
-        // impuestos
-        foreach ([0, 1, 2] as $num) {
-            $where = $this->getStatsWhere('fecha', $num);
-            $this->stats['taxes'][$this->getStatsMonth($num)] = $totalModel->sum('facturascli', 'totaliva', $where)
-                + $totalModel->sum('facturascli', 'totalrecargo', $where)
-                - $totalModel->sum('facturasprov', 'totaliva', $where)
-                - $totalModel->sum('facturasprov', 'totalrecargo', $where);
+            // impuestos
+            foreach ([0, 1, 2] as $num) {
+                $where = $this->getStatsWhere('fecha', $num);
+                $this->stats['taxes'][$this->getStatsMonth($num)] = $totalModel->sum('facturascli', 'totaliva', $where)
+                    + $totalModel->sum('facturascli', 'totalrecargo', $where)
+                    - $totalModel->sum('facturasprov', 'totaliva', $where)
+                    - $totalModel->sum('facturasprov', 'totalrecargo', $where);
+            }
         }
 
         // clientes
-        $customerModel = new Cliente();
-        $this->stats['new-customers'] = [
-            $this->getStatsMonth(0) => $customerModel->count($this->getStatsWhere('fechaalta', 0)),
-            $this->getStatsMonth(1) => $customerModel->count($this->getStatsWhere('fechaalta', 1)),
-            $this->getStatsMonth(2) => $customerModel->count($this->getStatsWhere('fechaalta', 2)),
-        ];
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\Cliente')) {
+            $customerModel = new \FacturaScripts\Dinamic\Model\Cliente();
+            $this->stats['new-customers'] = [
+                $this->getStatsMonth(0) => $customerModel->count($this->getStatsWhere('fechaalta', 0)),
+                $this->getStatsMonth(1) => $customerModel->count($this->getStatsWhere('fechaalta', 1)),
+                $this->getStatsMonth(2) => $customerModel->count($this->getStatsWhere('fechaalta', 2)),
+            ];
+        }
     }
 
     /**

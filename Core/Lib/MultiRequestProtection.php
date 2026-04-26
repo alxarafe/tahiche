@@ -110,6 +110,31 @@ class MultiRequestProtection
         return in_array($tokenParts[0], $valid);
     }
 
+    /**
+     * Checks if the given token is valid and hasn't been used yet.
+     * Logs appropriate warnings if validation fails.
+     *
+     * @param string $token
+     *
+     * @return bool
+     */
+    public function checkToken(string $token): bool
+    {
+        // valid request?
+        if (empty($token) || false === $this->validate($token)) {
+            Tools::log()->warning('invalid-request');
+            return false;
+        }
+
+        // duplicated request?
+        if ($this->tokenExist($token)) {
+            Tools::log()->warning('duplicated-request');
+            return false;
+        }
+
+        return true;
+    }
+
     protected function getRandomStr(): string
     {
         $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

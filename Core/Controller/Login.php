@@ -215,26 +215,9 @@ class Login implements ControllerInterface
     {
         $multiRequestProtection = new MultiRequestProtection();
 
-        // si el usuario está autenticado, añadimos su nick a la semilla
-        $cookieNick = $request->cookie('fsNick', '');
-        if ($cookieNick) {
-            $multiRequestProtection->addSeed($cookieNick);
-        }
 
-        // comprobamos el token
         $token = $request->inputOrQuery('multireqtoken', '');
-        if (empty($token) || false === $multiRequestProtection->validate($token)) {
-            Tools::log()->warning('invalid-request');
-            return false;
-        }
-
-        // comprobamos que el token no se haya usado antes
-        if ($multiRequestProtection->tokenExist($token)) {
-            Tools::log()->warning('duplicated-request');
-            return false;
-        }
-
-        return true;
+        return $multiRequestProtection->checkToken($token);
     }
 
     protected function getIpList(): array
