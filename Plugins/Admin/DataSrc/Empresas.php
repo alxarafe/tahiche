@@ -17,8 +17,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace FacturaScripts\Core\DataSrc;
-
+namespace FacturaScripts\Plugins\Admin\DataSrc;
 use FacturaScripts\Core\Cache;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\Model\CodeModel;

@@ -243,9 +243,8 @@ class Installer implements ControllerInterface
             $visit($name);
         }
 
-        // Build the plugins.json data without any plugins enabled
-        // This ensures a minimal clean installation without unnecessary tables.
-        $pluginsData = [];
+        // Enable Admin plugin by default since it contains Empresa and Wizard
+        $pluginsData = ['Admin'];
 
         // Write plugins.json so that Plugins::enabled() returns the full list
         $filePath = FS_FOLDER . DIRECTORY_SEPARATOR . 'MyFiles' . DIRECTORY_SEPARATOR . Plugins::FILE_NAME;
