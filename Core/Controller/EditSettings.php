@@ -361,6 +361,22 @@ class EditSettings extends PanelController
                 if (false === $this->dataBase->tableExists('empresas')) {
                     $view->disableColumn('company');
                 }
+                if (false === $this->dataBase->tableExists('idsfiscales')) {
+                    $view->disableColumn('fiscal-id');
+                }
+                if (false === $this->dataBase->tableExists('almacenes')) {
+                    $view->disableColumn('warehouse');
+                }
+                if (false === $this->dataBase->tableExists('impuestos')) {
+                    $view->disableColumn('tax');
+                }
+                if (false === $this->dataBase->tableExists('series')) {
+                    $view->disableColumn('serie');
+                    $view->disableColumn('rectifying-serie');
+                }
+                if (false === $this->dataBase->tableExists('regimenes_iva')) {
+                    $view->disableColumn('regime');
+                }
                 break;
 
             default:
