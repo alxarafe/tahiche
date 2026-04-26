@@ -79,7 +79,7 @@ class TestDinamicController extends ResourceController
         try {
             // Simulamos que un plugin (Admin) devuelve un modelo que el Core legacy (con dependencias relajadas) debe aceptar.
             // Vamos a invocar a la clase Empresas del Core que usa get() y retorna un ModelClass.
-            $empresa = \FacturaScripts\Core\DataSrc\Empresas::get(1);
+            $empresa = \FacturaScripts\Plugins\BusinessBase\DataSrc\Empresas::get(1);
             if ($empresa) {
                 return "<li class='list-group-item list-group-item-success'><b>[OK] Legacy -> src/Core:</b> Empresas::get() del Core devolvió " . get_class($empresa) . " sin Fatal TypeError.</li>";
             }

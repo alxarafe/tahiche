@@ -1,14 +1,9 @@
 Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
-Exception: Call to undefined method FacturaScripts\Core\Base\DataBase\DataBaseWhere::eq() in /var/www/html/Core/Controller/Wizard.php on line 230
-#0 /var/www/html/Core/Controller/Wizard.php(284): FacturaScripts\Core\Controller\Wizard->saveAddress('ESP')
-#1 /var/www/html/Core/Controller/Wizard.php(106): FacturaScripts\Core\Controller\Wizard->saveStep1()
-#2 /var/www/html/Core/Base/Controller.php(266): FacturaScripts\Core\Controller\Wizard->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\Admin\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
-#3 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
-#4 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/Wizard')
-#5 /var/www/html/src/Infrastructure/Http/Kernel.php(162): FacturaScripts\Core\Kernel::run('/Wizard')
-#6 /var/www/html/src/Infrastructure/Http/Kernel.php(35): Tahiche\Infrastructure\Http\Kernel->run('/Wizard')
-#7 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/Wizard')
-#8 {main}
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
 Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
 Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
 Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110

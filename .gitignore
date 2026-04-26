@@ -41,3 +41,4 @@ CLAUDE.md
 # Env and local scripts
 .env
 replace_index_to_restore.php
+debug_error.log

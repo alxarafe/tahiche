@@ -13,10 +13,9 @@ use FacturaScripts\Core\Base\MiniLog;
 use FacturaScripts\Core\NextCode;
 use FacturaScripts\Core\Html;
 use FacturaScripts\Core\Lib\MenuManager;
-use FacturaScripts\Core\DataSrc\Empresas;
+use FacturaScripts\Plugins\BusinessBase\DataSrc\Empresas;
 use FacturaScripts\Core\Session;
-use FacturaScripts\Plugins\Admin\Model\User;
-use FacturaScripts\Plugins\Admin\Model\User as AdminUser;
+use FacturaScripts\Core\Model\User;
 
 /**
  * Kernel de la Arquitectura Hexagonal (Strangler Fig Router).
@@ -222,7 +221,7 @@ class Kernel
             return null;
         }
 
-        $user = new AdminUser();
+        $user = new User();
         if (false === $user->load($cookieNick)) {
             return null;
         }
