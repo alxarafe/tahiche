@@ -18,34 +18,25 @@
  */
 
 namespace FacturaScripts\Plugins\BusinessBase\Controller;
+
 use FacturaScripts\Core\Base\Controller;
 use FacturaScripts\Core\Base\ControllerPermissions;
 use FacturaScripts\Core\Plugins;
 use FacturaScripts\Core\Response;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\UploadedFile;
-use FacturaScripts\Core\Where;
-use FacturaScripts\Dinamic\Lib\Accounting\AccountingPlanImport;
-use FacturaScripts\Dinamic\Lib\RegimenIVA;
-use FacturaScripts\Dinamic\Model\Almacen;
 use FacturaScripts\Dinamic\Model\AttachedFile;
-use FacturaScripts\Dinamic\Model\Cuenta;
-use FacturaScripts\Dinamic\Model\CuentaBanco;
-use FacturaScripts\Dinamic\Model\Ejercicio;
-use FacturaScripts\Dinamic\Model\FormaPago;
-use FacturaScripts\Dinamic\Model\Role;
-use FacturaScripts\Dinamic\Model\SecuenciaDocumento;
 use FacturaScripts\Dinamic\Model\User;
 
 /**
- * Description of Wizard
+ * Wizard for initial company setup (BusinessBase plugin).
+ * Handles company data, address, logo, and admin password.
  *
  * @author Carlos García Gómez <carlos@facturascripts.com>
  */
 class Wizard extends Controller
 {
     const ITEM_SELECT_LIMIT = 500;
-    const NEW_DEFAULT_PAGE = 'Dashboard';
 
     public function getPageData(): array
     {
@@ -55,15 +46,6 @@ class Wizard extends Controller
         $data['icon'] = 'fa-solid fa-wand-magic-sparkles';
         $data['showonmenu'] = true;
         return $data;
-    }
-
-    public function getRegimenIva(): array
-    {
-        $list = ['' => '------'];
-        foreach (RegimenIVA::all() as $key => $value) {
-            $list[$key] = Tools::trans($value);
-        }
-        return $list;
     }
 
     /**
@@ -81,7 +63,7 @@ class Wizard extends Controller
         if (false === class_exists($modelClassName)) {
             return $values;
         }
-        
+
         $model = new $modelClassName();
 
         $order = [$model->primaryDescriptionColumn() => 'ASC'];
@@ -109,26 +91,12 @@ class Wizard extends Controller
                 $this->saveStep1();
                 break;
 
-            case 'step2':
-                $this->saveStep2();
-                break;
-
-            case 'step3':
-                $this->saveStep3();
-                break;
-
             default:
                 if (empty($this->empresa->email) && $this->user->email) {
                     $this->empresa->email = $this->user->email;
                     $this->empresa->save();
                 }
         }
-    }
-
-    protected function finalRedirect(): void
-    {
-        // redirect to the home page
-        $this->redirect($this->user->homepage, 2);
     }
 
     /**
@@ -143,39 +111,6 @@ class Wizard extends Controller
             if (class_exists($className)) {
                 new $className();
             }
-        }
-    }
-
-    /**
-     * Loads the default accounting plan. If there is one.
-     *
-     * @param string $codpais
-     *
-     * @return void
-     */
-    private function loadDefaultAccountingPlan(string $codpais): void
-    {
-        // ¿Hay un plan contable para ese país?
-        $filePath = FS_FOLDER . '/Dinamic/Data/Codpais/' . $codpais . '/defaultPlan.csv';
-        if (false === file_exists($filePath)) {
-            return;
-        }
-
-        // ¿La base de datos es de 2017 o anterior?
-        if ($this->dataBase->tableExists('co_cuentas')) {
-            return;
-        }
-
-        // ¿Ya existe el plan contable?
-        $cuenta = new Cuenta();
-        if ($cuenta->count() > 0) {
-            return;
-        }
-
-        foreach (Ejercicio::all() as $exercise) {
-            $planImport = new AccountingPlanImport();
-            $planImport->importCSV($filePath, $exercise->codejercicio);
-            return;
         }
     }
 
@@ -302,42 +237,14 @@ class Wizard extends Controller
             return;
         }
 
-        // change template
-        $this->setTemplate('Wizard-2');
+        // finalize: deploy and redirect to dashboard
+        $this->finalizeWizard();
     }
 
-    private function saveStep2(): void
-    {
-        if (false === $this->validateFormToken()) {
-            return;
-        }
-
-        $this->empresa->regimeniva = $this->request->input('regimeniva');
-        $this->empresa->save();
-
-        $codimpuesto = $this->request->input('codimpuesto');
-        Tools::settingsSet('default', 'codimpuesto', empty($codimpuesto) ? null : $codimpuesto);
-
-        $codpago = $this->request->input('codpago');
-        Tools::settingsSet('default', 'codpago', empty($codpago) ? null : $codpago);
-
-        Tools::settingsSet('default', 'ventasinstock', (bool)$this->request->input('ventasinstock', '0'));
-        Tools::settingsSet('default', 'site_url', Tools::siteUrl());
-        Tools::settingsSave();
-
-        $this->saveInvoiceStartNumber();
-        $this->saveBankAccount();
-
-        if ($this->request->input('defaultplan', '0')) {
-            $this->loadDefaultAccountingPlan($this->empresa->codpais);
-        }
-
-        // change template and redirect
-        $this->setTemplate('Wizard-3');
-        $this->redirect($this->url() . '?action=step3', 2);
-    }
-
-    protected function saveStep3(): void
+    /**
+     * Finalize the wizard: deploy plugins, set homepage, and redirect.
+     */
+    private function finalizeWizard(): void
     {
         // load all models
         $modelNames = [];
@@ -346,7 +253,7 @@ class Wizard extends Controller
                 $modelNames[] = substr($fileName, 0, -4);
             }
         }
-        foreach (\FacturaScripts\Core\Plugins::enabled() as $pluginName) {
+        foreach (Plugins::enabled() as $pluginName) {
             foreach (Tools::folderScan(Tools::folder('Plugins', $pluginName, 'Model')) as $fileName) {
                 if (substr($fileName, -4) === '.php') {
                     $modelNames[] = substr($fileName, 0, -4);
@@ -354,14 +261,13 @@ class Wizard extends Controller
             }
         }
         if (false === $this->dataBase->tableExists('fs_users')) {
-            // avoid this step in 2017 installations
             $this->initModels($modelNames);
         }
 
         // load controllers
         Plugins::deploy(true, true);
 
-        // obtenemos el rol de empleados, y lo asignamos como rol predeterminado
+        // set default role
         if (class_exists('\\FacturaScripts\\Dinamic\\Model\\Role')) {
             $role = new \FacturaScripts\Dinamic\Model\Role();
             if ($role->load('employee')) {
@@ -371,44 +277,14 @@ class Wizard extends Controller
         }
 
         // change user homepage
-        $this->user->homepage = $this->dataBase->tableExists('fs_users') && class_exists('\\FacturaScripts\\Dinamic\\Controller\\AdminPlugins') ? 'AdminPlugins' : static::NEW_DEFAULT_PAGE;
+        $this->user->homepage = $this->dataBase->tableExists('fs_users')
+            && class_exists('\\FacturaScripts\\Dinamic\\Controller\\AdminPlugins')
+            ? 'AdminPlugins'
+            : 'Dashboard';
         $this->user->save();
 
-        // change template and redirect
-        $this->setTemplate('Wizard-3');
-        $this->finalRedirect();
-    }
-
-    private function saveBankAccount(): void
-    {
-        $iban = $this->request->input('iban', '');
-        $bankName = $this->request->input('bank_name', '');
-        if (empty($iban) && empty($bankName)) {
-            return;
-        }
-
-        $paymentMethod = $this->getTransferPaymentMethod();
-        if (false === $paymentMethod->exists()) {
-            return;
-        }
-
-        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\CuentaBanco')) {
-            $account = new \FacturaScripts\Dinamic\Model\CuentaBanco();
-            if (!empty($paymentMethod->codcuentabanco)) {
-                $account->load($paymentMethod->codcuentabanco);
-            }
-
-            $account->descripcion = empty($bankName) ? $this->empresa->nombrecorto : $bankName;
-            $account->iban = $iban;
-            $account->idempresa = $this->empresa->idempresa;
-            if (false === $account->save()) {
-                return;
-            }
-
-            $paymentMethod->codcuentabanco = $account->codcuenta;
-            $paymentMethod->idempresa = $this->empresa->idempresa;
-            $paymentMethod->save();
-        }
+        // redirect to the home page
+        $this->redirect($this->user->homepage, 2);
     }
 
     private function saveLogo(): bool
@@ -436,54 +312,6 @@ class Wizard extends Controller
 
         $this->empresa->idlogo = $attachedFile->idfile;
         return $this->empresa->save();
-    }
-
-    private function saveInvoiceStartNumber(): void
-    {
-        $startNumber = (int)$this->request->input('invoice_start_number', '1');
-        if ($startNumber < 2) {
-            return;
-        }
-
-        $exerciseCode = $this->getCompanyExerciseCode();
-        if (empty($exerciseCode)) {
-            return;
-        }
-
-        if (!class_exists('\\FacturaScripts\\Dinamic\\Model\\SecuenciaDocumento')) {
-            return;
-        }
-
-        // buscamos las secuencias de FacturaCliente para actualizar el número de inicio
-        $secuencia = new \FacturaScripts\Dinamic\Model\SecuenciaDocumento();
-        $where = [
-            Where::eq('codejercicio', $exerciseCode),
-            Where::eq('codserie', 'A'),
-            Where::eq('tipodoc', 'FacturaCliente'),
-            Where::eq('idempresa', $this->empresa->idempresa),
-        ];
-        $found = false;
-        foreach ($secuencia->all($where) as $sec) {
-            $found = true;
-            $sec->inicio = $startNumber;
-            $sec->numero = $startNumber;
-            $sec->patron = 'F{EJE}{SERIE}{NUM}';
-            $sec->save();
-        }
-        if ($found) {
-            return;
-        }
-
-        // si no existe la secuencia, la creamos
-        $secuencia->codejercicio = $exerciseCode;
-        $secuencia->codserie = 'A';
-        $secuencia->idempresa = $this->empresa->idempresa;
-        $secuencia->inicio = $startNumber;
-        $secuencia->numero = $startNumber;
-        $secuencia->patron = 'F{EJE}{SERIE}{NUM}';
-        $secuencia->tipodoc = 'FacturaCliente';
-        $secuencia->usarhuecos = true;
-        $secuencia->save();
     }
 
     private function setWarehouse($almacen, string $codpais): void
@@ -522,36 +350,5 @@ class Wizard extends Controller
         $file = new AttachedFile();
         $file->path = $destinyName;
         return $file->save() ? $file : new AttachedFile();
-    }
-
-    private function getTransferPaymentMethod()
-    {
-        if (!class_exists('\\FacturaScripts\\Dinamic\\Model\\FormaPago')) {
-            return new class {
-                public function exists() { return false; }
-            };
-        }
-        
-        $paymentMethod = new \FacturaScripts\Dinamic\Model\FormaPago();
-        if ($paymentMethod->load('TRANS')) {
-            return $paymentMethod;
-        }
-
-        $paymentMethod->codpago = 'TRANS';
-        $paymentMethod->descripcion = 'Transferencia bancaria';
-        $paymentMethod->idempresa = $this->empresa->idempresa;
-        $paymentMethod->plazovencimiento = 1;
-        $paymentMethod->tipovencimiento = 'months';
-        $paymentMethod->save();
-        return $paymentMethod;
-    }
-
-    private function getCompanyExerciseCode(): string
-    {
-        foreach ($this->empresa->getExercises() as $exercise) {
-            return (string)$exercise->codejercicio;
-        }
-
-        return '';
     }
 }
