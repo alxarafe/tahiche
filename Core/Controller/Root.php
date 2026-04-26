@@ -28,7 +28,7 @@ class Root extends Controller
     {
         $data = parent::getPageData();
         $data['menu'] = 'admin';
-        $data['title'] = Empresas::default()->nombrecorto ?? 'FacturaScripts';
+        $data['title'] = class_exists(Empresas::class) ? (Empresas::default()->nombrecorto ?? 'FacturaScripts') : 'FacturaScripts';
         $data['icon'] = 'fa-solid fa-home';
         $data['showonmenu'] = false;
         return $data;

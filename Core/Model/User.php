@@ -125,6 +125,9 @@ class User extends ModelClass
         }
 
         // comprobamos si el rol existe
+        if (!class_exists(DinRole::class)) {
+            return false;
+        }
         $role = new DinRole();
         if (false === $role->load($code)) {
             Tools::log()->error('role-not-found', ['%code%' => $code]);
@@ -178,9 +181,11 @@ class User extends ModelClass
         }
 
         // si no es admin, comprobamos si tiene acceso a la página
-        foreach (DinRoleAccess::allFromUser($this->nick, $pageName) as $access) {
-            if ($access->can($permission)) {
-                return true;
+        if (class_exists(DinRoleAccess::class)) {
+            foreach (DinRoleAccess::allFromUser($this->nick, $pageName) as $access) {
+                if ($access->can($permission)) {
+                    return true;
+                }
             }
         }
 
@@ -253,6 +258,9 @@ class User extends ModelClass
      */
     public function getRoles(): array
     {
+        if (!class_exists(DinRoleUser::class)) {
+            return [];
+        }
         $roles = [];
 
         $where = [new DataBaseWhere('nick', $this->nick)];
@@ -299,7 +307,7 @@ class User extends ModelClass
 
         return 'INSERT INTO ' . static::tableName() . ' (nick,password,email,admin,enabled,idempresa,codalmacen,langcode,homepage,level)'
             . " VALUES ('" . $nick . "','" . password_hash($pass, PASSWORD_DEFAULT) . "','" . $email
-            . "',TRUE,TRUE,'1','1','" . $lang . "','Wizard','99');";
+            . "',TRUE,TRUE,'1','1','" . $lang . "','AdminPlugins','99');";
     }
 
     public function newLogkey(string $ipAddress, string $browser = ''): string
@@ -469,7 +477,7 @@ class User extends ModelClass
             return true;
         }
 
-        if (class_exists(DinAgente::class)) {
+        if (class_exists(DinAgente::class) && \FacturaScripts\Core\Plugins::isEnabled('Trading')) {
             $agent = new DinAgente();
             if (false === $agent->load($this->codagente)) {
                 $this->codagente = null;
@@ -489,7 +497,7 @@ class User extends ModelClass
             return true;
         }
 
-        if (class_exists(DinAlmacen::class)) {
+        if (class_exists(DinAlmacen::class) && \FacturaScripts\Core\Plugins::isEnabled('BusinessBase')) {
             $warehouse = new DinAlmacen();
             if (false === $warehouse->load($this->codalmacen) || $warehouse->idempresa != $this->idempresa) {
                 $this->codalmacen = Tools::settings('default', 'codalmacen');

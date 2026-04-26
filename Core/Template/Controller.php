@@ -134,7 +134,11 @@ abstract class Controller implements ControllerInterface
             throw new KernelException('AccessDenied', 'access-denied');
         }
 
-        $this->empresa = Empresas::default();
+        if (class_exists(Empresas::class)) {
+            $this->empresa = Empresas::default();
+        } else {
+            $this->empresa = null;
+        }
 
         AssetManager::clear();
         AssetManager::setAssetsForPage($this->className);

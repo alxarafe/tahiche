@@ -66,8 +66,13 @@ class Login implements ControllerInterface
 
     public function run(): void
     {
-        $this->empresa = Empresas::default();
-        $this->title = $this->empresa->nombrecorto;
+        if (class_exists(Empresas::class)) {
+            $this->empresa = Empresas::default();
+            $this->title = $this->empresa->nombrecorto;
+        } else {
+            $this->empresa = null;
+            $this->title = 'FacturaScripts';
+        }
 
         $request = Request::createFromGlobals();
         $action = $request->inputOrQuery('action', '');

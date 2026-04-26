@@ -243,8 +243,9 @@ class Installer implements ControllerInterface
             $visit($name);
         }
 
-        // Enable Admin plugin by default since it contains Empresa and Wizard
-        $pluginsData = ['Admin'];
+        // Build the plugins.json data without any plugins enabled
+        // This ensures a minimal clean installation without unnecessary tables.
+        $pluginsData = [];
 
         // Write plugins.json so that Plugins::enabled() returns the full list
         $filePath = FS_FOLDER . DIRECTORY_SEPARATOR . 'MyFiles' . DIRECTORY_SEPARATOR . Plugins::FILE_NAME;
@@ -273,11 +274,15 @@ class Installer implements ControllerInterface
             Plugins::deploy();
 
             // Install foundational models (creates their tables and initial data)
-            $empresa = new \FacturaScripts\Dinamic\Model\Empresa();
-            $empresa->install();
+            if (class_exists(\FacturaScripts\Dinamic\Model\Empresa::class)) {
+                $empresa = new \FacturaScripts\Dinamic\Model\Empresa();
+                $empresa->install();
+            }
 
-            $user = new \FacturaScripts\Dinamic\Model\User();
-            $user->install();
+            if (class_exists(\FacturaScripts\Dinamic\Model\User::class)) {
+                $user = new \FacturaScripts\Dinamic\Model\User();
+                $user->install();
+            }
 
             return true;
         } catch (\Exception $e) {

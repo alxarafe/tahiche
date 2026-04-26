@@ -92,7 +92,7 @@ class Page extends ModelClass
 
     public function install(): string
     {
-        return 'INSERT INTO ' . static::tableName() . " (name,title) VALUES ('Wizard','Wizard');";
+        return 'INSERT INTO ' . static::tableName() . " (name,title) VALUES ('AdminPlugins','AdminPlugins');";
     }
 
     public static function primaryColumn(): string

@@ -1,0 +1,3 @@
+{
+    "business_base_desc": "Base module providing the business logic and infrastructure (Companies, Roles, etc.) required by the rest of the applications."
+}

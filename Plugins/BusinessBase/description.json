@@ -1,0 +1,11 @@
+{
+    "es": "Módulo base que provee la lógica e infraestructura empresarial requerida por el resto de aplicaciones.",
+    "en": "Base module providing the business logic and infrastructure required by the rest of the applications.",
+    "ca": "Mòdul base que proveeix la lògica i infraestructura empresarial requerida per la resta d'aplicacions.",
+    "eu": "Aplikazioen gainerakoak behar duen negozio logikako eta azpiegituretako oinarrizko modulua.",
+    "gl": "Módulo base que provee a lóxica e infraestrutura empresarial requirida polo resto de aplicacións.",
+    "fr": "Module de base fournissant la logique métier et l'infrastructure requises par le reste des applications.",
+    "it": "Modulo di base che fornisce la logica aziendale e l'infrastruttura richieste dal resto delle applicazioni.",
+    "pt": "Módulo base que fornece a lógica de negócios e infraestrutura necessárias para o resto das aplicações.",
+    "de": "Basismodul, das die Geschäftslogik und -infrastruktur bereitstellt, die von den übrigen Anwendungen benötigt wird."
+}

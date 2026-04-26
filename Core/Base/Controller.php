@@ -202,7 +202,11 @@ class Controller implements ControllerInterface
         }
 
         // Select the default company for the user
-        $this->empresa = Empresas::get($this->user->idempresa);
+        if (class_exists(Empresas::class)) {
+            $this->empresa = Empresas::get($this->user->idempresa);
+        } else {
+            $this->empresa = null;
+        }
 
         // add the user to the token generation seed
         $this->multiRequestProtection->addSeed($user->nick);
@@ -233,7 +237,11 @@ class Controller implements ControllerInterface
         $this->response = &$response;
         $this->template = 'Login/Login.html.twig';
 
-        $this->empresa = Empresas::default();
+        if (class_exists(Empresas::class)) {
+            $this->empresa = Empresas::default();
+        } else {
+            $this->empresa = null;
+        }
     }
 
     /**

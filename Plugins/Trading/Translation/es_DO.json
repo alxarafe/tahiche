@@ -1,0 +1,7 @@
+{
+    "delivery-notes": "Conduces",
+    "dont-sell-above-pvp": "No vender por encima del PVP",
+    "dont-sell-below-cost": "No vender por debajo del costo",
+    "formula-cost-price": "Fórmula para calcular la tarifa a partir del precio de costo",
+    "formula-sale-price": "Fórmula para calcular la tarifa a partir del precio de venta"
+}

@@ -1,0 +1,6 @@
+{
+    "agents": "Encargados",
+    "delivery-notes": "Órdenes de entrega",
+    "dont-sell-below-cost": "No vender por debajo de costo",
+    "formula-cost-price": "precio de costo + x% + y"
+}

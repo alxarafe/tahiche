@@ -100,10 +100,65 @@ final class Translator
         // para cada idioma, obtenemos las traducciones y las guardamos en un archivo json
         foreach ($languages as $lang) {
             $data = [];
+            $baseLang = explode('_', $lang)[0];
+
             foreach ($folders as $folder) {
+                // Primero cargamos el idioma base
+                if ($baseLang !== $lang) {
+                    $baseFileName = $folder . '/' . $baseLang . '.json';
+                    if (file_exists($baseFileName)) {
+                        $baseData = json_decode(file_get_contents($baseFileName), true);
+                        if (is_array($baseData)) {
+                            $data = array_merge($data, $baseData);
+                        }
+                    }
+                }
+
+                // Luego cargamos el idioma específico machacando lo del base
                 $fileName = $folder . '/' . $lang . '.json';
                 if (file_exists($fileName)) {
-                    $data = array_merge($data, json_decode(file_get_contents($fileName), true));
+                    $langData = json_decode(file_get_contents($fileName), true);
+                    if (is_array($langData)) {
+                        $data = array_merge($data, $langData);
+                    }
+                }
+            }
+
+            // Inyectamos las traducciones de name.json y description.json de TODOS los plugins
+            foreach (scandir(FS_FOLDER . '/Plugins') as $pluginName) {
+                if ($pluginName === '.' || $pluginName === '..' || !is_dir(FS_FOLDER . '/Plugins/' . $pluginName)) {
+                    continue;
+                }
+
+                $iniFile = FS_FOLDER . '/Plugins/' . $pluginName . '/facturascripts.ini';
+                if (!file_exists($iniFile)) {
+                    continue;
+                }
+
+                $iniData = parse_ini_file($iniFile);
+
+                // Procesar description.json
+                if (isset($iniData['description'])) {
+                    $descFile = FS_FOLDER . '/Plugins/' . $pluginName . '/description.json';
+                    if (file_exists($descFile)) {
+                        $descData = json_decode(file_get_contents($descFile), true);
+                        if (is_array($descData)) {
+                            $descKey = $iniData['description'];
+                            $data[$descKey] = $descData[$lang] ?? $descData[$baseLang] ?? $descData['en'] ?? reset($descData);
+                        }
+                    }
+                }
+
+                // Procesar name.json
+                if (isset($iniData['name'])) {
+                    $nameFile = FS_FOLDER . '/Plugins/' . $pluginName . '/name.json';
+                    if (file_exists($nameFile)) {
+                        $nameData = json_decode(file_get_contents($nameFile), true);
+                        if (is_array($nameData)) {
+                            $nameKey = $iniData['name'];
+                            $data[$nameKey] = $nameData[$lang] ?? $nameData[$baseLang] ?? $nameData['en'] ?? reset($nameData);
+                        }
+                    }
                 }
             }
 
@@ -228,15 +283,33 @@ final class Translator
         }
 
         // cargamos las traducciones desde los archivos json
+        $baseLang = explode('_', $lang)[0];
+
         foreach ($this->getFolders() as $folder) {
-            $fileName = $folder . '/' . $lang . '.json';
-            if (false === file_exists($fileName)) {
-                continue;
+            // Primero cargamos el idioma base
+            if ($baseLang !== $lang) {
+                $baseFileName = $folder . '/' . $baseLang . '.json';
+                if (file_exists($baseFileName)) {
+                    $data = file_get_contents($baseFileName);
+                    $baseData = json_decode($data, true);
+                    if (is_array($baseData)) {
+                        foreach ($baseData as $code => $translation) {
+                            self::$translations[$code . '@' . $lang] = $translation;
+                        }
+                    }
+                }
             }
 
-            $data = file_get_contents($fileName);
-            foreach (json_decode($data, true) as $code => $translation) {
-                self::$translations[$code . '@' . $lang] = $translation;
+            // Luego cargamos el idioma específico machacando lo del base
+            $fileName = $folder . '/' . $lang . '.json';
+            if (file_exists($fileName)) {
+                $data = file_get_contents($fileName);
+                $langData = json_decode($data, true);
+                if (is_array($langData)) {
+                    foreach ($langData as $code => $translation) {
+                        self::$translations[$code . '@' . $lang] = $translation;
+                    }
+                }
             }
         }
 

@@ -344,6 +344,16 @@ final class Plugin
 
     private function loadIniFile(): void
     {
+        $jsonPath = $this->folder() . DIRECTORY_SEPARATOR . 'facturascripts.json';
+        if (file_exists($jsonPath)) {
+            $data = file_get_contents($jsonPath);
+            $jsonData = json_decode($data, true);
+            if (is_array($jsonData)) {
+                $this->loadIniData($jsonData);
+                return;
+            }
+        }
+
         $iniPath = $this->folder() . DIRECTORY_SEPARATOR . 'facturascripts.ini';
         if (!file_exists($iniPath)) {
             return;
