@@ -12,7 +12,6 @@ use Alxarafe\ResourceController\Component\Fields\Select;
 use Alxarafe\ResourceController\Component\Fields\StaticText;
 use Alxarafe\ResourceController\Component\Fields\Text;
 use Alxarafe\ResourceController\Component\Fields\Textarea;
-
 use Tahiche\Infrastructure\Http\ResourceController;
 use Tahiche\Infrastructure\Adapter\Trading\Product;
 
@@ -127,10 +126,10 @@ class ProductsController extends ResourceController
         if (!isset($this->structConfig['edit']['head_buttons'])) {
             $this->structConfig['edit']['head_buttons'] = [];
         }
-        
+
         foreach ($this->legacyButtons as $btn) {
             $btnName = 'legacy-' . $btn['action'];
-            
+
             // Check if it already exists
             $exists = false;
             foreach ($this->structConfig['edit']['head_buttons'] as $existing) {
@@ -139,7 +138,7 @@ class ProductsController extends ResourceController
                     break;
                 }
             }
-            
+
             if (!$exists) {
                 $this->structConfig['edit']['head_buttons'][] = [
                     'label' => $this->transLegacy($btn['label'] ?? $btn['action']),

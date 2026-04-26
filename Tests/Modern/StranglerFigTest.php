@@ -17,7 +17,7 @@ class StranglerFigTest extends TestCase
     {
         $dinamicPath = FS_FOLDER . '/Dinamic';
         $this->assertFalse(
-            is_dir($dinamicPath), 
+            is_dir($dinamicPath),
             'La carpeta Dinamic/ sigue existiendo físicamente, lo cual viola el patrón Estrangulador.'
         );
     }
@@ -26,7 +26,7 @@ class StranglerFigTest extends TestCase
     {
         $xmlViewPath = FS_FOLDER . '/var/cache/xmlview';
         $this->assertTrue(
-            is_dir($xmlViewPath), 
+            is_dir($xmlViewPath),
             'La carpeta var/cache/xmlview/ no fue creada por el PluginsDeploy.'
         );
 
@@ -38,7 +38,7 @@ class StranglerFigTest extends TestCase
     {
         $assetsPath = FS_FOLDER . '/var/cache/assets/Assets/CSS';
         $this->assertTrue(
-            is_dir($assetsPath), 
+            is_dir($assetsPath),
             'La carpeta var/cache/assets/Assets/CSS no existe, los assets estáticos no se están copiando a la caché.'
         );
 
@@ -50,7 +50,7 @@ class StranglerFigTest extends TestCase
     {
         $translationPath = FS_FOLDER . '/var/cache/translation';
         $this->assertTrue(
-            is_dir($translationPath), 
+            is_dir($translationPath),
             'La carpeta var/cache/translation no existe, las traducciones no se están cacheando.'
         );
 
@@ -63,21 +63,20 @@ class StranglerFigTest extends TestCase
         // En lugar de llamar a run(), instanciamos el controlador que es donde se define el path
         // Usamos una ruta de asset conocida (del core) pero como si la pidiera un plugin apuntando a Dinamic.
         $url = '/Dinamic/Assets/Images/favicon.ico';
-        
+
         try {
             // El controlador Files lanzará excepción si no encuentra el archivo real,
             // pero si la redirección interna funciona (var/cache/assets/...), pasará silenciosamente.
             $filesController = new Files('Files', $url);
-            
+
             // Accedemos a la propiedad privada filePath por reflexión
             $reflection = new \ReflectionClass($filesController);
             $property = $reflection->getProperty('filePath');
             $property->setAccessible(true);
             $actualFilePath = $property->getValue($filesController);
-            
+
             $expectedFilePath = FS_FOLDER . '/var/cache/assets/Assets/Images/favicon.ico';
             $this->assertEquals($expectedFilePath, $actualFilePath, 'FilesController no está redirigiendo correctamente Dinamic/ a var/cache/assets/.');
-            
         } catch (KernelException $e) {
             $this->fail('FilesController lanzó excepción al intentar acceder a un asset virtualizado de Dinamic: ' . $e->getMessage());
         }
@@ -87,7 +86,7 @@ class StranglerFigTest extends TestCase
     {
         // Html.php define las rutas. La validamos verificando que la carga de plantillas Twig pueda encontrar las cacheadas.
         $path = FS_DEBUG ? FS_FOLDER . '/Core/View' : FS_FOLDER . '/var/cache/assets/View';
-        
+
         // Simplemente verificamos que el path existe
         $this->assertTrue(
             is_dir($path),

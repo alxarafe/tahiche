@@ -22,14 +22,14 @@ class EditProducto
             /** @var EditController $this */
             if ($viewName === 'EditProductBarcode') {
                 $idproducto = $this->getViewModelValue('EditProducto', 'idproducto');
-                
+
                 // Get all variants for this product
                 $variantes = \FacturaScripts\Core\Model\Variante::all([\FacturaScripts\Core\Where::eq('idproducto', $idproducto)]);
                 $variantIds = [];
                 foreach ($variantes as $v) {
                     $variantIds[] = $v->idvariante;
                 }
-                
+
                 if (empty($variantIds)) {
                     $variantIds = [-1]; // Prevent SQL error if no variants
                 }

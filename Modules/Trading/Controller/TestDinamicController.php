@@ -52,7 +52,7 @@ class TestDinamicController extends ResourceController
             // Usamos el resolver para obtener la clase real.
             $dinamicClass = "\\FacturaScripts\\Dinamic\\Model\\Impuesto";
             $realClass = ClassResolver::getRealClass($dinamicClass) ?? $dinamicClass;
-            
+
             if (class_exists($realClass)) {
                 $model = new $realClass();
                 return "<li class='list-group-item list-group-item-success'><b>[OK] src -> Legacy:</b> Se resolvió $dinamicClass hacia $realClass exitosamente.</li>";
