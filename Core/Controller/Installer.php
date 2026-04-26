@@ -171,8 +171,95 @@ class Installer implements ControllerInterface
             }
         }
 
+        // Auto-enable all core plugins before deploying.
+        // During a fresh install, plugins.json doesn't exist yet, so Plugins::enabled()
+        // returns empty. This means deploy() won't process any plugin Table XMLs,
+        // causing "table not found" errors when models cascade their dependencies
+        // (e.g. User → Serie → Diario, BusinessDocument → Almacen, etc.).
+        $this->autoEnablePlugins();
+
         Plugins::deploy();
         return true;
+    }
+
+    /**
+     * Auto-enables all discovered plugins respecting dependency order.
+     * This is necessary during a fresh install so that Plugins::deploy()
+     * can process all Table XMLs and create the database schema correctly.
+     */
+    private function autoEnablePlugins(): void
+    {
+        $pluginsDir = FS_FOLDER . DIRECTORY_SEPARATOR . 'Plugins';
+        if (false === is_dir($pluginsDir)) {
+            return;
+        }
+
+        // Discover all plugins with their dependencies
+        $discovered = [];
+        $dir = new \DirectoryIterator($pluginsDir);
+        foreach ($dir as $file) {
+            if (false === $file->isDir() || $file->isDot()) {
+                continue;
+            }
+
+            $pluginName = $file->getFilename();
+            $iniPath = $pluginsDir . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . 'facturascripts.ini';
+            $require = [];
+            if (file_exists($iniPath)) {
+                $iniData = parse_ini_file($iniPath);
+                if (!empty($iniData['require'])) {
+                    foreach (explode(',', $iniData['require']) as $dep) {
+                        $require[] = trim($dep);
+                    }
+                }
+            }
+
+            $discovered[$pluginName] = $require;
+        }
+
+        // Topological sort: enable plugins in dependency order
+        $sorted = [];
+        $visited = [];
+        $visiting = [];
+
+        $visit = function (string $name) use (&$visit, &$sorted, &$visited, &$visiting, $discovered): void {
+            if (isset($visited[$name]) || !isset($discovered[$name])) {
+                return;
+            }
+            if (isset($visiting[$name])) {
+                return; // circular dependency, skip
+            }
+            $visiting[$name] = true;
+            foreach ($discovered[$name] as $dep) {
+                $visit($dep);
+            }
+            unset($visiting[$name]);
+            $visited[$name] = true;
+            $sorted[] = $name;
+        };
+
+        foreach (array_keys($discovered) as $name) {
+            $visit($name);
+        }
+
+        // Build the plugins.json data with all plugins enabled
+        $pluginsData = [];
+        $order = 1;
+        foreach ($sorted as $pluginName) {
+            $pluginsData[] = [
+                'name' => $pluginName,
+                'folder' => $pluginName,
+                'enabled' => true,
+                'installed' => true,
+                'order' => $order++,
+                'post_enable' => true,
+                'post_disable' => false,
+            ];
+        }
+
+        // Write plugins.json so that Plugins::enabled() returns the full list
+        $filePath = FS_FOLDER . DIRECTORY_SEPARATOR . 'MyFiles' . DIRECTORY_SEPARATOR . Plugins::FILE_NAME;
+        file_put_contents($filePath, json_encode($pluginsData, JSON_PRETTY_PRINT));
     }
 
     private function getUri(): string
