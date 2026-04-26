@@ -93,8 +93,12 @@ class FormatoDocumento extends ModelClass
     public function install(): string
     {
         // needed dependencies
-        new Serie();
-        new Empresa();
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\Serie')) {
+            new \FacturaScripts\Dinamic\Model\Serie();
+        }
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\Empresa')) {
+            new \FacturaScripts\Dinamic\Model\Empresa();
+        }
 
         return parent::install();
     }

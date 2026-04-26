@@ -7,3 +7,5 @@ Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or d
 Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
 Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
 Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110

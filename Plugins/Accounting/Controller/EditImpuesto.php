@@ -58,7 +58,9 @@ class EditImpuesto extends EditController
         $this->setTabsPosition('bottom');
 
         $this->createViewsZones();
-        $this->createViewsProducts();
+        if (class_exists('\\FacturaScripts\\Dinamic\\Model\\Producto')) {
+            $this->createViewsProducts();
+        }
         $this->createViewsAccounts();
     }
 
