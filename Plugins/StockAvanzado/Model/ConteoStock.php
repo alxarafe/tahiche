@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Plugins\StockAvanzado\Model;
 
-use FacturaScripts\Core\DataSrc\Almacenes;
+use FacturaScripts\Dinamic\DataSrc\Almacenes;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Session;

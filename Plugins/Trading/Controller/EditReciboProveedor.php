@@ -21,7 +21,7 @@ namespace FacturaScripts\Plugins\Trading\Controller;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\DataSrc\Divisas;
-use FacturaScripts\Core\DataSrc\Empresas;
+use FacturaScripts\Dinamic\DataSrc\Empresas;
 use FacturaScripts\Core\Lib\ExtendedController\BaseView;
 use FacturaScripts\Core\Lib\ExtendedController\EditController;
 use FacturaScripts\Core\Tools;

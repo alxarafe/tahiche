@@ -20,7 +20,7 @@
 namespace FacturaScripts\Plugins\StockAvanzado\Lib;
 
 use FacturaScripts\Core\Base\DataBase;
-use FacturaScripts\Core\DataSrc\Almacenes;
+use FacturaScripts\Dinamic\DataSrc\Almacenes;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\Where;
 use FacturaScripts\Dinamic\Model\MovimientoStock;

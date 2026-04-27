@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Plugins\Trading\Model;
 
-use FacturaScripts\Core\DataSrc\Almacenes;
+use FacturaScripts\Dinamic\DataSrc\Almacenes;
 use FacturaScripts\Core\Model\Base\CompanyRelationTrait;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;

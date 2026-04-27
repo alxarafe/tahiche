@@ -92,6 +92,10 @@ final class Migrations
 
     private static function clearLogs(): void
     {
+        if (false === class_exists(LogMessage::class)) {
+            return;
+        }
+
         $logModel = new LogMessage();
         $where = [new DataBaseWhere('channel', 'master')];
         if ($logModel->count($where) < 20000) {
@@ -117,6 +121,10 @@ final class Migrations
     // versión 2025.01, fecha 02-12-2025
     private static function fixAgentes(): void
     {
+        if (false === class_exists(Agente::class)) {
+            return;
+        }
+
         // forzamos la comprobación de la tabla agentes
         new Agente();
 
@@ -180,6 +188,10 @@ final class Migrations
 
     private static function fixAgenciasTransporte(): void
     {
+        if (false === class_exists(AgenciaTransporte::class)) {
+            return;
+        }
+
         // forzamos la comprobación de la tabla agenciastransporte
         new AgenciaTransporte();
 
@@ -199,6 +211,10 @@ final class Migrations
     // versión 2024.5, fecha 15-04-2024
     private static function fixFormasPago(): void
     {
+        if (false === class_exists(FormaPago::class)) {
+            return;
+        }
+
         // forzamos la comprobación de la tabla formas_pago
         new FormaPago();
 
@@ -252,6 +268,10 @@ final class Migrations
     // version 2023.06, fecha 07-10-2023
     private static function fixSeries(): void
     {
+        if (false === class_exists(Serie::class)) {
+            return;
+        }
+
         // forzamos la comprobación de la tabla series
         new Serie();
 
@@ -268,18 +288,25 @@ final class Migrations
     // TODO: añadir versión y fecha de lanzamiento
     private static function fixTaxException(): void
     {
-        // forzamos la comprobación de las tablas
-        new Empresa();
-        new Cliente();
-        new Proveedor();
-        new LineaPresupuestoProveedor();
-        new LineaPedidoProveedor();
-        new LineaAlbaranProveedor();
-        new LineaFacturaProveedor();
-        new LineaPresupuestoCliente();
-        new LineaPedidoCliente();
-        new LineaAlbaranCliente();
-        new LineaFacturaCliente();
+        $models = [
+            Empresa::class,
+            Cliente::class,
+            Proveedor::class,
+            LineaPresupuestoProveedor::class,
+            LineaPedidoProveedor::class,
+            LineaAlbaranProveedor::class,
+            LineaFacturaProveedor::class,
+            LineaPresupuestoCliente::class,
+            LineaPedidoCliente::class,
+            LineaAlbaranCliente::class,
+            LineaFacturaCliente::class,
+        ];
+
+        foreach ($models as $model) {
+            if (class_exists($model)) {
+                new $model();
+            }
+        }
 
         // recorremos todas las tablas que tienen el campo excepcioniva
         $tables = [

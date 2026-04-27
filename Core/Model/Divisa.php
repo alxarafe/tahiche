@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Model;
 
-use FacturaScripts\Core\DataSrc\Divisas;
+use FacturaScripts\Dinamic\DataSrc\Divisas;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;

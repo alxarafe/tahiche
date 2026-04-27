@@ -21,7 +21,7 @@ namespace FacturaScripts\Core\Lib\AjaxForms;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Contract\PurchasesLineModInterface;
-use FacturaScripts\Core\DataSrc\Impuestos;
+use FacturaScripts\Dinamic\DataSrc\Impuestos;
 use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
 use FacturaScripts\Core\Model\Base\PurchaseDocument;
 use FacturaScripts\Core\Tools;

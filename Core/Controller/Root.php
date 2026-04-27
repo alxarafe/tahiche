@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Controller;
 
-use FacturaScripts\Core\DataSrc\Empresas;
+use FacturaScripts\Dinamic\DataSrc\Empresas;
 use FacturaScripts\Core\Template\Controller;
 
 class Root extends Controller

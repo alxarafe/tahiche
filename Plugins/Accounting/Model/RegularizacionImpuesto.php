@@ -27,7 +27,7 @@ use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\Where;
 use FacturaScripts\Dinamic\Lib\Accounting\AccountingAccounts;
 use FacturaScripts\Dinamic\Model\Asiento as DinAsiento;
-use FacturaScripts\Dinamic\Model\Ejercicio as DinEjercicio;
+use FacturaScripts\Plugins\Accounting\Model\Ejercicio as DinEjercicio;
 use FacturaScripts\Dinamic\Model\Subcuenta as DinSubcuenta;
 
 /**

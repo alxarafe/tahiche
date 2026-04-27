@@ -67,10 +67,8 @@ class EditEmpresa extends EditController
     {
         parent::createViews();
 
-        $this->createViewWarehouse();
         $this->createViewBankAccounts();
         $this->createViewPaymentMethods();
-        $this->createViewExercises();
     }
 
     protected function createViewBankAccounts(string $viewName = 'ListCuentaBanco'): void
@@ -79,11 +77,7 @@ class EditEmpresa extends EditController
             ->disableColumn('company');
     }
 
-    protected function createViewExercises(string $viewName = 'ListEjercicio'): void
-    {
-        $this->addListView($viewName, 'Ejercicio', 'exercises', 'fa-solid fa-calendar-alt')
-            ->disableColumn('company');
-    }
+
 
     protected function createViewPaymentMethods(string $viewName = 'ListFormaPago'): void
     {
@@ -91,11 +85,7 @@ class EditEmpresa extends EditController
             ->disableColumn('company');
     }
 
-    protected function createViewWarehouse(string $viewName = 'EditAlmacen'): void
-    {
-        $this->addListView($viewName, 'Almacen', 'warehouses', 'fa-solid fa-warehouse')
-            ->disableColumn('company');
-    }
+
 
     protected function execPreviousAction($action): bool
     {
@@ -119,9 +109,7 @@ class EditEmpresa extends EditController
         $mvn = $this->getMainViewName();
 
         switch ($viewName) {
-            case 'EditAlmacen':
             case 'ListCuentaBanco':
-            case 'ListEjercicio':
             case 'ListFormaPago':
                 $id = $this->getViewModelValue($this->getMainViewName(), 'idempresa');
                 $where = [new DataBaseWhere('idempresa', $id)];

@@ -20,7 +20,7 @@
 namespace FacturaScripts\Plugins\StockAvanzado\Extension\Controller;
 
 use Closure;
-use FacturaScripts\Core\DataSrc\Almacenes;
+use FacturaScripts\Dinamic\DataSrc\Almacenes;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\Where;
 use FacturaScripts\Core\WorkQueue;

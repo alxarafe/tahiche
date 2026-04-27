@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Model\Base;
 
-use FacturaScripts\Core\DataSrc\Series;
+use FacturaScripts\Dinamic\DataSrc\Series;
 use FacturaScripts\Dinamic\Model\Serie;
 
 trait SerieRelationTrait

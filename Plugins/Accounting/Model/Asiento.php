@@ -25,7 +25,7 @@ use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Diario as DinDiario;
-use FacturaScripts\Dinamic\Model\Ejercicio as DinEjercicio;
+use FacturaScripts\Plugins\Accounting\Model\Ejercicio as DinEjercicio;
 use FacturaScripts\Dinamic\Model\Partida as DinPartida;
 use FacturaScripts\Dinamic\Model\RegularizacionImpuesto as DinRegularizacionImpuesto;
 

@@ -20,8 +20,8 @@
 namespace FacturaScripts\Core\Lib\AjaxForms;
 
 use FacturaScripts\Core\Contract\SalesModInterface;
-use FacturaScripts\Core\DataSrc\Agentes;
-use FacturaScripts\Core\DataSrc\Paises;
+use FacturaScripts\Dinamic\DataSrc\Agentes;
+use FacturaScripts\Dinamic\DataSrc\Paises;
 use FacturaScripts\Dinamic\Model\AgenciaTransporte;
 use FacturaScripts\Core\Model\Base\SalesDocument;
 use FacturaScripts\Dinamic\Model\Cliente;

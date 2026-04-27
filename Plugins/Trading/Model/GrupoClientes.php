@@ -20,7 +20,7 @@
 namespace FacturaScripts\Plugins\Trading\Model;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\DataSrc\GruposClientes;
+use FacturaScripts\Dinamic\DataSrc\GruposClientes;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;

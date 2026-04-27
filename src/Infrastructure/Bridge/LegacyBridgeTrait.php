@@ -162,6 +162,13 @@ trait LegacyBridgeTrait
         };
     }
 
+    public function addEditListView(string $viewName, string $model, string $tabId, string $icon = '')
+    {
+        // En la estructura nueva, addEditListView es lo mismo que addListView
+        // pero se usa en controladores de edición para pestañas relacionadas.
+        return $this->addListView($viewName, $model, $tabId, $icon);
+    }
+
     public function addButton(string $viewName, array $options)
     {
         // Registramos la intención de añadir un botón superior

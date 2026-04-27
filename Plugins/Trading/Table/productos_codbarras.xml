@@ -5,7 +5,7 @@
         <type>serial</type>
     </column>
     <column>
-        <name>idproducto</name>
+        <name>idvariante</name>
         <type>integer</type>
         <null>NO</null>
     </column>
@@ -43,7 +43,7 @@
         <type>UNIQUE (codbarras)</type>
     </constraint>
     <constraint>
-        <name>fk_prodbarras_producto</name>
-        <type>FOREIGN KEY (idproducto) REFERENCES productos (idproducto) ON DELETE CASCADE ON UPDATE CASCADE</type>
+        <name>fk_prodbarras_variante</name>
+        <type>FOREIGN KEY (idvariante) REFERENCES variantes (idvariante) ON DELETE CASCADE ON UPDATE CASCADE</type>
     </constraint>
 </table>

@@ -20,8 +20,8 @@
 namespace FacturaScripts\Plugins\Trading\Controller;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\DataSrc\Almacenes;
-use FacturaScripts\Core\DataSrc\Impuestos;
+use FacturaScripts\Dinamic\DataSrc\Almacenes;
+use FacturaScripts\Dinamic\DataSrc\Impuestos;
 use FacturaScripts\Core\Lib\ExtendedController\ListController;
 use FacturaScripts\Core\Lib\ProductType;
 use FacturaScripts\Dinamic\Model\CodeModel;

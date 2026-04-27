@@ -21,7 +21,7 @@ namespace FacturaScripts\Core\Controller;
 
 use FacturaScripts\Core\Cache;
 use FacturaScripts\Core\Contract\ControllerInterface;
-use FacturaScripts\Core\DataSrc\Empresas;
+use FacturaScripts\Dinamic\DataSrc\Empresas;
 use FacturaScripts\Core\Html;
 use FacturaScripts\Core\Lib\MultiRequestProtection;
 use FacturaScripts\Core\Request;

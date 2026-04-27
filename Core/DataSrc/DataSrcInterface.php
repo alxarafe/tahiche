@@ -19,6 +19,9 @@
 
 namespace FacturaScripts\Core\DataSrc;
 
+/**
+ * @deprecated Use FacturaScripts\Core\Base\AbstractDataSrc instead.
+ */
 interface DataSrcInterface
 {
     public static function all(): array;

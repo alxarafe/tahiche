@@ -19,8 +19,8 @@
 
 namespace FacturaScripts\Plugins\Accounting\Model;
 
-use FacturaScripts\Core\DataSrc\Ejercicios;
-use FacturaScripts\Core\DataSrc\Empresas;
+use FacturaScripts\Dinamic\DataSrc\Ejercicios;
+use FacturaScripts\Dinamic\DataSrc\Empresas;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;

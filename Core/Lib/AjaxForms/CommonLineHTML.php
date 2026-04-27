@@ -20,9 +20,9 @@
 namespace FacturaScripts\Core\Lib\AjaxForms;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\DataSrc\Impuestos;
-use FacturaScripts\Core\DataSrc\Retenciones;
-use FacturaScripts\Core\DataSrc\Series;
+use FacturaScripts\Dinamic\DataSrc\Impuestos;
+use FacturaScripts\Dinamic\DataSrc\Retenciones;
+use FacturaScripts\Dinamic\DataSrc\Series;
 use FacturaScripts\Core\Lib\ProductType;
 use FacturaScripts\Core\Lib\RegimenIVA;
 use FacturaScripts\Core\Lib\TaxExceptions;

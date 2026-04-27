@@ -95,3 +95,203 @@ Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or d
 Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
 Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
 Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Exception: Class "FacturaScripts\Dinamic\Model\Ejercicio" not found in /var/www/html/Core/DataSrc/Ejercicios.php on line 36
+#0 /var/www/html/Core/Cache.php(140): FacturaScripts\Core\DataSrc\Ejercicios::FacturaScripts\Core\DataSrc\{closure}()
+#1 /var/www/html/Core/DataSrc/Ejercicios.php(35): FacturaScripts\Core\Cache::remember('model-Ejercicio...', Object(Closure))
+#2 /var/www/html/Core/DataSrc/Ejercicios.php(51): FacturaScripts\Core\DataSrc\Ejercicios::all()
+#3 /var/www/html/Core/Controller/EditSettings.php(256): FacturaScripts\Core\DataSrc\Ejercicios::codeModel()
+#4 /var/www/html/Core/Controller/EditSettings.php(175): FacturaScripts\Core\Controller\EditSettings->createViewSequences()
+#5 /var/www/html/Core/Lib/ExtendedController/BaseController.php(211): FacturaScripts\Core\Controller\EditSettings->createViews()
+#6 /var/www/html/Core/Lib/ExtendedController/PanelController.php(75): FacturaScripts\Core\Lib\ExtendedController\BaseController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#7 /var/www/html/Core/Base/Controller.php(274): FacturaScripts\Core\Lib\ExtendedController\PanelController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#8 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
+#9 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/EditSettings')
+#10 /var/www/html/src/Infrastructure/Http/Kernel.php(161): FacturaScripts\Core\Kernel::run('/EditSettings')
+#11 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/EditSettings')
+#12 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/EditSettings')
+#13 {main}
+Exception: Class "FacturaScripts\Dinamic\Model\Almacen" not found in /var/www/html/Core/DataSrc/Almacenes.php on line 37
+#0 /var/www/html/Core/Cache.php(140): FacturaScripts\Core\DataSrc\Almacenes::FacturaScripts\Core\DataSrc\{closure}()
+#1 /var/www/html/Core/DataSrc/Almacenes.php(36): FacturaScripts\Core\Cache::remember('model-Almacen-l...', Object(Closure))
+#2 /var/www/html/Core/DataSrc/Almacenes.php(52): FacturaScripts\Core\DataSrc\Almacenes::all()
+#3 /var/www/html/Core/Controller/ListUser.php(83): FacturaScripts\Core\DataSrc\Almacenes::codeModel()
+#4 /var/www/html/Core/Controller/ListUser.php(51): FacturaScripts\Core\Controller\ListUser->createViewsUsers()
+#5 /var/www/html/Core/Lib/ExtendedController/BaseController.php(211): FacturaScripts\Core\Controller\ListUser->createViews()
+#6 /var/www/html/Core/Lib/ExtendedController/ListController.php(61): FacturaScripts\Core\Lib\ExtendedController\BaseController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#7 /var/www/html/Core/Base/Controller.php(274): FacturaScripts\Core\Lib\ExtendedController\ListController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#8 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
+#9 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/ListUser')
+#10 /var/www/html/src/Infrastructure/Http/Kernel.php(161): FacturaScripts\Core\Kernel::run('/ListUser')
+#11 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/ListUser')
+#12 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/ListUser')
+#13 {main}
+Exception: Class "FacturaScripts\Dinamic\Model\Almacen" not found in /var/www/html/Core/DataSrc/Almacenes.php on line 37
+#0 /var/www/html/Core/Cache.php(140): FacturaScripts\Core\DataSrc\Almacenes::FacturaScripts\Core\DataSrc\{closure}()
+#1 /var/www/html/Core/DataSrc/Almacenes.php(36): FacturaScripts\Core\Cache::remember('model-Almacen-l...', Object(Closure))
+#2 /var/www/html/Core/DataSrc/Almacenes.php(52): FacturaScripts\Core\DataSrc\Almacenes::all()
+#3 /var/www/html/Core/Controller/ListUser.php(83): FacturaScripts\Core\DataSrc\Almacenes::codeModel()
+#4 /var/www/html/Core/Controller/ListUser.php(51): FacturaScripts\Core\Controller\ListUser->createViewsUsers()
+#5 /var/www/html/Core/Lib/ExtendedController/BaseController.php(211): FacturaScripts\Core\Controller\ListUser->createViews()
+#6 /var/www/html/Core/Lib/ExtendedController/ListController.php(61): FacturaScripts\Core\Lib\ExtendedController\BaseController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#7 /var/www/html/Core/Base/Controller.php(274): FacturaScripts\Core\Lib\ExtendedController\ListController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#8 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
+#9 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/ListUser')
+#10 /var/www/html/src/Infrastructure/Http/Kernel.php(161): FacturaScripts\Core\Kernel::run('/ListUser')
+#11 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/ListUser')
+#12 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/ListUser')
+#13 {main}
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Exception: Class "FacturaScripts\Dinamic\Model\Serie" not found in /var/www/html/Core/DataSrc/Series.php on line 37
+#0 /var/www/html/Core/Cache.php(140): FacturaScripts\Core\DataSrc\Series::FacturaScripts\Core\DataSrc\{closure}()
+#1 /var/www/html/Core/DataSrc/Series.php(36): FacturaScripts\Core\Cache::remember('model-Serie-lis...', Object(Closure))
+#2 /var/www/html/Core/DataSrc/Series.php(52): FacturaScripts\Core\DataSrc\Series::all()
+#3 /var/www/html/Core/Controller/EditSettings.php(257): FacturaScripts\Core\DataSrc\Series::codeModel()
+#4 /var/www/html/Core/Controller/EditSettings.php(175): FacturaScripts\Core\Controller\EditSettings->createViewSequences()
+#5 /var/www/html/Core/Lib/ExtendedController/BaseController.php(211): FacturaScripts\Core\Controller\EditSettings->createViews()
+#6 /var/www/html/Core/Lib/ExtendedController/PanelController.php(75): FacturaScripts\Core\Lib\ExtendedController\BaseController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#7 /var/www/html/Core/Base/Controller.php(274): FacturaScripts\Core\Lib\ExtendedController\PanelController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#8 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
+#9 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/EditSettings')
+#10 /var/www/html/src/Infrastructure/Http/Kernel.php(161): FacturaScripts\Core\Kernel::run('/EditSettings')
+#11 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/EditSettings')
+#12 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/EditSettings')
+#13 {main}
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Exception: Class "FacturaScripts\Dinamic\DataSrc\Series" not found in /var/www/html/Core/Controller/ListUser.php on line 88
+#0 /var/www/html/Core/Controller/ListUser.php(51): FacturaScripts\Core\Controller\ListUser->createViewsUsers()
+#1 /var/www/html/Core/Lib/ExtendedController/BaseController.php(211): FacturaScripts\Core\Controller\ListUser->createViews()
+#2 /var/www/html/Core/Lib/ExtendedController/ListController.php(61): FacturaScripts\Core\Lib\ExtendedController\BaseController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#3 /var/www/html/Core/Base/Controller.php(274): FacturaScripts\Core\Lib\ExtendedController\ListController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#4 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
+#5 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/ListUser')
+#6 /var/www/html/src/Infrastructure/Http/Kernel.php(161): FacturaScripts\Core\Kernel::run('/ListUser')
+#7 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/ListUser')
+#8 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/ListUser')
+#9 {main}
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Exception: Class "FacturaScripts\Dinamic\Model\Almacen" not found in /var/www/html/Core/Controller/EditUser.php on line 285
+#0 /var/www/html/Core/Lib/ExtendedController/PanelController.php(102): FacturaScripts\Core\Controller\EditUser->loadData('EditUser', Object(FacturaScripts\Core\Lib\ExtendedController\EditView))
+#1 /var/www/html/Core/Base/Controller.php(274): FacturaScripts\Core\Lib\ExtendedController\PanelController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#2 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
+#3 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/EditUser')
+#4 /var/www/html/src/Infrastructure/Http/Kernel.php(161): FacturaScripts\Core\Kernel::run('/EditUser')
+#5 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/EditUser')
+#6 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/EditUser')
+#7 {main}
+Exception: Call to undefined method FacturaScripts\Core\Model\CodeModel::count() in /var/www/html/Core/Controller/EditUser.php on line 284
+#0 /var/www/html/Core/Lib/ExtendedController/PanelController.php(102): FacturaScripts\Core\Controller\EditUser->loadData('EditUser', Object(FacturaScripts\Core\Lib\ExtendedController\EditView))
+#1 /var/www/html/Core/Base/Controller.php(274): FacturaScripts\Core\Lib\ExtendedController\PanelController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#2 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
+#3 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/EditUser')
+#4 /var/www/html/src/Infrastructure/Http/Kernel.php(161): FacturaScripts\Core\Kernel::run('/EditUser')
+#5 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/EditUser')
+#6 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/EditUser')
+#7 {main}
+Exception: Class "FacturaScripts\Core\Controller\CodeModel" not found in /var/www/html/Core/Controller/EditUser.php on line 284
+#0 /var/www/html/Core/Lib/ExtendedController/PanelController.php(102): FacturaScripts\Core\Controller\EditUser->loadData('EditUser', Object(FacturaScripts\Core\Lib\ExtendedController\EditView))
+#1 /var/www/html/Core/Base/Controller.php(274): FacturaScripts\Core\Lib\ExtendedController\PanelController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#2 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
+#3 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/EditUser')
+#4 /var/www/html/src/Infrastructure/Http/Kernel.php(161): FacturaScripts\Core\Kernel::run('/EditUser')
+#5 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/EditUser')
+#6 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/EditUser')
+#7 {main}
+Exception: Class "FacturaScripts\Core\Controller\CodeModel" not found in /var/www/html/Core/Controller/EditUser.php on line 284
+#0 /var/www/html/Core/Lib/ExtendedController/PanelController.php(102): FacturaScripts\Core\Controller\EditUser->loadData('EditUser', Object(FacturaScripts\Core\Lib\ExtendedController\EditView))
+#1 /var/www/html/Core/Base/Controller.php(274): FacturaScripts\Core\Lib\ExtendedController\PanelController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#2 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
+#3 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/EditUser')
+#4 /var/www/html/src/Infrastructure/Http/Kernel.php(161): FacturaScripts\Core\Kernel::run('/EditUser')
+#5 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/EditUser')
+#6 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/EditUser')
+#7 {main}
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/MyFiles/lock_60cb8a6fc944c67a2282079bc63bf4de.lock): No such file or directory in /var/www/html/Core/Kernel.php on line 253
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Exception: Class "FacturaScripts\Core\DataSrc\Retenciones" not found in /var/www/html/Plugins/BusinessBase/Model/Retencion.php on line 67
+#0 /var/www/html/Core/Template/ModelClass.php(112): FacturaScripts\Plugins\BusinessBase\Model\Retencion->clearCache()
+#1 /var/www/html/Plugins/BusinessBase/Controller/Wizard.php(112): FacturaScripts\Core\Template\ModelClass->__construct()
+#2 /var/www/html/Plugins/BusinessBase/Controller/Wizard.php(220): FacturaScripts\Plugins\BusinessBase\Controller\Wizard->initModels(Array)
+#3 /var/www/html/Plugins/BusinessBase/Controller/Wizard.php(91): FacturaScripts\Plugins\BusinessBase\Controller\Wizard->saveStep1()
+#4 /var/www/html/Core/Base/Controller.php(274): FacturaScripts\Plugins\BusinessBase\Controller\Wizard->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#5 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
+#6 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/Wizard')
+#7 /var/www/html/src/Infrastructure/Http/Kernel.php(161): FacturaScripts\Core\Kernel::run('/Wizard')
+#8 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/Wizard')
+#9 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/Wizard')
+#10 {main}
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Exception: Class "FacturaScripts\Core\Controller\CodeModel" not found in /var/www/html/Core/Controller/EditUser.php on line 284
+#0 /var/www/html/Core/Lib/ExtendedController/PanelController.php(102): FacturaScripts\Core\Controller\EditUser->loadData('EditUser', Object(FacturaScripts\Core\Lib\ExtendedController\EditView))
+#1 /var/www/html/Core/Base/Controller.php(274): FacturaScripts\Core\Lib\ExtendedController\PanelController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#2 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
+#3 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/EditUser')
+#4 /var/www/html/src/Infrastructure/Http/Kernel.php(161): FacturaScripts\Core\Kernel::run('/EditUser')
+#5 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/EditUser')
+#6 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/EditUser')
+#7 {main}
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Exception: Class "FacturaScripts\Dinamic\DataSrc\Series" not found in /var/www/html/Plugins/Trading/Controller/ListProveedor.php on line 86
+#0 /var/www/html/Plugins/Trading/Controller/ListProveedor.php(55): FacturaScripts\Plugins\Trading\Controller\ListProveedor->createViewSuppliers()
+#1 /var/www/html/Plugins/Crm/Controller/ListProveedor.php(29): FacturaScripts\Plugins\Trading\Controller\ListProveedor->createViews()
+#2 /var/www/html/Core/Lib/ExtendedController/BaseController.php(211): FacturaScripts\Plugins\Crm\Controller\ListProveedor->createViews()
+#3 /var/www/html/Core/Lib/ExtendedController/ListController.php(61): FacturaScripts\Core\Lib\ExtendedController\BaseController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#4 /var/www/html/Core/Base/Controller.php(274): FacturaScripts\Core\Lib\ExtendedController\ListController->privateCore(Object(FacturaScripts\Core\Response), Object(FacturaScripts\Plugins\BusinessBase\Model\User), Object(FacturaScripts\Core\Base\ControllerPermissions))
+#5 /var/www/html/Core/Kernel.php(467): FacturaScripts\Core\Base\Controller->run()
+#6 /var/www/html/Core/Kernel.php(208): FacturaScripts\Core\Kernel::runController('/ListProveedor')
+#7 /var/www/html/src/Infrastructure/Http/Kernel.php(161): FacturaScripts\Core\Kernel::run('/ListProveedor')
+#8 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/ListProveedor')
+#9 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/ListProveedor')
+#10 {main}
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: Class "FacturaScripts\Plugins\BusinessBase\Model\Impuesto" not found in /var/www/html/Core/Internal/ClassResolver.php on line 93
+Error [2]: Class "FacturaScripts\Plugins\BusinessBase\Model\Impuesto" not found in /var/www/html/Core/Internal/ClassResolver.php on line 93
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Exception: Call to undefined method Modules\Trading\Controller\ProductsController::countBarcodes() in /var/www/html/src/Infrastructure/Bridge/LegacyBridgeTrait.php on line 102
+#0 /var/www/html/Modules/Trading/Controller/ProductsController.php(167): Modules\Trading\Controller\ProductsController->__call('countBarcodes', Array)
+#1 [internal function]: Modules\Trading\Controller\ProductsController->Modules\Trading\Controller\{closure}()
+#2 /var/www/html/Modules/Trading/Controller/ProductsController.php(189): call_user_func(Object(Closure))
+#3 /var/www/html/Modules/Trading/Controller/ProductsController.php(101): Modules\Trading\Controller\ProductsController->getBadgeCount('barcodes', Array)
+#4 /var/www/html/vendor/alxarafe/resource-controller/src/Trait/ResourceTrait.php(470): Modules\Trading\Controller\ProductsController->getEditFields()
+#5 /var/www/html/vendor/alxarafe/resource-controller/src/Trait/ResourceTrait.php(160): Alxarafe\ResourceController\AbstractResourceController->buildConfiguration()
+#6 /var/www/html/vendor/alxarafe/resource-controller/src/AbstractResourceController.php(73): Alxarafe\ResourceController\AbstractResourceController->privateCore()
+#7 /var/www/html/src/Infrastructure/Http/ResourceController.php(50): Alxarafe\ResourceController\AbstractResourceController->index()
+#8 /var/www/html/src/Infrastructure/Http/Kernel.php(206): Tahiche\Infrastructure\Http\ResourceController->index()
+#9 /var/www/html/src/Infrastructure/Http/Kernel.php(151): Tahiche\Infrastructure\Http\Kernel->dispatchModule('Trading', 'Products')
+#10 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/index.php')
+#11 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/index.php')
+#12 {main}
+Exception: Call to undefined method Modules\Trading\Controller\ProductsController::countBarcodes() in /var/www/html/src/Infrastructure/Bridge/LegacyBridgeTrait.php on line 102
+#0 /var/www/html/Modules/Trading/Controller/ProductsController.php(167): Modules\Trading\Controller\ProductsController->__call('countBarcodes', Array)
+#1 [internal function]: Modules\Trading\Controller\ProductsController->Modules\Trading\Controller\{closure}()
+#2 /var/www/html/Modules/Trading/Controller/ProductsController.php(189): call_user_func(Object(Closure))
+#3 /var/www/html/Modules/Trading/Controller/ProductsController.php(101): Modules\Trading\Controller\ProductsController->getBadgeCount('barcodes', Array)
+#4 /var/www/html/vendor/alxarafe/resource-controller/src/Trait/ResourceTrait.php(470): Modules\Trading\Controller\ProductsController->getEditFields()
+#5 /var/www/html/vendor/alxarafe/resource-controller/src/Trait/ResourceTrait.php(160): Alxarafe\ResourceController\AbstractResourceController->buildConfiguration()
+#6 /var/www/html/vendor/alxarafe/resource-controller/src/AbstractResourceController.php(73): Alxarafe\ResourceController\AbstractResourceController->privateCore()
+#7 /var/www/html/src/Infrastructure/Http/ResourceController.php(50): Alxarafe\ResourceController\AbstractResourceController->index()
+#8 /var/www/html/src/Infrastructure/Http/Kernel.php(206): Tahiche\Infrastructure\Http\ResourceController->index()
+#9 /var/www/html/src/Infrastructure/Http/Kernel.php(151): Tahiche\Infrastructure\Http\Kernel->dispatchModule('Trading', 'Products')
+#10 /var/www/html/src/Infrastructure/Http/Kernel.php(34): Tahiche\Infrastructure\Http\Kernel->run('/index.php')
+#11 /var/www/html/public/index.php(45): Tahiche\Infrastructure\Http\Kernel->handle('/index.php')
+#12 {main}
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110
+Error [2]: unlink(/var/www/html/var/cache/class_resolver.php): No such file or directory in /var/www/html/Core/Internal/PluginsDeploy.php on line 110

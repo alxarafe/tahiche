@@ -20,9 +20,7 @@
 namespace FacturaScripts\Core\Controller;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\DataSrc\Ejercicios;
-use FacturaScripts\Core\DataSrc\Empresas;
-use FacturaScripts\Core\DataSrc\Series;
+use FacturaScripts\Core\Lib\ExtendedController\BusinessFilters;
 use FacturaScripts\Core\Lib\ExtendedController\EditView;
 use FacturaScripts\Core\Lib\ExtendedController\PanelController;
 use FacturaScripts\Dinamic\Model\Settings;
@@ -113,10 +111,20 @@ class EditSettings extends PanelController
             return false;
         }
 
-        // find current default tax
-        $taxModel = new Impuesto();
-        $codimpuesto = Tools::settings('default', 'codimpuesto');
-        if ($taxModel->load($codimpuesto)) {
+        $idempresa = Tools::settings('default', 'idempresa');
+        $where = [new DataBaseWhere('idempresa', $idempresa)];
+        $values = $this->codeModel->all('impuestos', 'codimpuesto', 'descripcion', false, $where);
+        foreach ($values as $value) {
+            if ($value->code == Tools::settings('default', 'codimpuesto')) {
+                // perfect
+                return true;
+            }
+        }
+
+        // assign a new tax
+        foreach ($values as $value) {
+            Tools::settingsSet('default', 'codimpuesto', $value->code);
+            Tools::settingsSave();
             return true;
         }
 
@@ -172,9 +180,12 @@ class EditSettings extends PanelController
         //  parche temporal mucho más estable que comprobar los archivos cacheados.
         if (\FacturaScripts\Core\Plugins::isEnabled('BusinessBase')) {
             $this->createViewsIdFiscal();
-            $this->createViewSequences();
             $this->createViewStates();
             $this->createViewFormats();
+        }
+
+        if (\FacturaScripts\Core\Plugins::isEnabled('Trading')) {
+            $this->createViewSequences();
         }
     }
 
@@ -203,9 +214,9 @@ class EditSettings extends PanelController
 
         // Filters
         $this->createDocTypeFilter($viewName);
-        $this->listView($viewName)
-            ->addFilterSelect('idempresa', 'company', 'idempresa', Empresas::codeModel())
-            ->addFilterSelect('codserie', 'serie', 'codserie', Series::codeModel());
+        $listView = $this->listView($viewName);
+        BusinessFilters::addCompanyFilter($listView);
+        BusinessFilters::addSeriesFilter($listView);
     }
 
     /**
@@ -248,13 +259,13 @@ class EditSettings extends PanelController
             $this->listView($viewName)->disableColumn('company');
         } else {
             // Filters with various companies
-            $this->listView($viewName)->addFilterSelect('idempresa', 'company', 'idempresa', Empresas::codeModel());
+            BusinessFilters::addCompanyFilter($this->listView($viewName));
         }
 
         // Filters
-        $this->listView($viewName)
-            ->addFilterSelect('codejercicio', 'exercise', 'codejercicio', Ejercicios::codeModel())
-            ->addFilterSelect('codserie', 'serie', 'codserie', Series::codeModel());
+        $listView = $this->listView($viewName);
+        BusinessFilters::addExerciseFilter($listView);
+        BusinessFilters::addSeriesFilter($listView);
         $this->createDocTypeFilter($viewName);
     }
 

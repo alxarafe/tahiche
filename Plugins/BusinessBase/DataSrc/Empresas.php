@@ -18,65 +18,41 @@
  */
 
 namespace FacturaScripts\Plugins\BusinessBase\DataSrc;
-use FacturaScripts\Core\Cache;
-use FacturaScripts\Core\Tools;
-use FacturaScripts\Core\Model\CodeModel;
+
+use FacturaScripts\Core\Base\AbstractDataSrc;
 use FacturaScripts\Core\Model\Empresa;
-use FacturaScripts\Core\DataSrc\DataSrcInterface;
+use FacturaScripts\Core\Tools;
 
-final class Empresas implements DataSrcInterface
+final class Empresas extends AbstractDataSrc
 {
-    /** @var Empresa[] */
-    private static $list;
-
-    /**
-     * @return Empresa[]
-     */
-    public static function all(): array
-    {
-        if (!isset(self::$list)) {
-            self::$list = Cache::remember('model-Empresa-list', function () {
-                return Empresa::all([], ['nombre' => 'ASC'], 0, 0);
-            });
-        }
-
-        return self::$list;
-    }
-
-    public static function clear(): void
-    {
-        self::$list = null;
-    }
-
-    public static function codeModel(bool $addEmpty = true): array
-    {
-        $codes = [];
-        foreach (self::all() as $empresa) {
-            $codes[$empresa->idempresa] = $empresa->nombre;
-        }
-
-        return CodeModel::array2codeModel($codes, $addEmpty);
-    }
-
     public static function default()
     {
         $id = Tools::settings('default', 'idempresa');
         return self::get($id);
     }
 
-    /**
-     * @param string $code
-     *
-     * @return Empresa
-     */
-    public static function get($code)
+    protected static function getCacheKey(): string
     {
-        foreach (self::all() as $item) {
-            if ($item->id() == $code) {
-                return $item;
-            }
-        }
+        return 'model-Empresa-list';
+    }
 
-        return Empresa::find($code) ?? new Empresa();
+    protected static function getCodeField(): string
+    {
+        return 'idempresa';
+    }
+
+    protected static function getDescriptionField(): string
+    {
+        return 'nombre';
+    }
+
+    protected static function getModelClass(): string
+    {
+        return Empresa::class;
+    }
+
+    protected static function getOrderBy(): array
+    {
+        return ['nombre' => 'ASC'];
     }
 }

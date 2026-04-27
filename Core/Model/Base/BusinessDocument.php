@@ -20,7 +20,7 @@
 namespace FacturaScripts\Core\Model\Base;
 
 use FacturaScripts\Core\Where;
-use FacturaScripts\Core\DataSrc\Almacenes;
+use FacturaScripts\Dinamic\DataSrc\Almacenes;
 use FacturaScripts\Core\Model\LogMessage;
 use FacturaScripts\Core\Template\ModelClass as NewModelClass;
 use FacturaScripts\Core\Tools;

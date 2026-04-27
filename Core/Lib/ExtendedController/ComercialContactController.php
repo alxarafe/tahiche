@@ -20,13 +20,7 @@
 namespace FacturaScripts\Core\Lib\ExtendedController;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\DataSrc\Almacenes;
-use FacturaScripts\Core\DataSrc\Divisas;
-use FacturaScripts\Core\DataSrc\Ejercicios;
-use FacturaScripts\Core\DataSrc\Empresas;
-use FacturaScripts\Core\DataSrc\FormasPago;
-use FacturaScripts\Core\DataSrc\Series;
-use FacturaScripts\Core\Lib\InvoiceOperation;
+use FacturaScripts\Dinamic\DataSrc\Ejercicios;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Lib\BusinessDocumentGenerator;
 
@@ -46,61 +40,12 @@ abstract class ComercialContactController extends EditController
 
     protected function addCommonViewFilters(string $viewName, string $modelName): void
     {
-        $listView = $this->listView($viewName);
-
-        $where = [new DataBaseWhere('tipodoc', $modelName)];
-        $statusValues = $this->codeModel->all('estados_documentos', 'idestado', 'nombre', true, $where);
-
-        $listView->addFilterPeriod('date', 'period', 'fecha')
-            ->addFilterNumber('min-total', 'total', 'total', '>=')
-            ->addFilterNumber('max-total', 'total', 'total', '<=')
-            ->addFilterSelect('idestado', 'state', 'idestado', $statusValues);
-
-        if ($this->permissions->onlyOwnerData === false) {
-            $users = $this->codeModel->all('users', 'nick', 'nick');
-            if (count($users) > 1) {
-                $listView->addFilterSelect('nick', 'user', 'nick', $users);
-            }
-        }
-
-        $companies = Empresas::codeModel();
-        if (count($companies) > 2) {
-            $listView->addFilterSelect('idempresa', 'company', 'idempresa', $companies);
-        }
-
-        $warehouses = Almacenes::codeModel();
-        if (count($warehouses) > 2) {
-            $listView->addFilterSelect('codalmacen', 'warehouse', 'codalmacen', $warehouses);
-        }
-
-        $series = Series::codeModel();
-        if (count($series) > 2) {
-            $listView->addFilterSelect('codserie', 'series', 'codserie', $series);
-        }
-
-        $operations = [['code' => '', 'description' => '------']];
-        foreach (InvoiceOperation::all() as $key => $value) {
-            $operations[] = [
-                'code' => $key,
-                'description' => Tools::trans($value)
-            ];
-        }
-        $listView->addFilterSelect('operacion', 'operation', 'operacion', $operations);
-
-        $payMethods = FormasPago::codeModel();
-        if (count($payMethods) > 2) {
-            $listView->addFilterSelect('codpago', 'payment-method', 'codpago', $payMethods);
-        }
-
-        $currencies = Divisas::codeModel();
-        if (count($currencies) > 2) {
-            $listView->addFilterSelect('coddivisa', 'currency', 'coddivisa', $currencies);
-        }
-
-        $listView->addFilterCheckbox('totalrecargo', 'surcharge', 'totalrecargo', '!=', 0)
-            ->addFilterCheckbox('totalirpf', 'retention', 'totalirpf', '!=', 0)
-            ->addFilterCheckbox('totalsuplidos', 'supplied-amount', 'totalsuplidos', '!=', 0)
-            ->addFilterCheckbox('numdocs', 'has-attachments', 'numdocs', '!=', 0);
+        BusinessFilters::addDocumentFilters(
+            $this->listView($viewName),
+            $this->codeModel,
+            $modelName,
+            $this->permissions->onlyOwnerData
+        );
     }
 
     /**
@@ -121,7 +66,7 @@ abstract class ComercialContactController extends EditController
             return;
         }
 
-        foreach (Ejercicios::all() as $exe) {
+        foreach (class_exists(Ejercicios::class) ? Ejercicios::all() : [] as $exe) {
             if ($exe->isOpened() && strlen($code) != $exe->longsubcuenta) {
                 Tools::log()->warning('account-length-error', ['%code%' => $code]);
             }

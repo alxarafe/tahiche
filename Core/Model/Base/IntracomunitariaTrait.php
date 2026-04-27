@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Model\Base;
 
-use FacturaScripts\Core\DataSrc\Paises;
+use FacturaScripts\Dinamic\DataSrc\Paises;
 use FacturaScripts\Core\Lib\InvoiceOperation;
 use FacturaScripts\Core\Lib\Vies;
 use FacturaScripts\Core\Tools;

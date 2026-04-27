@@ -21,7 +21,7 @@ namespace FacturaScripts\Core\Lib;
 
 use Exception;
 use FacturaScripts\Core\Contract\CalculatorModInterface;
-use FacturaScripts\Core\DataSrc\Impuestos;
+use FacturaScripts\Dinamic\DataSrc\Impuestos;
 use FacturaScripts\Core\Model\Base\BusinessDocument;
 use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
 use FacturaScripts\Core\Model\Base\PurchaseDocument;

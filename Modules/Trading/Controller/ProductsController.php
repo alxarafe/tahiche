@@ -252,4 +252,77 @@ class ProductsController extends ResourceController
 
         return [new StaticText($html)];
     }
+
+    /**
+     * Devuelve los campos para la pestaña de códigos de barras.
+     */
+    private function getBarcodesFields($id): array
+    {
+        $html = '<div class="card shadow-sm border-0 mt-3 mb-4"><div class="card-body p-0">';
+
+        if (empty($id)) {
+            $html .= '<div class="alert alert-info m-3 mb-3">' . $this->transLegacy('no-data') . '</div></div></div>';
+            return [new StaticText($html)];
+        }
+
+        // Buscamos todas las variantes del producto
+        $variantes = \FacturaScripts\Plugins\Trading\Model\Variante::all([\FacturaScripts\Core\Where::eq('idproducto', $id)]);
+        $variantIds = array_map(fn($v) => $v->idvariante, $variantes);
+
+        if (empty($variantIds)) {
+            $html .= '<div class="alert alert-info m-3 mb-3">' . $this->transLegacy('no-data') . '</div></div></div>';
+            return [new StaticText($html)];
+        }
+
+        // Buscamos los códigos de barras de esas variantes
+        $barcodes = \Modules\Barcodes\Model\ProductBarcode::all([\FacturaScripts\Core\Where::in('idvariante', $variantIds)]);
+        
+        if (empty($barcodes)) {
+            $html .= '<div class="alert alert-info m-3 mb-3">' . $this->transLegacy('no-data') . '</div></div></div>';
+            return [new StaticText($html)];
+        }
+
+        $html .= '<div class="table-responsive m-0"><table class="table table-sm table-striped table-hover mb-0">';
+        $html .= '<thead class="table-light"><tr>';
+        $html .= '<th class="px-3 py-2 text-muted">' . $this->transLegacy('variant') . '</th>';
+        $html .= '<th class="px-3 py-2 text-muted">' . $this->transLegacy('barcode') . '</th>';
+        $html .= '<th class="px-3 py-2 text-muted">' . $this->transLegacy('type') . '</th>';
+        $html .= '<th class="px-3 py-2 text-muted">' . $this->transLegacy('quantity') . '</th>';
+        $html .= '<th class="px-3 py-2 text-muted">' . $this->transLegacy('description') . '</th>';
+        $html .= '</tr></thead><tbody>';
+
+        foreach ($barcodes as $barcode) {
+            $variant = array_values(array_filter($variantes, fn($v) => $v->idvariante == $barcode->idvariante))[0] ?? null;
+            $variantDesc = $variant ? $variant->description(true) : $barcode->idvariante;
+
+            $html .= '<tr>';
+            $html .= '<td class="px-3 py-2 align-middle">' . htmlspecialchars((string)$variantDesc) . '</td>';
+            $html .= '<td class="px-3 py-2 align-middle">' . htmlspecialchars((string)$barcode->codbarras) . '</td>';
+            $html .= '<td class="px-3 py-2 align-middle">' . htmlspecialchars((string)$barcode->tipo) . '</td>';
+            $html .= '<td class="px-3 py-2 align-middle">' . htmlspecialchars((string)$barcode->cantidad) . '</td>';
+            $html .= '<td class="px-3 py-2 align-middle">' . htmlspecialchars((string)$barcode->descripcion) . '</td>';
+            $html .= '</tr>';
+        }
+
+        $html .= '</tbody></table></div>';
+        $html .= '</div></div>';
+
+        return [new StaticText($html)];
+    }
+
+    private function countBarcodes($id): int
+    {
+        if (empty($id)) {
+            return 0;
+        }
+
+        $variantes = \FacturaScripts\Plugins\Trading\Model\Variante::all([\FacturaScripts\Core\Where::eq('idproducto', $id)]);
+        $variantIds = array_map(fn($v) => $v->idvariante, $variantes);
+
+        if (empty($variantIds)) {
+            return 0;
+        }
+
+        return \Modules\Barcodes\Model\ProductBarcode::count([\FacturaScripts\Core\Where::in('idvariante', $variantIds)]);
+    }
 }

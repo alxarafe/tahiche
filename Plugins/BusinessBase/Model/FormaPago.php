@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Plugins\BusinessBase\Model;
 
-use FacturaScripts\Core\DataSrc\FormasPago;
+use FacturaScripts\Dinamic\DataSrc\FormasPago;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;

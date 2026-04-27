@@ -20,15 +20,7 @@
 namespace FacturaScripts\Core\Lib\ExtendedController;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\DataSrc\Agentes;
-use FacturaScripts\Core\DataSrc\Almacenes;
-use FacturaScripts\Core\DataSrc\Divisas;
-use FacturaScripts\Core\DataSrc\Empresas;
-use FacturaScripts\Core\DataSrc\FormasPago;
-use FacturaScripts\Core\DataSrc\GruposClientes;
-use FacturaScripts\Core\DataSrc\Impuestos;
-use FacturaScripts\Core\DataSrc\Series;
-use FacturaScripts\Core\Lib\InvoiceOperation;
+use FacturaScripts\Dinamic\DataSrc\GruposClientes;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Lib\BusinessDocumentGenerator;
 use FacturaScripts\Dinamic\Model\EstadoDocumento;
@@ -54,59 +46,12 @@ abstract class ListBusinessDocument extends ListController
 
     protected function addCommonViewFilters(string $viewName, string $modelName): void
     {
-        $this->addFilterPeriod($viewName, 'date', 'period', 'fecha');
-        $this->addFilterNumber($viewName, 'min-total', 'total', 'total', '>=');
-        $this->addFilterNumber($viewName, 'max-total', 'total', 'total', '<=');
-
-        $where = [new DataBaseWhere('tipodoc', $modelName)];
-        $statusValues = $this->codeModel->all('estados_documentos', 'idestado', 'nombre', true, $where);
-        $this->addFilterSelect($viewName, 'idestado', 'state', 'idestado', $statusValues);
-
-        if ($this->permissions->onlyOwnerData === false) {
-            $users = $this->codeModel->all('users', 'nick', 'nick');
-            if (count($users) > 1) {
-                $this->addFilterSelect($viewName, 'nick', 'user', 'nick', $users);
-            }
-        }
-
-        $companies = Empresas::codeModel();
-        if (count($companies) > 2) {
-            $this->addFilterSelect($viewName, 'idempresa', 'company', 'idempresa', $companies);
-        }
-
-        $warehouses = Almacenes::codeModel();
-        if (count($warehouses) > 2) {
-            $this->addFilterSelect($viewName, 'codalmacen', 'warehouse', 'codalmacen', $warehouses);
-        }
-
-        $series = Series::codeModel();
-        if (count($series) > 2) {
-            $this->addFilterSelect($viewName, 'codserie', 'series', 'codserie', $series);
-        }
-
-        $operations = [['code' => '', 'description' => '------']];
-        foreach (InvoiceOperation::all() as $key => $value) {
-            $operations[] = [
-                'code' => $key,
-                'description' => Tools::trans($value)
-            ];
-        }
-        $this->addFilterSelect($viewName, 'operacion', 'operation', 'operacion', $operations);
-
-        $payMethods = FormasPago::codeModel();
-        if (count($payMethods) > 2) {
-            $this->addFilterSelect($viewName, 'codpago', 'payment-method', 'codpago', $payMethods);
-        }
-
-        $currencies = Divisas::codeModel();
-        if (count($currencies) > 2) {
-            $this->addFilterSelect($viewName, 'coddivisa', 'currency', 'coddivisa', $currencies);
-        }
-
-        $this->addFilterCheckbox($viewName, 'totalrecargo', 'surcharge', 'totalrecargo', '!=', 0);
-        $this->addFilterCheckbox($viewName, 'totalirpf', 'retention', 'totalirpf', '!=', 0);
-        $this->addFilterCheckbox($viewName, 'totalsuplidos', 'supplied-amount', 'totalsuplidos', '!=', 0);
-        $this->addFilterCheckbox($viewName, 'numdocs', 'has-attachments', 'numdocs', '!=', 0);
+        BusinessFilters::addDocumentFilters(
+            $this->listView($viewName),
+            $this->codeModel,
+            $modelName,
+            $this->permissions->onlyOwnerData
+        );
     }
 
     protected function createViewLines(string $viewName, string $modelName): void
@@ -123,7 +68,7 @@ abstract class ListBusinessDocument extends ListController
         // filtros
         $this->addFilterAutocomplete($viewName, 'idproducto', 'product', 'idproducto', 'productos', 'idproducto', 'referencia');
         $this->addFilterAutocomplete($viewName, 'referencia', 'variant', 'referencia', 'variantes', 'referencia', 'referencia');
-        $this->addFilterSelect($viewName, 'codimpuesto', 'tax', 'codimpuesto', Impuestos::codeModel());
+        BusinessFilters::addTaxFilter($this->listView($viewName));
 
         $stock = [
             ['code' => '', 'description' => '------'],
@@ -207,7 +152,7 @@ abstract class ListBusinessDocument extends ListController
             ],
             ['label' => '------', 'where' => []],
         ];
-        foreach (GruposClientes::all() as $grupo) {
+        foreach (class_exists(GruposClientes::class) ? GruposClientes::all() : [] as $grupo) {
             $sqlGrupo = 'SELECT DISTINCT codcliente FROM clientes WHERE codgrupo = ' . $this->dataBase->var2str($grupo->codgrupo);
             $optionsGroup[] = [
                 'label' => $grupo->nombre,
@@ -224,10 +169,7 @@ abstract class ListBusinessDocument extends ListController
         $this->addFilterautocomplete($viewName, 'idcontactoenv', 'shipping-address', 'idcontactoenv', 'contactos', 'idcontacto', 'direccion');
 
         if ($this->permissions->onlyOwnerData === false) {
-            $agents = Agentes::codeModel();
-            if (count($agents) > 1) {
-                $this->addFilterSelect($viewName, 'codagente', 'agent', 'codagente', $agents);
-            }
+            BusinessFilters::addAgentFilter($this->listView($viewName));
         }
 
         $carriers = $this->codeModel->all('agenciastrans', 'codtrans', 'nombre');

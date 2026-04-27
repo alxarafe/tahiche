@@ -20,7 +20,7 @@
 namespace FacturaScripts\Core\Base;
 
 use FacturaScripts\Core\Contract\ControllerInterface;
-use FacturaScripts\Core\DataSrc\Empresas;
+use FacturaScripts\Dinamic\DataSrc\Empresas;
 use FacturaScripts\Core\Kernel;
 use FacturaScripts\Core\KernelException;
 use FacturaScripts\Core\Lib\MenuManager as NewMenuManager;

@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Model\Base;
 
-use FacturaScripts\Core\DataSrc\Impuestos;
+use FacturaScripts\Dinamic\DataSrc\Impuestos;
 use FacturaScripts\Dinamic\Model\Impuesto;
 
 trait TaxRelationTrait

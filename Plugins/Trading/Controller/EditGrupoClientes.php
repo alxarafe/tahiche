@@ -20,9 +20,9 @@
 namespace FacturaScripts\Plugins\Trading\Controller;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\DataSrc\FormasPago;
-use FacturaScripts\Core\DataSrc\Retenciones;
-use FacturaScripts\Core\DataSrc\Series;
+use FacturaScripts\Dinamic\DataSrc\FormasPago;
+use FacturaScripts\Dinamic\DataSrc\Retenciones;
+use FacturaScripts\Dinamic\DataSrc\Series;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Lib\ExtendedController\BaseView;
 use FacturaScripts\Dinamic\Lib\ExtendedController\EditController;

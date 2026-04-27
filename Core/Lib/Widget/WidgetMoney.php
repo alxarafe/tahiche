@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Lib\Widget;
 
-use FacturaScripts\Core\DataSrc\Divisas;
+use FacturaScripts\Dinamic\DataSrc\Divisas;
 use FacturaScripts\Core\Tools;
 
 /**

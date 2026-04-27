@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Model\Base;
 
-use FacturaScripts\Core\DataSrc\Divisas;
+use FacturaScripts\Dinamic\DataSrc\Divisas;
 
 /**
  * Description of CurrencyRelationTrait

@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Model\Base;
 
-use FacturaScripts\Core\DataSrc\Ejercicios;
+use FacturaScripts\Dinamic\DataSrc\Ejercicios;
 use FacturaScripts\Dinamic\Model\Ejercicio;
 
 /**

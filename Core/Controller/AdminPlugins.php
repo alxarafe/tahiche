@@ -171,12 +171,13 @@ class AdminPlugins extends Controller
         }
 
         $pluginName = $this->request->queryOrInput('plugin', '');
-        Plugins::enable($pluginName);
-        Cache::clear();
+        if (Plugins::enable($pluginName)) {
+            Cache::clear();
 
-        $plugin = Plugins::get($pluginName);
-        if ($plugin && !empty($plugin->wizard)) {
-            $this->redirect($plugin->wizard);
+            $plugin = Plugins::get($pluginName);
+            if ($plugin && !empty($plugin->wizard)) {
+                $this->redirect($plugin->wizard);
+            }
         }
     }
 

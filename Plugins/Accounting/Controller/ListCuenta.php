@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Plugins\Accounting\Controller;
 
-use FacturaScripts\Core\DataSrc\Ejercicios;
+use FacturaScripts\Dinamic\DataSrc\Ejercicios;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Lib\ExtendedController\ListController;
 use FacturaScripts\Dinamic\Lib\Import\CSVImport;

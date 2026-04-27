@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Plugins\StockAvanzado\Worker;
 
-use FacturaScripts\Core\DataSrc\Almacenes;
+use FacturaScripts\Dinamic\DataSrc\Almacenes;
 use FacturaScripts\Core\Model\Producto;
 use FacturaScripts\Core\Model\WorkEvent;
 use FacturaScripts\Core\Template\WorkerClass;

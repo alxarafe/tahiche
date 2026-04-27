@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of FacturaScripts
- * Copyright (C) 2022-2025 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Copyright (C) 2021-2025 Carlos Garcia Gomez <carlos@facturascripts.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -19,55 +19,33 @@
 
 namespace FacturaScripts\Core\DataSrc;
 
-use FacturaScripts\Core\Cache;
-use FacturaScripts\Core\Model\CodeModel;
+use FacturaScripts\Core\Base\AbstractDataSrc;
 use FacturaScripts\Core\Model\User;
 
-final class Users implements DataSrcInterface
+final class Users extends AbstractDataSrc
 {
-    /** @var User[] */
-    private static $list;
-
-    /** @return User[] */
-    public static function all(): array
+    protected static function getCacheKey(): string
     {
-        if (!isset(self::$list)) {
-            self::$list = Cache::remember('model-User-list', function () {
-                return User::all([], ['nick' => 'ASC'], 0, 0);
-            });
-        }
-
-        return self::$list;
+        return 'model-User-list';
     }
 
-    public static function clear(): void
+    protected static function getCodeField(): string
     {
-        self::$list = null;
+        return 'nick';
     }
 
-    public static function codeModel(bool $addEmpty = true): array
+    protected static function getDescriptionField(): string
     {
-        $codes = [];
-        foreach (self::all() as $user) {
-            $codes[$user->nick] = $user->nick;
-        }
-
-        return CodeModel::array2codeModel($codes, $addEmpty);
+        return 'nick';
     }
 
-    /**
-     * @param string $code
-     *
-     * @return User
-     */
-    public static function get($code)
+    protected static function getModelClass(): string
     {
-        foreach (self::all() as $user) {
-            if ($user->nick === $code) {
-                return $user;
-            }
-        }
+        return User::class;
+    }
 
-        return User::find($code) ?? new User();
+    protected static function getOrderBy(): array
+    {
+        return ['nick' => 'ASC'];
     }
 }

@@ -37,7 +37,7 @@ class ProductBarcodesController extends ResourceController
                 'icon' => 'fas fa-barcode',
                 'fields' => [
                     new Hidden('id', 'ID'),
-                    new Hidden('idproducto', 'ID Producto'),
+                    new Hidden('idvariante', 'ID Variante'),
                     new Text('codbarras', Tools::trans('barcode'), [
                         'col' => 6,
                         'maxlength' => 128,

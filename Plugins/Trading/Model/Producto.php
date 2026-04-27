@@ -26,6 +26,8 @@ use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\ProductoImagen as DinProductoImagen;
 use FacturaScripts\Dinamic\Model\Variante as DinVariante;
+use FacturaScripts\Dinamic\Model\Atributo;
+use FacturaScripts\Dinamic\Model\AtributoValor as DinAtributoValor;
 
 /**
  * Stores the data of an article.
@@ -284,6 +286,9 @@ class Producto extends ModelClass
         new Fabricante();
         new Familia();
         new Impuesto();
+        new Atributo();
+        new DinAtributoValor();
+        new DinVariante();
 
         return parent::install();
     }

@@ -20,7 +20,7 @@
 namespace FacturaScripts\Core\Template;
 
 use Exception;
-use FacturaScripts\Core\DataSrc\Users;
+use FacturaScripts\Dinamic\DataSrc\Users;
 use FacturaScripts\Dinamic\Lib\Email\NewMail;
 use FacturaScripts\Dinamic\Model\LogMessage;
 

@@ -21,7 +21,7 @@ namespace FacturaScripts\Core\Template;
 
 use FacturaScripts\Core\Base\DataBase;
 use FacturaScripts\Core\Contract\ControllerInterface;
-use FacturaScripts\Core\DataSrc\Empresas;
+use FacturaScripts\Dinamic\DataSrc\Empresas;
 use FacturaScripts\Core\KernelException;
 use FacturaScripts\Core\Lib\ControllerPermissions;
 use FacturaScripts\Core\Lib\MenuManager;

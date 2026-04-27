@@ -7,7 +7,7 @@ use FacturaScripts\Core\Internal\ClassResolver;
 use FacturaScripts\Core\Model\CodeModel;
 use FacturaScripts\Plugins\Admin\Model\Empresa as PluginEmpresa;
 use FacturaScripts\Core\Model\User as CoreUser;
-use FacturaScripts\Core\DataSrc\Empresas;
+use FacturaScripts\Dinamic\DataSrc\Empresas;
 
 class DinamicCompatibilityTest extends TestCase
 {

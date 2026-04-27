@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Plugins\Trading\Model;
 
-use FacturaScripts\Core\DataSrc\Agentes;
+use FacturaScripts\Dinamic\DataSrc\Agentes;
 use FacturaScripts\Core\DataSrc\Paises;
 use FacturaScripts\Core\Lib\Vies;
 use FacturaScripts\Core\Model\Base\EmailAndPhonesTrait;

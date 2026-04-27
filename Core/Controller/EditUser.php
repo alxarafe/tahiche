@@ -24,10 +24,10 @@ use FacturaScripts\Core\Lib\ExtendedController\BaseView;
 use FacturaScripts\Core\Lib\ExtendedController\EditController;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\Where;
-use FacturaScripts\Dinamic\Model\Almacen;
 use FacturaScripts\Dinamic\Model\Page;
 use FacturaScripts\Dinamic\Model\RoleUser;
 use FacturaScripts\Dinamic\Model\User;
+use FacturaScripts\Core\Model\CodeModel;
 
 /**
  * Controller to edit a single item from the User model
@@ -281,9 +281,8 @@ class EditUser extends EditController
                         $view->disableColumn('company');
                     }
 
-                    // disable warehouse column if there is only one company
-                    $almacen = new Almacen();
-                    if ($almacen->count() < 2) {
+                    // disable warehouse column if there are less than 2 warehouses
+                    if (count(CodeModel::all('almacenes', 'codalmacen', 'nombre', false)) < 2) {
                         $view->disableColumn('warehouse');
                     }
                 }

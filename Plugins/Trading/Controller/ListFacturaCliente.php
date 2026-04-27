@@ -20,10 +20,10 @@
 namespace FacturaScripts\Plugins\Trading\Controller;
 
 use FacturaScripts\Core\DataSrc\Divisas;
-use FacturaScripts\Core\DataSrc\Empresas;
-use FacturaScripts\Core\DataSrc\FormasPago;
+use FacturaScripts\Dinamic\DataSrc\Empresas;
+use FacturaScripts\Dinamic\DataSrc\FormasPago;
 use FacturaScripts\Core\DataSrc\Paises;
-use FacturaScripts\Core\DataSrc\Series;
+use FacturaScripts\Dinamic\DataSrc\Series;
 use FacturaScripts\Dinamic\Model\Provincia;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\Where;

@@ -21,8 +21,8 @@ namespace FacturaScripts\Plugins\Trading\Controller;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\DataSrc\Divisas;
-use FacturaScripts\Core\DataSrc\Empresas;
-use FacturaScripts\Core\DataSrc\FormasPago;
+use FacturaScripts\Dinamic\DataSrc\Empresas;
+use FacturaScripts\Dinamic\DataSrc\FormasPago;
 use FacturaScripts\Core\Lib\FacturaProveedorRenumber;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Lib\ExtendedController\ListBusinessDocument;

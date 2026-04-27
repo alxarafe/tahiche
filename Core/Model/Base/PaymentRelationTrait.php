@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Model\Base;
 
-use FacturaScripts\Core\DataSrc\FormasPago;
+use FacturaScripts\Dinamic\DataSrc\FormasPago;
 use FacturaScripts\Dinamic\Model\FormaPago;
 
 /**

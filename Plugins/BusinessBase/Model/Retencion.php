@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Plugins\BusinessBase\Model;
 
-use FacturaScripts\Core\DataSrc\Retenciones;
+use FacturaScripts\Dinamic\DataSrc\Retenciones;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;

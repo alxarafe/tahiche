@@ -18,7 +18,7 @@
  */
 
 namespace FacturaScripts\Plugins\BusinessBase\Model;
-use FacturaScripts\Core\DataSrc\Empresas;
+use FacturaScripts\Dinamic\DataSrc\Empresas;
 use FacturaScripts\Core\DataSrc\Paises;
 use FacturaScripts\Core\Where;
 use FacturaScripts\Core\Lib\Vies;

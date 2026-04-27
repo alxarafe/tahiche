@@ -19,11 +19,11 @@
 
 namespace FacturaScripts\Core\Lib\AjaxForms;
 
-use FacturaScripts\Core\DataSrc\Almacenes;
-use FacturaScripts\Core\DataSrc\Divisas;
-use FacturaScripts\Core\DataSrc\Empresas;
-use FacturaScripts\Core\DataSrc\FormasPago;
-use FacturaScripts\Core\DataSrc\Series;
+use FacturaScripts\Dinamic\DataSrc\Almacenes;
+use FacturaScripts\Dinamic\DataSrc\Divisas;
+use FacturaScripts\Dinamic\DataSrc\Empresas;
+use FacturaScripts\Dinamic\DataSrc\FormasPago;
+use FacturaScripts\Dinamic\DataSrc\Series;
 use FacturaScripts\Core\Lib\InvoiceOperation;
 use FacturaScripts\Core\Model\Base\BusinessDocument;
 use FacturaScripts\Core\Model\Base\PurchaseDocument;

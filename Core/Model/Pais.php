@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Model;
 
-use FacturaScripts\Core\DataSrc\Paises;
+use FacturaScripts\Dinamic\DataSrc\Paises;
 use FacturaScripts\Core\Session;
 use FacturaScripts\Core\Template\ModelClass;
 use FacturaScripts\Core\Template\ModelTrait;

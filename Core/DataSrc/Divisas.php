@@ -19,62 +19,40 @@
 
 namespace FacturaScripts\Core\DataSrc;
 
-use FacturaScripts\Core\Cache;
-use FacturaScripts\Core\Tools;
-use FacturaScripts\Core\Model\CodeModel;
+use FacturaScripts\Core\Base\AbstractDataSrc;
 use FacturaScripts\Core\Model\Divisa;
+use FacturaScripts\Core\Tools;
 
-final class Divisas implements DataSrcInterface
+final class Divisas extends AbstractDataSrc
 {
-    /** @var Divisa[] */
-    private static $list;
-
-    /** @return Divisa[] */
-    public static function all(): array
-    {
-        if (!isset(self::$list)) {
-            self::$list = Cache::remember('model-Divisa-list', function () {
-                return Divisa::all([], ['coddivisa' => 'ASC'], 0, 0);
-            });
-        }
-
-        return self::$list;
-    }
-
-    public static function clear(): void
-    {
-        self::$list = null;
-    }
-
-    public static function codeModel(bool $addEmpty = true): array
-    {
-        $codes = [];
-        foreach (self::all() as $divisa) {
-            $codes[$divisa->coddivisa] = $divisa->descripcion;
-        }
-
-        return CodeModel::array2codeModel($codes, $addEmpty);
-    }
-
     public static function default()
     {
         $code = Tools::settings('default', 'coddivisa', 'EUR');
         return self::get($code);
     }
 
-    /**
-     * @param string $code
-     *
-     * @return Divisa
-     */
-    public static function get($code)
+    protected static function getCacheKey(): string
     {
-        foreach (self::all() as $item) {
-            if ($item->id() === $code) {
-                return $item;
-            }
-        }
+        return 'model-Divisa-list';
+    }
 
-        return Divisa::find($code) ?? new Divisa();
+    protected static function getCodeField(): string
+    {
+        return 'coddivisa';
+    }
+
+    protected static function getDescriptionField(): string
+    {
+        return 'descripcion';
+    }
+
+    protected static function getModelClass(): string
+    {
+        return Divisa::class;
+    }
+
+    protected static function getOrderBy(): array
+    {
+        return ['coddivisa' => 'ASC'];
     }
 }

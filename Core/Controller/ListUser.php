@@ -20,10 +20,7 @@
 namespace FacturaScripts\Core\Controller;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\DataSrc\Agentes;
-use FacturaScripts\Core\DataSrc\Almacenes;
-use FacturaScripts\Core\DataSrc\Empresas;
-use FacturaScripts\Core\DataSrc\Series;
+use FacturaScripts\Core\Lib\ExtendedController\BusinessFilters;
 use FacturaScripts\Core\Lib\ExtendedController\ListController;
 use FacturaScripts\Core\Tools;
 
@@ -75,25 +72,11 @@ class ListUser extends ListController
         }
 
         // filters
-        $companies = Empresas::codeModel();
-        if (count($companies) > 2) {
-            $this->addFilterSelect($viewName, 'idempresa', 'company', 'idempresa', $companies);
-        }
-
-        $warehouses = Almacenes::codeModel();
-        if (count($warehouses) > 2) {
-            $this->addFilterSelect($viewName, 'codalmacen', 'warehouse', 'codalmacen', $warehouses);
-        }
-
-        $series = Series::codeModel();
-        if (count($series) > 2) {
-            $this->addFilterSelect($viewName, 'codserie', 'series', 'codserie', $series);
-        }
-
-        $agents = Agentes::codeModel();
-        if (count($agents) > 2) {
-            $this->addFilterSelect($viewName, 'codagente', 'agent', 'codagente', $agents);
-        }
+        $listView = $this->listView($viewName);
+        BusinessFilters::addCompanyFilter($listView);
+        BusinessFilters::addWarehouseFilter($listView);
+        BusinessFilters::addSeriesFilter($listView);
+        BusinessFilters::addAgentFilter($listView);
 
         $this->listView($viewName)
             ->addFilterSelectWhere('type', [

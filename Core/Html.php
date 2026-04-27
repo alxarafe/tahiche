@@ -20,7 +20,7 @@
 namespace FacturaScripts\Core;
 
 use FacturaScripts\Core\Base\MiniLog;
-use FacturaScripts\Core\DataSrc\Divisas;
+use FacturaScripts\Dinamic\DataSrc\Divisas;
 use FacturaScripts\Core\Lib\AssetManager;
 use FacturaScripts\Core\Lib\MultiRequestProtection;
 use FacturaScripts\Core\Lib\MyFilesToken;

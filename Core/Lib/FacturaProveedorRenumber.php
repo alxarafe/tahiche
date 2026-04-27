@@ -20,7 +20,7 @@
 namespace FacturaScripts\Core\Lib;
 
 use FacturaScripts\Core\Base\DataBase;
-use FacturaScripts\Core\DataSrc\Series;
+use FacturaScripts\Dinamic\DataSrc\Series;
 use FacturaScripts\Dinamic\Model\Serie;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Lib\BusinessDocumentCode as DinBusinessDocumentCode;

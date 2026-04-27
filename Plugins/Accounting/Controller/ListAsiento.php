@@ -20,7 +20,7 @@
 namespace FacturaScripts\Plugins\Accounting\Controller;
 
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\DataSrc\Empresas;
+use FacturaScripts\Dinamic\DataSrc\Empresas;
 use FacturaScripts\Core\Lib\ExtendedController\ListController;
 use FacturaScripts\Plugins\Accounting\Model\Asiento;
 use FacturaScripts\Core\Tools;

@@ -19,68 +19,21 @@
 
 namespace FacturaScripts\Core\DataSrc;
 
-use FacturaScripts\Core\Cache;
-use FacturaScripts\Core\Tools;
-use FacturaScripts\Core\Model\CodeModel;
+use FacturaScripts\Core\Base\AbstractDataSrc;
 use FacturaScripts\Core\Model\Pais;
+use FacturaScripts\Core\Tools;
 
-final class Paises implements DataSrcInterface
+final class Paises extends AbstractDataSrc
 {
     const MIEMBROS_UE = [
         'DE', 'AT', 'BE', 'BG', 'CZ', 'CY', 'HR', 'DK', 'SK', 'SI', 'EE', 'FI', 'FR', 'GR', 'HU', 'IE', 'IT', 'LV',
         'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'GB', 'ES'
     ];
 
-    /** @var Pais[] */
-    private static $list;
-
-    /** @return Pais[] */
-    public static function all(): array
-    {
-        if (!isset(self::$list)) {
-            self::$list = Cache::remember('model-Pais-list', function () {
-                return Pais::all([], ['nombre' => 'ASC'], 0, 0);
-            });
-        }
-
-        return self::$list;
-    }
-
-    public static function clear(): void
-    {
-        self::$list = null;
-    }
-
-    public static function codeModel(bool $addEmpty = true): array
-    {
-        $codes = [];
-        foreach (self::all() as $pais) {
-            $codes[$pais->codpais] = $pais->nombre;
-        }
-
-        return CodeModel::array2codeModel($codes, $addEmpty);
-    }
-
     public static function default()
     {
         $code = Tools::settings('default', 'codpais', 'ESP');
         return self::get($code);
-    }
-
-    /**
-     * @param string $code
-     *
-     * @return Pais
-     */
-    public static function get($code)
-    {
-        foreach (self::all() as $item) {
-            if ($item->id() === $code) {
-                return $item;
-            }
-        }
-
-        return Pais::find($code) ?? new Pais();
     }
 
     public static function miembroUE($codpais): bool
@@ -92,5 +45,30 @@ final class Paises implements DataSrcInterface
     public static function miembroUEbyIso($iso): bool
     {
         return in_array($iso, self::MIEMBROS_UE);
+    }
+
+    protected static function getCacheKey(): string
+    {
+        return 'model-Pais-list';
+    }
+
+    protected static function getCodeField(): string
+    {
+        return 'codpais';
+    }
+
+    protected static function getDescriptionField(): string
+    {
+        return 'nombre';
+    }
+
+    protected static function getModelClass(): string
+    {
+        return Pais::class;
+    }
+
+    protected static function getOrderBy(): array
+    {
+        return ['nombre' => 'ASC'];
     }
 }

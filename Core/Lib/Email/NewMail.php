@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Core\Lib\Email;
 
-use FacturaScripts\Core\DataSrc\Empresas;
+use FacturaScripts\Dinamic\DataSrc\Empresas;
 use FacturaScripts\Core\Html;
 use FacturaScripts\Dinamic\Model\User;
 use FacturaScripts\Core\Tools;
